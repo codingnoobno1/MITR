@@ -3,35 +3,19 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { 
-  Hammer, 
-  Users, 
+  Building2, 
+  Zap, 
   ArrowUpRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { divisions } from "@/data/divisions";
 
-const departments = [
-  {
-    id: "karya",
-    title: "KARYA",
-    subtitle: "Construction & Industrial Intelligence",
-    description: "Digitizing and organizing the fragmented construction and real estate ecosystem using intelligent automation and infrastructure systems.",
-    icon: <Hammer className="w-6 h-6" />,
-    color: "bg-primary/10 text-primary",
-    accent: "var(--primary)",
-    products: ["Vendor Connect", "BuildLink"]
-  },
-  {
-    id: "sankalap-community",
-    title: "SANKALAP COMMUNITY",
-    subtitle: "Innovation & Intelligent SaaS",
-    description: "The technological backbone for traditional computing modernization, agentic AI systems, and student-driven open-source collaboration.",
-    icon: <Users className="w-6 h-6" />,
-    color: "bg-accent/10 text-accent",
-    accent: "var(--accent)",
-    products: ["SYNCRO Desktop Agent", "PG CONNECT", "House Helpers"]
-  }
-];
+// Helper to map icon names to Lucide components
+const IconMap: Record<string, React.ReactNode> = {
+  building2: <Building2 className="w-6 h-6" />,
+  zap: <Zap className="w-6 h-6" />,
+};
 
 export function DepartmentsSection() {
   return (
@@ -59,8 +43,8 @@ export function DepartmentsSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-          {departments.map((dept, index) => (
-            <Link key={dept.id} href={`/departments/${dept.id}`}>
+          {divisions.map((dept, index) => (
+            <Link key={dept.id} href={`/departments/${dept.slug}`}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -71,14 +55,14 @@ export function DepartmentsSection() {
               >
                 <div className="relative bg-white h-full p-10 rounded-[2.5rem] border border-slate-200 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 transition-all overflow-hidden">
                   <div className={cn(
-                    "w-16 h-16 rounded-2xl flex items-center justify-center mb-8 shadow-sm group-hover:scale-110 transition-transform",
-                    dept.color
+                    "w-16 h-16 rounded-2xl flex items-center justify-center mb-8 shadow-sm group-hover:scale-110 transition-transform bg-opacity-10",
+                    index === 0 ? "bg-primary text-primary" : "bg-accent text-accent"
                   )}>
-                    {dept.icon}
+                    {IconMap[dept.icon] || <Zap className="w-6 h-6" />}
                   </div>
                   
                   <h3 className="text-3xl font-heading font-black mb-2 tracking-tighter text-slate-900 group-hover:text-primary transition-colors">
-                    {dept.title}
+                    {dept.name}
                   </h3>
                   <p className="text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-6 font-black">
                     {dept.subtitle}
@@ -91,8 +75,8 @@ export function DepartmentsSection() {
                     <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest block mb-4">Department Products</span>
                     <div className="flex flex-wrap gap-2">
                       {dept.products.map(product => (
-                        <span key={product} className="text-xs font-bold px-4 py-2 rounded-xl bg-slate-50 text-slate-500 border border-slate-100 group-hover:border-primary/10 transition-colors">
-                          {product}
+                        <span key={product.id} className="text-xs font-bold px-4 py-2 rounded-xl bg-slate-50 text-slate-500 border border-slate-100 group-hover:border-primary/10 transition-colors">
+                          {product.name}
                         </span>
                       ))}
                     </div>
