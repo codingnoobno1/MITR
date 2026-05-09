@@ -31,6 +31,26 @@ export const projects: Project[] = [
     shortDesc: 'Modular intelligent architecture',
     tags: ['Modular', 'Scalable', 'Core'],
     image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'infra-mesh',
+    slug: 'infra-mesh',
+    title: 'Infra Mesh',
+    category: 'Infrastructure',
+    description: 'Decentralized sensor network for real-time monitoring of industrial assets and supply chains.',
+    shortDesc: 'Decentralized industrial monitoring',
+    tags: ['IoT', 'Sensors', 'Mesh'],
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'modular-housing',
+    slug: 'modular-housing',
+    title: 'ModHouse',
+    category: 'Real Estate',
+    description: 'Next-gen modular housing configurator for rapid urban development and sustainable living.',
+    shortDesc: 'Modular housing configurator',
+    tags: ['Modular', 'Architecture', 'Web3'],
+    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800'
   }
 ];
 
