@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { name: "KARYA", href: "/departments/karya" },
-  { name: "BuildLink", href: "/departments/buildlink" },
+  { name: "SANKALAP", href: "/departments/sankalap-community" },
   { name: "Dashboard", href: "/#dashboard" },
   { name: "Contact", href: "/#contact" },
 ];
@@ -54,7 +54,7 @@ export function Navbar() {
             <Link
               key={link.name}
               href={link.href}
-              className="text-sm font-bold text-slate-500 hover:text-primary transition-colors relative group uppercase tracking-widest"
+              className="text-xs font-black text-slate-500 hover:text-primary transition-colors relative group uppercase tracking-[0.2em]"
             >
               {link.name}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
@@ -62,7 +62,7 @@ export function Navbar() {
           ))}
           <Link
             href="/#ecosystem"
-            className="px-6 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition-all text-sm font-bold flex items-center gap-2 group"
+            className="px-6 py-2.5 rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition-all text-xs font-black uppercase tracking-widest flex items-center gap-2 group"
           >
             Explore
             <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -91,7 +91,7 @@ export function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-lg font-bold py-2 text-slate-900"
+                className="text-lg font-black py-2 text-slate-900 uppercase tracking-widest"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.name}
