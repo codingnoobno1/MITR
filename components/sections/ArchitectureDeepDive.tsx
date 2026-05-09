@@ -48,7 +48,7 @@ export function ArchitectureDeepDive() {
             className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 mb-4"
           >
             Technical Foundation
-          </motion.h2>
+          </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
