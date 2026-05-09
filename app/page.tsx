@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { HeroPhilosophy } from "@/components/sections/HeroPhilosophy";
+import { DivisionsSection } from "@/components/sections/DivisionsSection";
 import { IndustryGap } from "@/components/sections/IndustryGap";
 import { MitrApproach } from "@/components/sections/MitrApproach";
 import { ModularEcosystem } from "@/components/sections/ModularEcosystem";
@@ -16,6 +17,9 @@ export default function HomePage() {
       <div className="relative z-0">
         {/* Section 1: Hero / Brand Philosophy */}
         <HeroPhilosophy />
+        
+        {/* Section: Core Divisions */}
+        <DivisionsSection />
         
         {/* Section 2: Industry Problem */}
         <IndustryGap />
