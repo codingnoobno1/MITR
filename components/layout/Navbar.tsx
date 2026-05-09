@@ -4,19 +4,20 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronRight } from "lucide-react";
+import { Menu, X, ChevronRight, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { name: "KARYA", href: "/divisions/karya" },
-  { name: "SANKALAP", href: "/divisions/sankalap-community" },
+  { name: "Divisions", href: "/#ecosystem" },
+  { name: "Projects", href: "/#projects" },
   { name: "Dashboard", href: "/#dashboard" },
+  { name: "Team", href: "/#team" },
   { name: "Contact", href: "/#contact" },
 ];
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,20 +31,21 @@ export function Navbar() {
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4",
-        isScrolled ? "bg-slate-950/50 backdrop-blur-xl border-b border-white/5 shadow-2xl" : "bg-transparent"
+        isScrolled ? "bg-white/80 backdrop-blur-xl border-b border-slate-100 shadow-sm" : "bg-transparent"
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative w-10 h-10 rounded-lg overflow-hidden group-hover:scale-110 transition-transform">
-            <Image 
-              src="/MITR.png" 
-              alt="MITR Logo" 
+          <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-lg group-hover:scale-110 transition-transform">
+            <Image
+              src="/MITR.png"
+              alt="MITR Logo"
               fill
               className="object-contain"
             />
           </div>
-          <span className="font-heading font-bold text-2xl tracking-tighter hidden sm:block text-white">
+          <span className="font-heading font-bold text-2xl tracking-tighter hidden sm:block text-slate-900">
             MITR
           </span>
         </Link>
@@ -54,49 +56,51 @@ export function Navbar() {
             <Link
               key={link.name}
               href={link.href}
-              className="text-xs font-black text-slate-400 hover:text-primary transition-colors relative group uppercase tracking-[0.2em]"
+              className="text-xs font-black text-slate-500 hover:text-blue-600 transition-colors relative group uppercase tracking-[0.2em]"
             >
               {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full" />
             </Link>
           ))}
           <Link
             href="/#ecosystem"
-            className="px-6 py-2.5 rounded-xl bg-white text-slate-950 hover:bg-slate-100 transition-all text-xs font-black uppercase tracking-widest flex items-center gap-2 group"
+            className="px-6 py-2.5 rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition-all text-xs font-black uppercase tracking-widest flex items-center gap-2 group"
           >
             Explore
             <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
-        {/* Mobile Toggle */}
+        {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden text-slate-900 p-2"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden text-slate-900"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {mobileMenuOpen ? <X /> : <Menu />}
+          {isMobileMenuOpen ? <X /> : <Menu />}
         </button>
       </div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
-        {mobileMenuOpen && (
+        {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-white shadow-xl border-b border-slate-100 p-6 flex flex-col gap-4 md:hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-white border-t border-slate-100 overflow-hidden"
           >
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-lg font-black py-2 text-slate-900 uppercase tracking-widest"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {link.name}
-              </Link>
-            ))}
+            <div className="flex flex-col gap-4 p-6">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="text-sm font-bold text-slate-600 uppercase tracking-widest"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

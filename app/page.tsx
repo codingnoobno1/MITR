@@ -10,7 +10,7 @@ import { Footer } from "@/components/layout/Footer";
 
 export default function HomePage() {
   return (
-    <main className="relative bg-slate-950 selection:bg-primary/30">
+    <main className="relative bg-white selection:bg-blue-100">
       <Navbar />
       
       <div className="relative z-0">

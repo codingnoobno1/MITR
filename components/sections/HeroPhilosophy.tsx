@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { ThreeHero } from "@/components/animations/ThreeHero";
 import { FloatingFiles } from "@/components/animations/FloatingFiles";
@@ -15,21 +15,21 @@ const floatingKeywords = [
 
 export function HeroPhilosophy() {
   return (
-    <section className="relative min-h-screen bg-slate-950 overflow-hidden flex flex-col items-center justify-center pt-20">
-      {/* Background Layer */}
+    <section className="relative min-h-screen bg-white overflow-hidden flex flex-col items-center justify-center pt-20">
+      {/* Background Layer - Adjusted for Light Mode */}
       <ThreeHero />
       <FloatingFiles />
       
-      {/* Glowing Gradients */}
+      {/* Subtle Glowing Gradients - Light Mode */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[150px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: "2s" }} />
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[150px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-crimson-500/5 rounded-full blur-[120px]" />
       </div>
 
-      {/* Animated Grid */}
+      {/* Animated Grid - Subtle */}
       <div className="absolute inset-0 opacity-[0.03] z-0" 
         style={{ 
-          backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)`,
           backgroundSize: '4rem 4rem',
         }} 
       />
@@ -38,9 +38,9 @@ export function HeroPhilosophy() {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 mb-12"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-100 mb-12 shadow-sm"
         >
-          <Sparkles className="w-4 h-4 text-primary" />
+          <Sparkles className="w-4 h-4 text-blue-600" />
           <span className="text-[10px] font-black tracking-[0.4em] uppercase text-slate-400">
             Modular Intelligence Ecosystem
           </span>
@@ -50,10 +50,10 @@ export function HeroPhilosophy() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-7xl md:text-[10rem] font-heading font-black tracking-tighter leading-[0.8] mb-12 text-white"
+          className="text-7xl md:text-[9rem] font-heading font-black tracking-tighter leading-[0.85] mb-12 text-slate-900"
         >
           MODULAR <br />
-          <span className="text-primary italic">INTELLIGENT</span> <br />
+          <span className="text-blue-600">INTELLIGENT</span> <br />
           TECH RESOURCES
         </motion.h1>
 
@@ -62,19 +62,22 @@ export function HeroPhilosophy() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-xl md:text-2xl text-slate-400 leading-relaxed font-medium"
+            className="text-xl md:text-2xl text-slate-500 leading-relaxed font-medium"
           >
-            MITR is a modular intelligence ecosystem focused on transforming fragmented and unorganized industries through scalable digital infrastructure, intelligent systems, and AI-powered operational platforms.
+            MITR is a modular intelligence ecosystem focused on transforming fragmented and unorganized industries through scalable digital infrastructure and AI-powered operational platforms.
           </motion.p>
           
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="flex flex-wrap justify-center gap-4 py-8"
+            className="flex flex-col sm:flex-row justify-center gap-6 py-8"
           >
-            <Button size="lg" className="rounded-2xl px-12 py-9 text-xl bg-primary text-white hover:bg-primary/90 shadow-2xl shadow-primary/40 transition-all font-black uppercase tracking-widest group">
+            <Button size="lg" className="rounded-2xl px-12 py-9 text-xl bg-blue-600 text-white hover:bg-blue-700 shadow-xl shadow-blue-600/10 transition-all font-black uppercase tracking-widest group border-none">
               Build The Future <ArrowRight className="ml-2 w-6 h-6 group-hover:translate-x-2 transition-transform" />
+            </Button>
+            <Button size="lg" variant="outline" className="rounded-2xl px-12 py-9 text-xl bg-white border-slate-200 text-slate-600 hover:bg-slate-50 transition-all font-black uppercase tracking-widest">
+              View Portfolio
             </Button>
           </motion.div>
         </div>
@@ -83,7 +86,7 @@ export function HeroPhilosophy() {
         <div className="mt-24 relative h-12 overflow-hidden w-full">
            <div className="flex animate-marquee whitespace-nowrap gap-12">
               {[...floatingKeywords, ...floatingKeywords].map((word, i) => (
-                <div key={i} className="text-xs font-black uppercase tracking-[0.4em] text-slate-600 hover:text-primary transition-colors cursor-default">
+                <div key={i} className="text-xs font-black uppercase tracking-[0.4em] text-slate-300 hover:text-crimson-600 transition-colors cursor-default">
                   {word}
                 </div>
               ))}
@@ -99,6 +102,8 @@ export function HeroPhilosophy() {
         .animate-marquee {
           animation: marquee 30s linear infinite;
         }
+        .text-crimson-600 { color: #dc143c; }
+        .hover\:text-crimson-600:hover { color: #dc143c; }
       `}</style>
     </section>
   );
