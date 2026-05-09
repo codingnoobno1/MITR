@@ -7,7 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-export function ContactSection() {
+export function Footer() {
   const socialLinks = [
     { icon: <Github className="w-5 h-5" />, href: "#", label: "GitHub" },
     { icon: <Twitter className="w-5 h-5" />, href: "#", label: "Twitter" },
