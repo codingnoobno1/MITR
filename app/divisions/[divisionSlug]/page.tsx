@@ -34,12 +34,13 @@ export async function generateMetadata({
   };
 }
 
-export default function DivisionPage({
+export default async function DivisionPage({
   params
 }: {
-  params: { divisionSlug: string };
+  params: Promise<{ divisionSlug: string }>;
 }) {
-  const division = divisions.find(d => d.slug === params.divisionSlug);
+  const { divisionSlug } = await params;
+  const division = divisions.find(d => d.slug === divisionSlug);
 
   if (!division) {
     notFound();

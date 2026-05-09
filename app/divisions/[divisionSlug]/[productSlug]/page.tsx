@@ -21,13 +21,14 @@ export async function generateStaticParams() {
   return params;
 }
 
-export default function ProductPage({ 
+export default async function ProductPage({ 
   params 
 }: { 
-  params: { divisionSlug: string; productSlug: string } 
+  params: Promise<{ divisionSlug: string; productSlug: string }> 
 }) {
-  const division = divisions.find(d => d.slug === params.divisionSlug);
-  const product = division?.products?.find(p => p.slug === params.productSlug);
+  const { divisionSlug, productSlug } = await params;
+  const division = divisions.find(d => d.slug === divisionSlug);
+  const product = division?.products?.find(p => p.slug === productSlug);
   
   if (!product || !division) notFound();
 
