@@ -8,8 +8,8 @@ import { Menu, X, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { name: "KARYA", href: "/karya" },
-  { name: "SANKALAP", href: "/sankalap-community" },
+  { name: "KARYA", href: "/divisions/karya" },
+  { name: "SANKALAP", href: "/divisions/sankalap-community" },
   { name: "Dashboard", href: "/#dashboard" },
   { name: "Contact", href: "/#contact" },
 ];

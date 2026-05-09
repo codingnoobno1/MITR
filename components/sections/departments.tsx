@@ -44,7 +44,7 @@ export function DepartmentsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
           {divisions.map((dept, index) => (
-            <Link key={dept.id} href={`/${dept.slug}`}>
+            <Link key={dept.id} href={`/divisions/${dept.slug}`}>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}

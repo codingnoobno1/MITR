@@ -51,7 +51,7 @@ export function ProjectsSection() {
               transition={{ delay: i * 0.1 }}
               className="group relative rounded-3xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500"
             >
-              <Link href={`/${project.slug}`}>
+              <Link href={`/projects/${project.slug}`}>
                 <div className="aspect-video w-full overflow-hidden">
                   <img 
                     src={project.image} 
@@ -68,7 +68,7 @@ export function ProjectsSection() {
                   </div>
                   <div>
                     <div className="text-[10px] uppercase tracking-widest text-slate-400 font-black">{project.category}</div>
-                    <Link href={`/${project.slug}`}>
+                    <Link href={`/projects/${project.slug}`}>
                       <h3 className="text-2xl font-heading font-black text-slate-900 hover:text-primary transition-colors">{project.title}</h3>
                     </Link>
                   </div>
@@ -87,7 +87,7 @@ export function ProjectsSection() {
                 </div>
                 
                 <div className="flex items-center gap-4">
-                  <Link href={`/${project.slug}`} className="flex-1">
+                  <Link href={`/projects/${project.slug}`} className="flex-1">
                     <Button className="w-full rounded-xl bg-slate-900 text-white hover:bg-slate-800 font-bold">
                       Learn More
                     </Button>
