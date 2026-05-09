@@ -68,7 +68,7 @@ export default function DivisionPage({
             
             <div className="space-y-6">
               {division.products.map((product, i) => (
-                <Link key={product.id} href={`/departments/${division.slug}/${product.slug}`} className="block">
+                <Link key={product.id} href={`/${division.slug}/${product.slug}`} className="block">
                   <div className="p-8 rounded-[2rem] bg-slate-50 border border-slate-100 hover:border-slate-200 transition-all group">
                     <div className="flex items-start gap-6">
                       <div className={cn(
