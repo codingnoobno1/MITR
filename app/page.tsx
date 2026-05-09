@@ -1,31 +1,37 @@
 import { Navbar } from "@/components/layout/Navbar";
-import { HeroSection } from "@/components/hero/hero";
-import { DepartmentsSection } from "@/components/sections/departments";
-import { ProjectsSection } from "@/components/sections/projects";
-import { DashboardPreview } from "@/components/sections/dashboard-preview";
-import { CapabilitiesSection } from "@/components/sections/capabilities";
+import { HeroPhilosophy } from "@/components/sections/HeroPhilosophy";
+import { IndustryGap } from "@/components/sections/IndustryGap";
+import { MitrApproach } from "@/components/sections/MitrApproach";
+import { ModularEcosystem } from "@/components/sections/ModularEcosystem";
+import { FutureVision } from "@/components/sections/FutureVision";
 import { TechStack } from "@/components/animations/TechStack";
-import { Footer as ContactSection } from "@/components/layout/Footer";
+import { Footer } from "@/components/layout/Footer";
 
 export default function HomePage() {
   return (
-    <main className="relative bg-background text-foreground selection:bg-primary/30">
-      {/* Background Overlay */}
-      <div className="fixed inset-0 z-[-1] pointer-events-none opacity-40 mesh-gradient" />
-      
+    <main className="relative bg-slate-950 selection:bg-primary/30">
       <Navbar />
       
       <div className="relative z-0">
-        <HeroSection />
+        {/* Section 1: Hero / Brand Philosophy */}
+        <HeroPhilosophy />
         
-        <div className="space-y-0">
-          <DepartmentsSection />
-          <CapabilitiesSection />
-          <ProjectsSection />
-          <DashboardPreview />
-          <TechStack />
-          <ContactSection />
-        </div>
+        {/* Section 2: Industry Problem */}
+        <IndustryGap />
+        
+        {/* Section 3: MITR Approach */}
+        <MitrApproach />
+        
+        {/* Section 4: Modular Ecosystem */}
+        <ModularEcosystem />
+
+        {/* Bonus: Tech Stack Marquee */}
+        <TechStack />
+        
+        {/* Section 5: Future Vision / CTA */}
+        <FutureVision />
+
+        <Footer />
       </div>
     </main>
   );

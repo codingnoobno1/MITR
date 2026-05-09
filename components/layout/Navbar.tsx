@@ -30,7 +30,7 @@ export function Navbar() {
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4",
-        isScrolled ? "bg-white/80 backdrop-blur-lg border-b border-slate-200" : "bg-transparent"
+        isScrolled ? "bg-slate-950/50 backdrop-blur-xl border-b border-white/5 shadow-2xl" : "bg-transparent"
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -43,7 +43,7 @@ export function Navbar() {
               className="object-contain"
             />
           </div>
-          <span className="font-heading font-bold text-2xl tracking-tighter hidden sm:block text-slate-900">
+          <span className="font-heading font-bold text-2xl tracking-tighter hidden sm:block text-white">
             MITR
           </span>
         </Link>
@@ -54,7 +54,7 @@ export function Navbar() {
             <Link
               key={link.name}
               href={link.href}
-              className="text-xs font-black text-slate-500 hover:text-primary transition-colors relative group uppercase tracking-[0.2em]"
+              className="text-xs font-black text-slate-400 hover:text-primary transition-colors relative group uppercase tracking-[0.2em]"
             >
               {link.name}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full" />
@@ -62,7 +62,7 @@ export function Navbar() {
           ))}
           <Link
             href="/#ecosystem"
-            className="px-6 py-2.5 rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition-all text-xs font-black uppercase tracking-widest flex items-center gap-2 group"
+            className="px-6 py-2.5 rounded-xl bg-white text-slate-950 hover:bg-slate-100 transition-all text-xs font-black uppercase tracking-widest flex items-center gap-2 group"
           >
             Explore
             <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
