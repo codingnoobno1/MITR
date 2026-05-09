@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/hero/hero";
 import { DepartmentsSection } from "@/components/sections/departments";
 import { ProjectsSection } from "@/components/sections/projects";
 import { DashboardPreview } from "@/components/sections/dashboard-preview";
+import { TechStack } from "@/components/animations/TechStack";
 import { Footer as ContactSection } from "@/components/layout/Footer";
 
 export default function HomePage() {
@@ -20,6 +21,7 @@ export default function HomePage() {
           <DepartmentsSection />
           <ProjectsSection />
           <DashboardPreview />
+          <TechStack />
           <ContactSection />
         </div>
       </div>
