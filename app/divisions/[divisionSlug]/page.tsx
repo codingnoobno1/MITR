@@ -15,9 +15,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params
 }: {
-  params: { divisionSlug: string };
+  params: Promise<{ divisionSlug: string }>;
 }): Promise<Metadata> {
-  const division = divisions.find(d => d.slug === params.divisionSlug);
+  const { divisionSlug } = await params;
+  const division = divisions.find(d => d.slug === divisionSlug);
 
   if (!division) {
     return {};
