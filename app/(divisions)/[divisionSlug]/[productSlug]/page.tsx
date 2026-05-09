@@ -91,7 +91,7 @@ export default function ProductPage({
             <div className="relative z-10 text-center">
               {/* Product Visual Placeholder */}
               <div className={`w-32 h-32 rounded-3xl ${buttonColorClass} flex items-center justify-center text-white mb-8 mx-auto shadow-2xl`}>
-                {i === 0 ? <Globe className="w-16 h-16" /> : <Zap className="w-16 h-16" />}
+                {product.name.toLowerCase().includes('agent') ? <Cpu className="w-16 h-16" /> : <Globe className="w-16 h-16" />}
               </div>
               <h3 className="text-3xl font-heading font-black text-slate-900 mb-4">Intelligence Platform</h3>
               <div className="flex justify-center gap-2">
