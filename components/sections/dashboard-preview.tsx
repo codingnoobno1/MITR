@@ -6,11 +6,7 @@ import { Activity, Cpu, Server, ShieldCheck, Database, Zap } from "lucide-react"
 
 export function DashboardPreview() {
   return (
-    <section id="dashboard" className="py-24 relative overflow-hidden bg-black/20">
-      {/* Decorative Gradients */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-secondary/50 to-transparent" />
-
+    <section id="dashboard" className="py-24 relative overflow-hidden bg-slate-50">
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="flex-1">
@@ -21,30 +17,29 @@ export function DashboardPreview() {
             >
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-6">
                 <Zap className="w-3 h-3 text-primary" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Live Intelligence</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Live Insights</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-heading font-black mb-6 leading-tight">
-                THE CONTROL <br />
-                <span className="text-gradient">CENTER</span> OF FUTURE
+              <h2 className="text-4xl md:text-5xl font-heading font-black mb-6 leading-tight text-slate-900">
+                INTELLIGENT <br />
+                <span className="text-primary">CONTROL</span> CENTER
               </h2>
-              <p className="text-white/60 text-lg mb-8 leading-relaxed">
-                Experience the JARVIS-inspired neural dashboard. Monitor every node, 
-                track real-time construction progress, and orchestrate AI agents 
-                from a single modular interface.
+              <p className="text-slate-600 text-lg mb-8 leading-relaxed">
+                Monitor operations across the entire ecosystem. Our unified dashboard provides 
+                real-time visibility into construction progress, resource allocation, and system health.
               </p>
 
               <div className="grid grid-cols-2 gap-6">
                 {[
-                  { icon: <Activity className="w-5 h-5" />, label: "Real-time Metrics", value: "99.9% Up" },
-                  { icon: <Cpu className="w-5 h-5" />, label: "AI Neural Load", value: "12.4 TFLOPS" },
-                  { icon: <ShieldCheck className="w-5 h-5" />, label: "Security Protocol", value: "L-9 Active" },
-                  { icon: <Database className="w-5 h-5" />, label: "Data Integrity", value: "Verified" },
+                  { icon: <Activity className="w-5 h-5" />, label: "Active Projects", value: "24 Active" },
+                  { icon: <Cpu className="w-5 h-5" />, label: "AI Optimization", value: "Optimized" },
+                  { icon: <ShieldCheck className="w-5 h-5" />, label: "Security Status", value: "Fully Secure" },
+                  { icon: <Database className="w-5 h-5" />, label: "System Uptime", value: "99.99%" },
                 ].map((stat, i) => (
-                  <div key={i} className="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5">
+                  <div key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-white border border-slate-200 shadow-sm">
                     <div className="text-primary">{stat.icon}</div>
                     <div>
-                      <div className="text-[10px] uppercase tracking-widest text-white/40 mb-1">{stat.label}</div>
-                      <div className="text-sm font-bold text-white/90">{stat.value}</div>
+                      <div className="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-1">{stat.label}</div>
+                      <div className="text-sm font-bold text-slate-900">{stat.value}</div>
                     </div>
                   </div>
                 ))}
@@ -53,119 +48,68 @@ export function DashboardPreview() {
           </div>
 
           <div className="flex-1 relative">
-            {/* Dashboard Mockup UI */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
-              whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative aspect-square md:aspect-video w-full glass rounded-2xl border border-white/10 p-6 shadow-2xl overflow-hidden"
+              className="relative w-full bg-white rounded-3xl border border-slate-200 p-8 shadow-2xl shadow-slate-200/50 overflow-hidden"
             >
-              {/* Grid Background */}
-              <div className="absolute inset-0 opacity-10" 
-                style={{ 
-                  backgroundImage: `linear-gradient(to right, #00F5FF 1px, transparent 1px), linear-gradient(to bottom, #00F5FF 1px, transparent 1px)`,
-                  backgroundSize: '2rem 2rem'
-                }} 
-              />
-
-              {/* Mockup Header */}
-              <div className="flex items-center justify-between mb-8 relative z-10">
-                <div className="flex items-center gap-3">
-                  <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/50" />
-                  <span className="ml-4 text-[10px] uppercase tracking-widest text-white/30">MITR.OS // v2.0.4-beta</span>
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex gap-2">
+                  <div className="w-3 h-3 rounded-full bg-slate-200" />
+                  <div className="w-3 h-3 rounded-full bg-slate-200" />
+                  <div className="w-3 h-3 rounded-full bg-slate-200" />
                 </div>
-                <div className="flex items-center gap-4">
-                  <div className="text-[10px] text-primary/80 animate-pulse">SYSTEM SECURE</div>
-                  <div className="w-10 h-1 bg-white/10 rounded-full overflow-hidden">
-                    <motion.div 
-                      initial={{ width: "0%" }}
-                      whileInView={{ width: "70%" }}
-                      transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-                      className="h-full bg-primary" 
-                    />
-                  </div>
-                </div>
+                <div className="text-[10px] font-black tracking-widest text-slate-300 uppercase">MITR OS // OPERATIONAL</div>
               </div>
 
-              {/* Mockup Content Grid */}
-              <div className="grid grid-cols-12 gap-4 h-full relative z-10">
-                <div className="col-span-8 flex flex-col gap-4">
-                  <div className="flex-1 bg-white/5 rounded-xl border border-white/10 p-4">
-                    <div className="flex justify-between items-center mb-4">
-                      <span className="text-[10px] font-bold text-white/50">NEURAL ACTIVITY</span>
-                      <Activity className="w-3 h-3 text-primary" />
-                    </div>
-                    {/* Fake Chart Lines */}
-                    <div className="flex items-end gap-1 h-32">
-                      {[40, 70, 45, 90, 65, 80, 55, 75, 40, 85, 60, 95].map((h, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ height: 0 }}
-                          whileInView={{ height: `${h}%` }}
-                          transition={{ delay: i * 0.05, duration: 1 }}
-                          className="flex-1 bg-primary/40 rounded-t-sm"
-                        />
+              <div className="space-y-6">
+                <div className="h-32 w-full bg-slate-50 rounded-2xl border border-slate-100 p-6 flex flex-col justify-between">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Resource Load</span>
+                    <div className="flex gap-1">
+                      {[1, 2, 3, 4, 5].map(i => (
+                        <div key={i} className={`w-1 h-3 rounded-full ${i <= 3 ? 'bg-primary' : 'bg-slate-200'}`} />
                       ))}
                     </div>
                   </div>
-                  <div className="h-24 bg-white/5 rounded-xl border border-white/10 p-4 flex gap-4">
-                    <div className="flex-1 flex flex-col justify-center">
-                      <span className="text-[10px] text-white/40 mb-1">CPU THREADS</span>
-                      <div className="text-xl font-heading font-black text-primary">128.0</div>
-                    </div>
-                    <div className="flex-1 flex flex-col justify-center border-l border-white/10 pl-4">
-                      <span className="text-[10px] text-white/40 mb-1">LATENCY</span>
-                      <div className="text-xl font-heading font-black text-secondary">0.02ms</div>
-                    </div>
+                  <div className="flex items-end gap-2 h-12">
+                    {[40, 70, 45, 90, 65, 80, 55, 75].map((h, i) => (
+                      <div key={i} className="flex-1 bg-primary/10 rounded-t-lg relative group">
+                        <div 
+                          className="absolute bottom-0 left-0 right-0 bg-primary rounded-t-lg transition-all" 
+                          style={{ height: `${h}%` }} 
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <div className="col-span-4 flex flex-col gap-4">
-                  <div className="flex-1 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-xl border border-white/10 p-4">
-                    <div className="w-10 h-10 rounded-full border-2 border-primary/30 flex items-center justify-center mb-4 mx-auto animate-spin-slow">
-                      <Server className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="text-center text-[10px] text-white/60 mb-2 uppercase">Core Status</div>
-                    <div className="h-1 bg-white/10 rounded-full mb-1">
-                      <div className="w-3/4 h-full bg-primary" />
-                    </div>
-                    <div className="h-1 bg-white/10 rounded-full">
-                      <div className="w-1/2 h-full bg-secondary" />
-                    </div>
-                  </div>
-                  <div className="h-32 bg-white/5 rounded-xl border border-white/10 p-4 overflow-hidden">
-                    <span className="text-[10px] text-white/30 block mb-2">SYSTEM LOGS</span>
-                    <div className="text-[8px] font-mono text-white/40 space-y-1">
-                      <div>&gt; Initializing KARYA.node_01</div>
-                      <div className="text-primary">&gt; Verification Successful</div>
-                      <div>&gt; syncro_daemon: active</div>
-                      <div>&gt; listening on port 8080</div>
-                      <div className="animate-pulse">&gt; _</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              {/* Decorative Circular HUD */}
-              <div className="absolute -bottom-20 -right-20 w-64 h-64 border-4 border-primary/10 rounded-full" />
-              <div className="absolute -bottom-16 -right-16 w-56 h-56 border border-secondary/10 rounded-full animate-spin-slow" />
-            </motion.div>
-
-            {/* Floating UI Bits */}
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity }}
-              className="absolute -top-6 -right-6 glass p-4 rounded-xl border border-primary/30 shadow-xl hidden md:block"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                  <ShieldCheck className="w-4 h-4 text-primary" />
-                </div>
-                <div>
-                  <div className="text-[8px] uppercase tracking-widest text-white/40">Encryption</div>
-                  <div className="text-[10px] font-bold">SHA-512 ACTIVE</div>
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="bg-slate-50 rounded-2xl border border-slate-100 p-6">
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-4">Network</span>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-primary shadow-sm">
+                        <Server className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="text-xl font-black text-slate-900 leading-none">12</div>
+                        <div className="text-[10px] text-slate-400 font-bold uppercase">Nodes</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 rounded-2xl border border-slate-100 p-6">
+                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-4">Latency</span>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-accent shadow-sm">
+                        <Zap className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="text-xl font-black text-slate-900 leading-none">2ms</div>
+                        <div className="text-[10px] text-slate-400 font-bold uppercase">Real-time</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>

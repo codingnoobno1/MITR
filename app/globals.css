@@ -43,41 +43,35 @@
 }
 
 :root {
-  --background: #050816;
-  --foreground: #ffffff;
+  --background: #ffffff;
+  --foreground: #0f172a;
   
-  --card: rgba(255, 255, 255, 0.05);
-  --card-foreground: #ffffff;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
   
-  --popover: #050816;
-  --popover-foreground: #ffffff;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
   
-  --primary: #00F5FF;
-  --primary-foreground: #050816;
+  --primary: #2563eb; /* Bluish */
+  --primary-foreground: #ffffff;
   
-  --secondary: #7C3AED;
+  --secondary: #64748b;
   --secondary-foreground: #ffffff;
   
-  --muted: rgba(255, 255, 255, 0.1);
-  --muted-foreground: rgba(255, 255, 255, 0.6);
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
   
-  --accent: #FF7A00;
+  --accent: #dc2626; /* Crimson Red */
   --accent-foreground: #ffffff;
   
-  --destructive: #ff4444;
+  --destructive: #ef4444;
   --destructive-foreground: #ffffff;
   
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: #00F5FF;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #2563eb;
   
   --radius: 0.75rem;
-}
-
-/* Force dark mode behavior since the theme is dark by default */
-.dark {
-  --background: #050816;
-  --foreground: #ffffff;
 }
 
 @layer base {
@@ -85,37 +79,37 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary/30;
+    @apply bg-background text-foreground antialiased selection:bg-primary/20;
     font-family: var(--font-inter);
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    @apply tracking-tight;
+    @apply tracking-tight font-bold;
   }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+    @apply bg-white/70 backdrop-blur-md border border-slate-200 shadow-sm;
   }
   
   .glow-primary {
-    @apply shadow-[0_0_20px_rgba(0,245,255,0.3)];
+    @apply shadow-[0_0_20px_rgba(37,99,235,0.2)];
   }
   
   .glow-accent {
-    @apply shadow-[0_0_20px_rgba(255,122,0,0.3)];
+    @apply shadow-[0_0_20px_rgba(220,38,38,0.2)];
   }
   
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
   }
 
   .mesh-gradient {
     background-image: 
-      radial-gradient(at 0% 0%, rgba(0, 245, 255, 0.15) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(124, 58, 237, 0.15) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, rgba(255, 122, 0, 0.1) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, rgba(0, 245, 255, 0.1) 0px, transparent 50%);
+      radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(220, 38, 38, 0.05) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.03) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, rgba(220, 38, 38, 0.03) 0px, transparent 50%);
   }
 }

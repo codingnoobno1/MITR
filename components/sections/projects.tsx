@@ -34,7 +34,7 @@ const projects = [
 
 export function ProjectsSection() {
   return (
-    <section id="projects" className="py-24 relative">
+    <section id="projects" className="py-24 relative bg-white">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div>
@@ -42,20 +42,20 @@ export function ProjectsSection() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-heading font-black mb-4"
+              className="text-4xl md:text-5xl font-heading font-black mb-4 text-slate-900"
             >
-              LATEST <span className="text-secondary">PROJECTS</span>
+              FEATURED <span className="text-accent">PROJECTS</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-white/50 max-w-xl"
+              className="text-slate-500 max-w-xl"
             >
-              Pushing the boundaries of what&apos;s possible with modular intelligence and futuristic software engineering.
+              Pushing the boundaries of modular intelligence and modern infrastructure engineering.
             </motion.p>
           </div>
-          <Button variant="link" className="text-primary hover:text-primary/80 flex items-center gap-2 p-0">
+          <Button variant="link" className="text-primary hover:text-primary/80 flex items-center gap-2 p-0 font-bold">
             View All Projects <ExternalLink className="w-4 h-4" />
           </Button>
         </div>
@@ -68,45 +68,44 @@ export function ProjectsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="group relative h-[450px] rounded-3xl overflow-hidden border border-white/5"
+              className="group relative rounded-3xl overflow-hidden border border-slate-200 bg-slate-50 hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500"
             >
-              {/* Image Layer */}
-              <div 
-                className="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-700" 
-                style={{ backgroundImage: `url(${project.image})` }}
-              />
-              {/* Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+              <div className="aspect-video w-full overflow-hidden">
+                <img 
+                  src={project.image} 
+                  alt={project.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                />
+              </div>
               
-              {/* Content */}
-              <div className="absolute inset-0 p-8 flex flex-col justify-end">
+              <div className="p-8">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl glass border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
+                  <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-primary shadow-sm group-hover:bg-primary group-hover:text-white transition-colors">
                     {project.icon}
                   </div>
                   <div>
-                    <div className="text-[10px] uppercase tracking-widest text-primary/80 font-bold">{project.category}</div>
-                    <h3 className="text-2xl font-heading font-black">{project.title}</h3>
+                    <div className="text-[10px] uppercase tracking-widest text-slate-400 font-black">{project.category}</div>
+                    <h3 className="text-2xl font-heading font-black text-slate-900">{project.title}</h3>
                   </div>
                 </div>
                 
-                <p className="text-white/60 text-sm mb-6 leading-relaxed group-hover:text-white/80 transition-colors">
+                <p className="text-slate-600 text-sm mb-6 leading-relaxed">
                   {project.description}
                 </p>
                 
                 <div className="flex flex-wrap gap-2 mb-8">
                   {project.tags.map(tag => (
-                    <span key={tag} className="text-[10px] px-2 py-1 rounded-md bg-white/5 border border-white/10 text-white/40">
+                    <span key={tag} className="text-[10px] font-bold px-3 py-1 rounded-full bg-white border border-slate-100 text-slate-500 uppercase tracking-widest">
                       {tag}
                     </span>
                   ))}
                 </div>
                 
-                <div className="flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity translate-y-4 group-hover:translate-y-0 duration-300">
-                  <Button className="flex-1 rounded-xl bg-white text-black hover:bg-white/90">
-                    View Project
+                <div className="flex items-center gap-4">
+                  <Button className="flex-1 rounded-xl bg-slate-900 text-white hover:bg-slate-800 font-bold">
+                    Learn More
                   </Button>
-                  <Button size="icon" variant="outline" className="rounded-xl glass border-white/10 hover:bg-white/5">
+                  <Button size="icon" variant="outline" className="rounded-xl border-slate-200 hover:bg-slate-50">
                     <Github className="w-5 h-5" />
                   </Button>
                 </div>
