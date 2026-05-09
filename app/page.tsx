@@ -4,6 +4,7 @@ import { IndustryGap } from "@/components/sections/IndustryGap";
 import { MitrApproach } from "@/components/sections/MitrApproach";
 import { ModularEcosystem } from "@/components/sections/ModularEcosystem";
 import { FutureVision } from "@/components/sections/FutureVision";
+import { TeamSection } from "@/components/sections/team";
 import { TechStack } from "@/components/animations/TechStack";
 import { Footer } from "@/components/layout/Footer";
 
@@ -27,6 +28,9 @@ export default function HomePage() {
 
         {/* Bonus: Tech Stack Marquee */}
         <TechStack />
+        
+        {/* Section: Leadership Team */}
+        <TeamSection />
         
         {/* Section 5: Future Vision / CTA */}
         <FutureVision />
