@@ -42,8 +42,8 @@ export function CeilingSystem() {
                  <meshStandardMaterial color="#475569" metalness={0.5} />
               </mesh>
               {/* The Tube Light itself - Neutral White */}
-              <mesh position={[0, -0.25, 0]}>
-                 <cylinderGeometry args={[0.15, 0.15, 10, 8]} rotation={[0, 0, Math.PI / 2]} />
+              <mesh position={[0, -0.25, 0]} rotation={[0, 0, Math.PI / 2]}>
+                 <cylinderGeometry args={[0.15, 0.15, 10, 8]} />
                  <meshStandardMaterial 
                   color="#ffffff" 
                   emissive="#ffffff" 
