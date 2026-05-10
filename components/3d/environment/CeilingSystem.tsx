@@ -6,13 +6,13 @@ import * as THREE from "three";
 export function CeilingSystem() {
   return (
     <group>
-      {/* MAIN STRUCTURAL CEILING - Industrial gray, not black void */}
+      {/* MAIN STRUCTURAL CEILING - Industrial gray */}
       <mesh position={[0, 30, -20]} rotation={[Math.PI / 2, 0, 0]} receiveShadow>
         <planeGeometry args={[1400, 320]} />
         <meshStandardMaterial color="#1f2937" roughness={0.85} />
       </mesh>
 
-      {/* PRIMARY SUPPORT BEAMS - Metallic response for edge highlights */}
+      {/* PRIMARY SUPPORT BEAMS */}
       {Array.from({ length: 28 }).map((_, i) => (
         <group key={`primary-beam-${i}`} position={[i * 50 - 700, 26, -20]}>
           <mesh castShadow>
@@ -30,8 +30,35 @@ export function CeilingSystem() {
         </group>
       ))}
 
-      {/* RECESSED LIGHT CHANNELS */}
-      {[-70, 0, 70].map((z, i) => (
+      {/* INDUSTRIAL TUBE LIGHT ARRAY (Over Server Area) */}
+      {/* Positioned row-wise evenly */}
+      {[-40, 40].map((xPos, i) => (
+        <group key={`tube-row-${i}`} position={[xPos, 24, -20]}>
+          {Array.from({ length: 12 }).map((_, j) => (
+            <group key={`tube-${j}`} position={[0, 0, j * 30 - 180]}>
+              {/* Tube Housing */}
+              <mesh>
+                 <boxGeometry args={[12, 0.4, 0.4]} />
+                 <meshStandardMaterial color="#475569" metalness={0.5} />
+              </mesh>
+              {/* The Tube Light itself - Neutral White */}
+              <mesh position={[0, -0.25, 0]}>
+                 <cylinderGeometry args={[0.15, 0.15, 10, 8]} rotation={[0, 0, Math.PI / 2]} />
+                 <meshStandardMaterial 
+                  color="#ffffff" 
+                  emissive="#ffffff" 
+                  emissiveIntensity={2.5} 
+                />
+              </mesh>
+              {/* Local Area Light for the Tube */}
+              <pointLight intensity={0.8} distance={30} color="#ffffff" />
+            </group>
+          ))}
+        </group>
+      ))}
+
+      {/* RECESSED LIGHT CHANNELS (Ambient Fill) */}
+      {[-100, 0, 100].map((z, i) => (
         <group key={`light-channel-${i}`}>
           <mesh position={[0, 24.5, z]}>
             <boxGeometry args={[1400, 3, 10]} />
@@ -46,14 +73,14 @@ export function CeilingSystem() {
               </mesh>
               <mesh position={[0, -0.2, 0]}>
                 <planeGeometry args={[14, 2]} />
-                <meshStandardMaterial color="#e5e7eb" emissive="#e5e7eb" emissiveIntensity={1.2} />
+                <meshStandardMaterial color="#e5e7eb" emissive="#e5e7eb" emissiveIntensity={0.8} />
               </mesh>
             </group>
           ))}
         </group>
       ))}
 
-      {/* DARK OVERHEAD SILHOUETTES - atmospheric mass, not void */}
+      {/* DARK OVERHEAD SILHOUETTES */}
       {Array.from({ length: 12 }).map((_, i) => (
         <mesh 
           key={`silhouette-${i}`} 
