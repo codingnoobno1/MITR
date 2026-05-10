@@ -9,7 +9,7 @@ export function BuildingShell() {
       {/* Massive Outer Hull - Industrial gray for readability */}
       <mesh position={[0, 50, -300]}>
         <boxGeometry args={[2000, 200, 20]} />
-        <meshStandardMaterial color="#111827" roughness={0.9} />
+        <meshStandardMaterial color="#111827" roughness={0.9} transparent opacity={0.6} />
       </mesh>
 
       {/* Structural Framing - Value separation */}
@@ -24,17 +24,17 @@ export function BuildingShell() {
       <group position={[400, 20, -150]}>
         <mesh>
           <boxGeometry args={[400, 100, 200]} />
-          <meshStandardMaterial color="#0f1724" transparent opacity={0.6} />
+          <meshStandardMaterial color="#1f2937" transparent opacity={0.5} />
         </mesh>
-        <pointLight position={[0, 20, 0]} intensity={3} color="#f59e0b" distance={120} />
+        <pointLight position={[0, 20, 0]} intensity={4} color="#e5e7eb" distance={150} />
       </group>
 
       <group position={[-400, 20, -150]}>
         <mesh>
           <boxGeometry args={[400, 100, 200]} />
-          <meshStandardMaterial color="#0f1724" transparent opacity={0.6} />
+          <meshStandardMaterial color="#1f2937" transparent opacity={0.5} />
         </mesh>
-        <pointLight position={[0, 20, 0]} intensity={3} color="#315b9c" distance={120} />
+        <pointLight position={[0, 20, 0]} intensity={4} color="#94a3b8" distance={150} />
       </group>
     </group>
   );
