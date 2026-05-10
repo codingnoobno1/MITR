@@ -25,8 +25,8 @@ export function CoolingSystem() {
 
       {/* Visible Coolant Piping */}
       {[-70, 70].map((z, i) => (
-        <mesh key={`pipe-${i}`} position={[0, 4, z]} rotation={[0, 0, 0]}>
-          <cylinderGeometry args={[0.4, 0.4, 1200, 12]} rotation={[0, 0, Math.PI / 2]} />
+        <mesh key={`pipe-${i}`} position={[0, 4, z]} rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.4, 0.4, 1200, 12]} />
           <meshStandardMaterial color="#315b9c" metalness={0.9} />
         </mesh>
       ))}

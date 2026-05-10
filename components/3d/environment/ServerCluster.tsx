@@ -12,7 +12,17 @@ const CLOUD_LOGOS = [
   { name: "K8S", logo: "/tech/kubernetes.png", color: "#326CE5" },
 ];
 
-export function ServerCluster({ position, label, active = false, provider = 0 }) {
+export function ServerCluster({ 
+  position, 
+  label, 
+  active = false, 
+  provider = 0 
+}: { 
+  position: [number, number, number]; 
+  label: string; 
+  active?: boolean; 
+  provider?: number 
+}) {
   const lightRef = useRef<THREE.Mesh>(null!);
   const info = CLOUD_LOGOS[provider % CLOUD_LOGOS.length];
   const logoTex = useTexture(info.logo);
