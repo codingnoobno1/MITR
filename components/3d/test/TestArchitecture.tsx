@@ -4,6 +4,7 @@ import React from "react";
 import * as THREE from "three";
 import { WallMechanicalLayers } from "./WallMechanicalLayers";
 import { CeilingCassettes } from "./CeilingCassettes";
+import { BrandSignage } from "./BrandSignage";
 
 export function TestArchitecture() {
   const WORLD_WIDTH = 420;
@@ -16,6 +17,9 @@ export function TestArchitecture() {
 
       {/* 🛡️ MECHANICAL WALL INFRASTRUCTURE (Light Pass) */}
       <WallMechanicalLayers lightTheme />
+
+      {/* 🛡️ BRAND SIGNAGE */}
+      <BrandSignage />
 
       {/* 🛡️ HIGH-REFLECTIVITY ENGINEERED FLOOR */}
       <group position={[0, -0.5, 0]}>
@@ -44,11 +48,11 @@ export function TestArchitecture() {
                 {/* Floor Glow Trenches (Blue/White Light Strips) */}
                 <mesh position={[7.2, 0, 0]}>
                    <boxGeometry args={[0.2, 0.1, 14.4]} />
-                   <meshStandardMaterial color="#ffffff" emissive="#e0f2fe" emissiveIntensity={1.5} metalness={1} />
+                   <meshStandardMaterial color="#ffffff" emissive="#38bdf8" emissiveIntensity={3.0} metalness={1} />
                 </mesh>
                 <mesh position={[0, 0, 7.2]}>
                    <boxGeometry args={[14.4, 0.1, 0.2]} />
-                   <meshStandardMaterial color="#ffffff" emissive="#e0f2fe" emissiveIntensity={1.5} metalness={1} />
+                   <meshStandardMaterial color="#ffffff" emissive="#38bdf8" emissiveIntensity={3.0} metalness={1} />
                 </mesh>
               </group>
             );
@@ -56,24 +60,27 @@ export function TestArchitecture() {
         ))}
       </group>
 
-      {/* 🛡️ MAINTENANCE DECKS & GREENERY */}
-      {[-140, 140].map((zPos, i) => (
-        <group key={`maint-deck-${i}`} position={[0, 48, zPos]}>
+      {/* 🛡️ SIDE MEZZANINES & GREENERY */}
+      {[-180, 180].map((xPos, i) => (
+        <group key={`maint-deck-${i}`} position={[xPos, 48, 0]}>
            <mesh>
-              <boxGeometry args={[WORLD_WIDTH, 1.5, 20]} />
+              <boxGeometry args={[40, 1.5, WORLD_DEPTH]} />
               <meshStandardMaterial color="#f1f5f9" metalness={0.5} />
            </mesh>
-           {/* Railings (White Metal) */}
-           {[-9.5, 9.5].map((xOff, j) => (
-             <mesh key={`rail-${j}`} position={[0, 3.5, xOff]}>
-                <boxGeometry args={[WORLD_WIDTH, 0.3, 0.3]} />
-                <meshStandardMaterial color="#ffffff" metalness={1} />
-             </mesh>
-           ))}
+           {/* Glass Railing on inner edge */}
+           <mesh position={[i === 0 ? 19.5 : -19.5, 3.5, 0]}>
+              <boxGeometry args={[0.5, 6, WORLD_DEPTH]} />
+              <meshStandardMaterial color="#e2e8f0" transparent opacity={0.3} metalness={0.9} roughness={0.1} />
+           </mesh>
+           {/* Railing Top Handrail (White Metal) */}
+           <mesh position={[i === 0 ? 19.5 : -19.5, 6.5, 0]}>
+              <boxGeometry args={[0.8, 0.5, WORLD_DEPTH]} />
+              <meshStandardMaterial color="#ffffff" metalness={1} />
+           </mesh>
            
            {/* 🌿 GREENERY PASS (Potted Plants) */}
-           {Array.from({ length: 12 }).map((_, j) => (
-             <group key={`plant-${j}`} position={[j * 40 - 200, 0.8, i === 0 ? 6 : -6]}>
+           {Array.from({ length: 16 }).map((_, j) => (
+             <group key={`plant-${j}`} position={[i === 0 ? 15 : -15, 0.8, j * 20 - 150]}>
                 {/* Pot */}
                 <mesh position={[0, 0.5, 0]}>
                    <cylinderGeometry args={[1.5, 1, 2, 16]} />

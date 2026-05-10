@@ -23,22 +23,21 @@ export function TestHardware() {
             <meshStandardMaterial color="#ffffff" emissive="#e0f2fe" emissiveIntensity={2} />
          </mesh>
 
-         {[-15, 0, 15].map((x, i) => (
-           <group key={`terminal-${i}`} position={[x, 2, -10]}>
-              <mesh position={[0, 2, 0]}>
-                 <boxGeometry args={[1, 4, 1]} />
-                 <meshStandardMaterial color="#cbd5e1" metalness={0.7} />
-              </mesh>
-              <mesh position={[0, 4, 0]} rotation={[-Math.PI / 4, 0, 0]}>
-                 <boxGeometry args={[12, 1, 8]} />
-                 <meshStandardMaterial color="#f1f5f9" emissive="#2563eb" emissiveIntensity={0.3} />
-              </mesh>
-              <mesh position={[0, 4.6, -0.1]} rotation={[-Math.PI / 4, 0, 0]}>
-                 <planeGeometry args={[10, 6]} />
-                 <meshBasicMaterial color="#2563eb" transparent opacity={0.15} />
-              </mesh>
-           </group>
-         ))}
+         {/* 🛡️ SINGLE CENTRAL COMMAND TERMINAL */}
+         <group position={[0, 2, -10]}>
+            <mesh position={[0, 2, 0]}>
+               <boxGeometry args={[4, 4, 2]} />
+               <meshStandardMaterial color="#cbd5e1" metalness={0.7} />
+            </mesh>
+            <mesh position={[0, 4.5, 0]} rotation={[-Math.PI / 4, 0, 0]}>
+               <boxGeometry args={[20, 1, 10]} />
+               <meshStandardMaterial color="#f1f5f9" emissive="#2563eb" emissiveIntensity={0.3} />
+            </mesh>
+            <mesh position={[0, 5.2, -0.1]} rotation={[-Math.PI / 4, 0, 0]}>
+               <planeGeometry args={[18, 8]} />
+               <meshBasicMaterial color="#2563eb" transparent opacity={0.3} />
+            </mesh>
+         </group>
 
          <group position={[0, 4.5, -18]}>
             <mesh>
@@ -54,13 +53,20 @@ export function TestHardware() {
 
       {/* SERVER FIELD */}
       <group position={[0, 0, 0]}>
-         {Array.from({ length: 5 }).map((_, row) => (
-           Array.from({ length: 5 }).map((_, col) => {
-             const x = col * 24 - 48;
-             const z = row * 30 - 60;
-             const serverId = row * 5 + col;
-             return <ServerModule key={`server-${serverId}`} serverId={serverId} position={[x, 0, z]} />;
-           })
+         {Array.from({ length: 8 }).map((_, row) => (
+           <group key={`row-${row}`}>
+             {Array.from({ length: 8 }).map((_, col) => {
+               const x = col * 18 - 63;
+               const z = row * 24 - 84;
+               const serverId = row * 8 + col;
+               return <ServerModule key={`server-${serverId}`} serverId={serverId} position={[x, 0, z]} />;
+             })}
+             {/* Aisle LED strip */}
+             <mesh position={[0, 0.05, row * 24 - 72]}>
+               <boxGeometry args={[160, 0.1, 0.4]} />
+               <meshStandardMaterial color="#ffffff" emissive="#38bdf8" emissiveIntensity={3} />
+             </mesh>
+           </group>
          ))}
       </group>
 
