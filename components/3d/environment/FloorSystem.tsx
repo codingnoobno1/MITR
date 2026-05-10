@@ -6,19 +6,23 @@ import * as THREE from "three";
 export function FloorSystem() {
   return (
     <group>
-      {/* Primary Floor Substrate - Industrial gray */}
+      {/* Primary Floor Substrate - Lighter for global readability */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, -20]} receiveShadow>
         <planeGeometry args={[1200, 260]} />
-        <meshStandardMaterial color="#111827" roughness={0.72} metalness={0.18} />
+        <meshStandardMaterial 
+          color="#1e293b" 
+          roughness={0.75} 
+          metalness={0.12} 
+        />
       </mesh>
 
-      {/* Segmented Maintenance Tiles - Value separation */}
+      {/* Segmented Maintenance Tiles */}
       {Array.from({ length: 40 }).map((_, i) => (
         <group key={`floor-seg-${i}`} position={[i * 30 - 600, -0.48, -20]}>
           {/* Main Tile Panel */}
           <mesh rotation={[-Math.PI / 2, 0, 0]}>
             <planeGeometry args={[28, 258]} />
-            <meshStandardMaterial color="#182131" roughness={0.5} metalness={0.2} />
+            <meshStandardMaterial color="#334155" roughness={0.65} metalness={0.15} />
           </mesh>
           
           {/* Recessed Maintenance Channels */}
@@ -35,7 +39,7 @@ export function FloorSystem() {
         <meshStandardMaterial 
           color="#315b9c" 
           emissive="#315b9c" 
-          emissiveIntensity={0.4} 
+          emissiveIntensity={0.6} 
           transparent 
           opacity={0.3} 
         />
@@ -49,7 +53,7 @@ export function FloorSystem() {
           rotation={[-Math.PI / 2, 0, Math.random() * Math.PI]}
         >
           <planeGeometry args={[8, 12]} />
-          <meshStandardMaterial color="#334155" transparent opacity={0.1} />
+          <meshStandardMaterial color="#475569" transparent opacity={0.15} />
         </mesh>
       ))}
     </group>
