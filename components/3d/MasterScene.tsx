@@ -18,6 +18,7 @@ import { ColumnInfrastructure } from "./environment/ColumnInfrastructure";
 import { StructuralConnectors } from "./environment/StructuralConnectors";
 import { UtilityModules } from "./environment/UtilityModules";
 import { VerticalRouting } from "./environment/VerticalRouting";
+import { OverheadInfrastructure } from "./environment/OverheadInfrastructure";
 import { ServerCorridor } from "./environment/ServerCorridor";
 import { AIOrchestratorChamber } from "./environment/AIOrchestratorChamber";
 import { SecurityOperationsZone } from "./environment/SecurityOperationsZone";
@@ -91,6 +92,7 @@ export function MITRInfrastructureWorld() {
           <StructuralConnectors />
           <UtilityModules />
           <VerticalRouting />
+          <OverheadInfrastructure />
           
           {/* Mid-scale Infrastructure */}
           <MaintenanceWalkways />
