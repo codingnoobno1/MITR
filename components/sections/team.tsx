@@ -2,7 +2,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Twitter, ArrowDownRight, Mail } from "lucide-react";
+import { Github, Linkedin, Twitter, Mail } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const team = [
   {
@@ -39,62 +40,60 @@ const team = [
 
 export function TeamSection() {
   return (
-    <section id="team" className="py-24 bg-white relative overflow-hidden border-t border-slate-100">
+    <section id="team" className="py-24 bg-white relative overflow-hidden border-t border-slate-100 font-sans">
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row justify-between items-end mb-20 gap-8">
           <div className="max-w-2xl">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 mb-4 flex items-center gap-3"
+              className="text-[10px] font-bold uppercase tracking-wider text-blue-600 mb-4 flex items-center gap-3"
             >
               <div className="w-8 h-px bg-blue-600" />
-              Human Intelligence
+              Leadership Team
             </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-6xl font-heading font-black text-slate-950 tracking-tighter uppercase leading-[0.9]"
+              className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight leading-none"
             >
-              CORE <br />
-              <span className="text-blue-600">LEADERSHIP</span>
+              Operational <span className="text-blue-600">Leadership</span>
             </motion.h2>
           </div>
-          <p className="max-w-md text-sm text-slate-500 font-medium leading-relaxed text-left lg:text-right">
+          <p className="max-w-md text-sm text-slate-600 font-normal leading-relaxed text-left lg:text-right">
             Our leadership team combines deep industrial domain expertise with 
             advanced systems engineering.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {team.map((member, i) => (
             <motion.div
               key={member.name}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: i * 0.05 }}
-              className="group bg-slate-50 p-8 rounded-[2rem] border border-slate-200 hover:border-blue-500/30 hover:bg-white hover:shadow-xl transition-all duration-500 flex flex-col items-center text-center"
+              className="group bg-slate-50 p-8 rounded-xl border border-slate-200 hover:border-blue-500/30 hover:bg-white hover:shadow-lg transition-all duration-500 flex flex-col items-center text-center"
             >
-              {/* Member Initials Circle */}
               <div className="w-16 h-16 rounded-full bg-white border border-slate-200 flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-500 shadow-sm">
-                 <span className="text-lg font-black">{member.initials}</span>
+                 <span className="text-lg font-bold">{member.initials}</span>
               </div>
 
               <div className="mb-6">
-                <h3 className="text-xl font-heading font-black text-slate-950 uppercase tracking-tight mb-1 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-lg font-bold text-slate-900 mb-1 group-hover:text-blue-600 transition-colors">
                   {member.name}
                 </h3>
-                <div className="text-[9px] font-black text-blue-600 uppercase tracking-widest block mb-4">
+                <div className="text-[10px] font-bold text-blue-600 uppercase tracking-wider block mb-4">
                   {member.role}
                 </div>
-                <p className="text-[11px] text-slate-500 leading-relaxed font-medium">
+                <p className="text-[11px] text-slate-600 leading-relaxed font-normal">
                   {member.bio}
                 </p>
               </div>
 
-              <div className="mt-auto flex gap-3 pt-6 border-t border-slate-200/50 w-full justify-center">
+              <div className="mt-auto flex gap-4 pt-6 border-t border-slate-200/50 w-full justify-center">
                 {[Linkedin, Twitter, Github, Mail].map((Icon, j) => (
-                  <div key={j} className="text-slate-300 hover:text-blue-600 transition-all cursor-pointer">
+                  <div key={j} className="text-slate-400 hover:text-blue-600 transition-all cursor-pointer">
                     <Icon className="w-4 h-4" />
                   </div>
                 ))}
