@@ -1,76 +1,86 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import * as THREE from "three";
+import { useFrame } from "@react-three/fiber";
 import { ServerModule } from "./ServerModule";
-import { MITRCoreSystem } from "./MITRCoreSystem";
 
 export function TestHardware() {
+  const scanLightRef = useRef<THREE.PointLight>(null!);
+
+  useFrame((state) => {
+    if (scanLightRef.current) {
+      const time = state.clock.getElapsedTime();
+      // Sweeps from z = -120 to z = 120
+      scanLightRef.current.position.z = Math.sin(time * 0.2) * 120;
+    }
+  });
+
   return (
     <group>
-      {/* FOREGROUND COMMAND PLATFORM */}
+      {/* 🛡️ MAIN CENTER AISLE ILLUMINATION (Hierarchy Anchor) */}
+      <spotLight 
+        position={[0, 80, 0]} 
+        angle={0.15} 
+        penumbra={1} 
+        intensity={20} 
+        distance={200} 
+        color="#e0f2fe" 
+        castShadow
+      />
+
+      {/* FOREGROUND COMMAND PLATFORM - Industrial Slate */}
       <group position={[0, 0, 120]}>
          <mesh position={[0, 1, 0]}>
             <boxGeometry args={[80, 2, 40]} />
-            <meshStandardMaterial color="#e2e8f0" metalness={0.8} roughness={0.2} />
+            <meshStandardMaterial color="#334155" metalness={0.8} roughness={0.2} />
          </mesh>
          <mesh position={[0, 0.4, 0]}>
             <boxGeometry args={[100, 0.8, 60]} />
-            <meshStandardMaterial color="#f1f5f9" metalness={0.4} />
+            <meshStandardMaterial color="#1e293b" metalness={0.4} />
          </mesh>
          <mesh position={[0, 2.05, 0]}>
             <boxGeometry args={[80.4, 0.1, 40.4]} />
-            <meshStandardMaterial color="#ffffff" emissive="#e0f2fe" emissiveIntensity={2} />
+            <meshStandardMaterial color="#64748b" emissive="#38bdf8" emissiveIntensity={0.2} />
          </mesh>
 
          {/* 🛡️ SINGLE CENTRAL COMMAND TERMINAL */}
          <group position={[0, 2, -10]}>
             <mesh position={[0, 2, 0]}>
                <boxGeometry args={[4, 4, 2]} />
-               <meshStandardMaterial color="#cbd5e1" metalness={0.7} />
+               <meshStandardMaterial color="#1e293b" metalness={0.7} />
             </mesh>
             <mesh position={[0, 4.5, 0]} rotation={[-Math.PI / 4, 0, 0]}>
                <boxGeometry args={[20, 1, 10]} />
-               <meshStandardMaterial color="#f1f5f9" emissive="#2563eb" emissiveIntensity={0.3} />
-            </mesh>
-            <mesh position={[0, 5.2, -0.1]} rotation={[-Math.PI / 4, 0, 0]}>
-               <planeGeometry args={[18, 8]} />
-               <meshBasicMaterial color="#2563eb" transparent opacity={0.3} />
-            </mesh>
-         </group>
-
-         <group position={[0, 4.5, -18]}>
-            <mesh>
-               <boxGeometry args={[80, 0.2, 0.2]} />
-               <meshStandardMaterial color="#ffffff" metalness={0.9} />
-            </mesh>
-            <mesh position={[0, -1.5, 0]}>
-               <boxGeometry args={[80, 3, 0.1]} />
-               <meshBasicMaterial color="#e0f2fe" transparent opacity={0.08} />
+               <meshStandardMaterial color="#334155" emissive="#2563eb" emissiveIntensity={0.1} />
             </mesh>
          </group>
       </group>
 
-      {/* SERVER FIELD */}
+      {/* SERVER FIELD - With Asymmetry */}
       <group position={[0, 0, 0]}>
          {Array.from({ length: 5 }).map((_, row) => (
            <group key={`row-${row}`}>
              {Array.from({ length: 5 }).map((_, col) => {
-               const x = col * 32 - 64; // Spaced out
-               const z = row * 40 - 80;
+               // Slight random nudge for asymmetry
+               const x = col * 34 - 68 + (Math.sin(row * 1.5 + col) * 1.5); 
+               const z = row * 45 - 90 + (Math.cos(col * 2.1 + row) * 2.5);
                const serverId = row * 5 + col;
                return <ServerModule key={`server-${serverId}`} serverId={serverId} position={[x, 0, z]} />;
              })}
-             {/* Aisle LED strip */}
-             <mesh position={[0, 0.05, row * 40 - 60]}>
-               <boxGeometry args={[160, 0.1, 0.4]} />
-               <meshStandardMaterial color="#ffffff" emissive="#38bdf8" emissiveIntensity={3} />
+             {/* Aisle LED strip - Dimmed */}
+             <mesh position={[0, 0.05, row * 45 - 70]}>
+               <boxGeometry args={[160, 0.1, 0.2]} />
+               <meshStandardMaterial color="#020617" emissive="#38bdf8" emissiveIntensity={0.4} />
              </mesh>
            </group>
          ))}
       </group>
 
-      <MITRCoreSystem />
+      {/* 💡 ACCENT LIGHTS (Very Selective) */}
+      <pointLight position={[0, 20, -100]} intensity={2} distance={150} color="#38bdf8" />
+      <pointLight position={[-60, 15, 20]} intensity={1} distance={100} color="#1e40af" />
+      <pointLight position={[60, 15, 20]} intensity={1} distance={100} color="#1e40af" />
 
       {/* DATA STREAMS */}
       <group position={[0, 40, -40]}>
@@ -83,10 +93,21 @@ export function TestHardware() {
 }
 
 function DataStream({ index }: { index: number }) {
+  const streamRef = useRef<THREE.Mesh>(null!);
+  const matRef = useRef<THREE.MeshBasicMaterial>(null!);
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime();
+    if (matRef.current && streamRef.current) {
+      matRef.current.opacity = 0.02 + Math.sin(time * 3 + index) * 0.02;
+      streamRef.current.position.y = Math.sin(time + index) * 2;
+    }
+  });
+
   return (
-    <mesh position={[(index % 4) * 40 - 60, 0, (index / 4) * 40 - 60]}>
+    <mesh ref={streamRef} position={[(index % 4) * 40 - 60, 0, (index / 4) * 40 - 60]}>
        <cylinderGeometry args={[0.05, 0.05, 100, 8]} />
-       <meshBasicMaterial color="#38bdf8" transparent opacity={0.04} />
+       <meshBasicMaterial ref={matRef} color="#38bdf8" transparent opacity={0.04} />
     </mesh>
   );
 }

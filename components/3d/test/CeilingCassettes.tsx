@@ -8,86 +8,88 @@ export function CeilingCassettes({ lightTheme = false }: { lightTheme?: boolean 
   const WORLD_DEPTH = 340;
   const CEILING_Y = 90;
 
+export function CeilingCassettes() {
+  const WORLD_WIDTH = 420;
+  const WORLD_DEPTH = 340;
+  const CEILING_Y = 100;
+
   const colors = {
-    frame: lightTheme ? "#f1f5f9" : "#111827",
-    recess: lightTheme ? "#e2e8f0" : "#0f172a",
-    rib: lightTheme ? "#cbd5e1" : "#1e293b",
-    hatch: lightTheme ? "#e2e8f0" : "#1e293b",
-    channel: lightTheme ? "#f8fafc" : "#020617",
+    beam: "#0f172a",
+    duct: "#1e293b",
+    tray: "#334155",
+    accent: "#020617",
+    glow: "#2563eb",
   };
 
   return (
     <group position={[0, CEILING_Y, 0]}>
-      {/* 🛡️ MODULAR CEILING CASSETTES (Grid of sections) */}
-      {Array.from({ length: 12 }).map((_, i) => (
-        Array.from({ length: 8 }).map((_, j) => {
-          const x = i * 36 - 216 + 18;
-          const z = j * 42 - 168 + 21;
-          return (
-            <group key={`cassette-${i}-${j}`} position={[x, 0, z]}>
-              {/* 🛡️ LAYER 1: SECTION FRAME */}
-              <mesh>
-                 <boxGeometry args={[34, 4, 40]} />
-                 <meshStandardMaterial color={colors.frame} roughness={0.5} metalness={0.3} />
-              </mesh>
-              
-              {/* 🛡️ LAYER 2: DEEP RECESSED CENTER */}
-              <mesh position={[0, 4.5, 0]}>
-                 <boxGeometry args={[30, 8, 36]} />
-                 <meshStandardMaterial color={colors.recess} roughness={0.6} />
-              </mesh>
-
-              {/* 🛡️ LAYER 3: SUPPORT RIBS */}
-              {[-12, 0, 12].map((xOff, k) => (
-                <mesh key={`rib-${k}`} position={[xOff, -0.5, 0]}>
-                   <boxGeometry args={[1, 1, 38]} />
-                   <meshStandardMaterial color={colors.rib} metalness={0.6} />
-                </mesh>
-              ))}
-
-              {/* 🛡️ LAYER 4: FLUORESCENT LED TROUGHS (Pure White Linear Strips) */}
-              {[-15, 0, 15].map((zOff, k) => (
-                <mesh key={`light-${k}`} position={[0, -1.8, zOff]}>
-                   <boxGeometry args={[28, 0.2, 1.5]} />
-                   <meshStandardMaterial 
-                    color="#ffffff"
-                    emissive={i % 3 === 0 ? "#e0f2fe" : "#ffffff"} 
-                    emissiveIntensity={4.0} 
-                  />
-                </mesh>
-              ))}
-
-              {/* 🛡️ LAYER 5: ACCESS HATCHES & HVAC DUCTS */}
-              <mesh position={[12, 1.8, 14]}>
-                 <boxGeometry args={[4, 0.1, 4]} />
-                 <meshStandardMaterial color={colors.hatch} metalness={0.4} />
-              </mesh>
-
-              {/* Suspended Vent Duct */}
-              {j % 2 === 0 && (
-                <mesh position={[0, -2.5, 0]}>
-                   <cylinderGeometry args={[1.5, 1.5, 38, 16]} rotation={[Math.PI / 2, 0, 0]} />
-                   <meshStandardMaterial color={colors.metal || "#94a3b8"} roughness={0.4} metalness={0.7} envMapIntensity={1.5} />
-                </mesh>
-              )}
-            </group>
-          );
-        })
+      {/* 🛡️ MAIN LONGITUDINAL BEAMS (Structural Depth) */}
+      {[-120, -60, 0, 60, 120].map((x) => (
+        <mesh key={`beam-${x}`} position={[x, 4, 0]}>
+          <boxGeometry args={[8, 12, WORLD_DEPTH]} />
+          <meshStandardMaterial color={colors.beam} metalness={0.6} roughness={0.4} />
+        </mesh>
       ))}
 
-      {/* 🛡️ STRUCTURAL CHANNELS (Varying heights for depth) */}
-      {Array.from({ length: 6 }).map((_, i) => (
-        <group key={`channel-${i}`} position={[0, i % 2 === 0 ? 8 : 14, i * 60 - 150]}>
-          <mesh>
-             <boxGeometry args={[WORLD_WIDTH, 12, 12]} />
-             <meshStandardMaterial color={colors.channel} roughness={0.4} metalness={0.3} />
-          </mesh>
-          <mesh position={[0, -6.5, 0]}>
-             <boxGeometry args={[WORLD_WIDTH, 1, 14]} />
-             <meshStandardMaterial color={colors.rib} metalness={0.8} />
-          </mesh>
+      {/* 🛡️ CROSS-RUNNING HVAC DUCTS (Industrial Detail) */}
+      {[-120, -40, 40, 120].map((z) => (
+        <group key={`duct-group-${z}`} position={[0, -2, z]}>
+           <mesh>
+              <boxGeometry args={[WORLD_WIDTH, 6, 8]} />
+              <meshStandardMaterial color={colors.duct} metalness={0.8} roughness={0.2} />
+           </mesh>
+           {/* Support Straps */}
+           {[-180, -90, 0, 90, 180].map((sx) => (
+             <mesh key={`strap-${sx}`} position={[sx, 3, 0]}>
+                <boxGeometry args={[1, 6, 8.2]} />
+                <meshStandardMaterial color={colors.accent} />
+             </mesh>
+           ))}
         </group>
       ))}
+
+      {/* 🛡️ CENTRAL CABLE TRAYS (Data Infrastructure) */}
+      {[-20, 20].map((x) => (
+        <group key={`tray-${x}`} position={[x, -8, 0]}>
+           <mesh>
+              <boxGeometry args={[2, 0.4, WORLD_DEPTH]} />
+              <meshStandardMaterial color={colors.tray} metalness={0.9} />
+           </mesh>
+           {/* Tray Ribs */}
+           {Array.from({ length: 40 }).map((_, r) => (
+             <mesh key={`rib-${r}`} position={[0, 0, r * 8 - WORLD_DEPTH / 2]}>
+                <boxGeometry args={[4, 0.2, 0.4]} />
+                <meshStandardMaterial color={colors.tray} />
+             </mesh>
+           ))}
+        </group>
+      ))}
+
+      {/* 🛡️ RECESSED INDUSTRIAL LIGHTING (Mood Only) */}
+      {[-150, -80, 80, 150].map((x) => (
+        <group key={`light-row-${x}`}>
+           {[-100, 0, 100].map((z) => (
+             <mesh key={`light-${z}`} position={[x, 0, z]}>
+                <boxGeometry args={[12, 0.5, 4]} />
+                <meshStandardMaterial 
+                  color="#ffffff" 
+                  emissive={colors.glow} 
+                  emissiveIntensity={0.25} 
+                />
+             </mesh>
+           ))}
+        </group>
+      ))}
+
+      {/* 🛡️ MAINTENANCE RAILS (Scale Reference) */}
+      {[-190, 190].map((x) => (
+        <mesh key={`m-rail-${x}`} position={[x, -6, 0]}>
+           <boxGeometry args={[0.6, 0.6, WORLD_DEPTH]} />
+           <meshStandardMaterial color={colors.accent} />
+        </mesh>
+      ))}
     </group>
+  );
+}
   );
 }

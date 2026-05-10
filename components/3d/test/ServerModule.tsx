@@ -71,17 +71,19 @@ export function ServerModule({ position, serverId = 0 }: { position: [number, nu
           ))}
 
           {/* 🛡️ LAYER 5: TELEMETRY & LED STRIPS */}
-          <group position={[2.5, 0, 1.65]}>
+          <group position={[1.5, 0, 1.65]}>
              <mesh>
-                <planeGeometry args={[1.2, 0.3]} />
+                <planeGeometry args={[3.0, 0.3]} />
                 <meshStandardMaterial 
                   color={i % 3 === 0 ? "#1e3a8a" : "#0f172a"} 
-                  emissive={i % 3 === 0 ? "#22d3ee" : "#3b82f6"}
-                  emissiveIntensity={0.5}
+                  emissive={i % 3 === 0 ? "#1d4ed8" : "#2563eb"}
+                  emissiveIntensity={0.2}
                 />
              </mesh>
              {/* 💡 DEEPLY RANDOMIZED "SEVERE WORK" LEDS */}
-             <StatusLED bladeIndex={i} serverId={serverId} />
+             {Array.from({ length: 6 }).map((_, ledIdx) => (
+               <StatusLED key={`led-${ledIdx}`} bladeIndex={i} serverId={serverId} ledIndex={ledIdx} />
+             ))}
           </group>
         </group>
       ))}
@@ -100,99 +102,96 @@ export function ServerModule({ position, serverId = 0 }: { position: [number, nu
         </mesh>
       ))}
 
-      {/* 🛡️ FRONT LED STRIPS (Vertical Edges) */}
+      {/* 🛡️ FRONT LED STRIPS (Vertical Edges) - Muted Slate instead of Pure White */}
       <mesh position={[-SERVER_WIDTH / 2 + 0.1, SERVER_HEIGHT / 2, SERVER_DEPTH / 2 + 0.15]}>
-         <boxGeometry args={[0.1, SERVER_HEIGHT - 0.4, 0.1]} />
-         <meshStandardMaterial color="#ffffff" emissive="#3b82f6" emissiveIntensity={3} />
+         <boxGeometry args={[0.05, SERVER_HEIGHT - 0.4, 0.05]} />
+         <meshStandardMaterial color="#94a3b8" emissive="#3b82f6" emissiveIntensity={0.8} />
       </mesh>
       <mesh position={[SERVER_WIDTH / 2 - 0.1, SERVER_HEIGHT / 2, SERVER_DEPTH / 2 + 0.15]}>
-         <boxGeometry args={[0.1, SERVER_HEIGHT - 0.4, 0.1]} />
-         <meshStandardMaterial color="#ffffff" emissive="#3b82f6" emissiveIntensity={3} />
+         <boxGeometry args={[0.05, SERVER_HEIGHT - 0.4, 0.05]} />
+         <meshStandardMaterial color="#94a3b8" emissive="#3b82f6" emissiveIntensity={0.8} />
       </mesh>
 
       {/* 🛡️ GLASS CABINET DOOR */}
       <mesh position={[0, SERVER_HEIGHT / 2, SERVER_DEPTH / 2 + 0.2]}>
          <boxGeometry args={[SERVER_WIDTH - 0.4, SERVER_HEIGHT - 0.4, 0.1]} />
          <meshStandardMaterial 
-            color="#0f172a" 
+            color="#020617" 
             transparent 
-            opacity={0.22} 
-            roughness={0.08} 
-            metalness={0.9} 
-            envMapIntensity={2.0} 
+            opacity={0.3} 
+            roughness={0.02} 
+            metalness={1} 
+            envMapIntensity={2.5} 
          />
       </mesh>
     </group>
   );
 }
 
-function StatusLED({ bladeIndex, serverId }: { bladeIndex: number, serverId: number }) {
+function StatusLED({ bladeIndex, serverId, ledIndex = 0 }: { bladeIndex: number, serverId: number, ledIndex?: number }) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const glowRef = useRef<THREE.Mesh>(null!);
   
-  // Create a deep unique seed for this specific LED
   const config = useMemo(() => {
-    const seed = serverId * 100 + bladeIndex;
+    const seed = serverId * 1000 + bladeIndex * 10 + ledIndex;
     return {
-      baseRate: 5 + (seed % 7) * 4,
-      burstRate: 20 + (seed % 13) * 15,
-      pattern: seed % 4, // 0: Burst, 1: Glitch, 2: Heavy Load, 3: Sync Stutter
-      color: seed % 7 === 0 ? "#10b981" : seed % 4 === 0 ? "#10b981" : "#2563eb", // Changed to mostly green and blue
-      offset: seed * 0.317, // Irregular offset
-      dutyCycle: 0.3 + (seed % 10) * 0.05
+      baseRate: 2 + (seed % 5) * 2,
+      burstRate: 10 + (seed % 10) * 5,
+      pattern: seed % 4,
+      color: seed % 7 === 0 ? "#10b981" : (seed % 3 === 0 ? "#22d3ee" : "#2563eb"), 
+      offset: seed * 0.317,
+      enabled: (seed % 10) > 1 // 20% of LEDs are "off" for asymmetry
     };
-  }, [bladeIndex, serverId]);
+  }, [bladeIndex, serverId, ledIndex]);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
+    if (!config.enabled) return;
+    
     if (meshRef.current && glowRef.current) {
       const mat = meshRef.current.material as THREE.MeshStandardMaterial;
       const glowMat = glowRef.current.material as THREE.MeshBasicMaterial;
       
       let intensity = 0;
       let glowScale = 1;
-
-      // 🎭 DEEPLY RANDOMIZED BEHAVIOR
       const seedTime = t + config.offset;
 
       if (config.pattern === 0) {
-        // Pattern 0: Irregular Data Bursts
-        const cycle = seedTime % (2 + (serverId % 3));
-        if (cycle < 0.5) {
-           intensity = Math.sin(t * config.burstRate) > 0 ? 25 : 0;
-           glowScale = 2.5;
+        const cycle = seedTime % 3;
+        if (cycle < 0.2) {
+           intensity = Math.sin(t * config.burstRate) > 0 ? 3 : 0;
+           glowScale = 2;
         } else {
-           intensity = 0.5;
-           glowScale = 0.6;
+           intensity = 0.2;
+           glowScale = 0.4;
         }
       } else if (config.pattern === 1) {
-        // Pattern 1: Glitch Work (Randomized rapid flicker)
-        const noise = Math.sin(t * 50) * Math.cos(t * 23);
-        intensity = noise > 0 ? 15 : 0.1;
-        glowScale = 1.5 + noise * 0.5;
+        const noise = Math.sin(t * 30) * Math.cos(t * 15);
+        intensity = noise > 0.5 ? 2 : 0.1;
+        glowScale = 1.2 + noise * 0.4;
       } else if (config.pattern === 2) {
-        // Pattern 2: Heavy Compute Pulse (Exponential surge)
-        const p = Math.sin(t * config.baseRate);
-        intensity = 1 + Math.pow(Math.max(0, p), 3) * 35;
-        glowScale = 1 + Math.max(0, p) * 2;
+        const p = Math.sin(t * config.baseRate + ledIndex);
+        intensity = 0.5 + Math.pow(Math.max(0, p), 3) * 4;
+        glowScale = 1.0 + Math.max(0, p) * 1.2;
       } else {
-        // Pattern 3: Sequential Cluster Sync (Simulates raid/parity work)
-        const syncTime = (t * 8 + serverId) % 16;
-        const isActive = Math.abs(syncTime - bladeIndex) < 1.5;
-        intensity = isActive ? 20 : 0.5;
-        glowScale = isActive ? 2.2 : 0.8;
+        const syncTime = (t * 5 + serverId) % 20;
+        const isActive = Math.abs(syncTime - (bladeIndex + ledIndex * 0.2)) < 0.5;
+        intensity = isActive ? 4 : 0.1;
+        glowScale = isActive ? 2 : 0.5;
       }
 
       mat.emissiveIntensity = intensity;
-      glowMat.opacity = Math.min(intensity * 0.03, 0.5);
+      glowMat.opacity = Math.min(intensity * 0.05, 0.4);
       glowRef.current.scale.setScalar(glowScale);
     }
   });
 
+  if (!config.enabled) return null;
+
   return (
-    <group position={[0.6, 0, 0.15]}>
+    <group position={[ledIndex * 0.3 - 0.8, 0, 1.0]}>
       <mesh ref={meshRef}>
-        <planeGeometry args={[0.25, 0.25]} />
+        <planeGeometry args={[0.08, 0.08]} />
         <meshStandardMaterial 
           color={config.color} 
           emissive={config.color}
@@ -201,11 +200,11 @@ function StatusLED({ bladeIndex, serverId }: { bladeIndex: number, serverId: num
         />
       </mesh>
       <mesh ref={glowRef}>
-        <planeGeometry args={[0.6, 0.6]} />
+        <planeGeometry args={[0.3, 0.3]} />
         <meshBasicMaterial 
           color={config.color} 
           transparent 
-          opacity={0.1} 
+          opacity={0.05} 
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />

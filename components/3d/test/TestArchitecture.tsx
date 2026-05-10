@@ -5,6 +5,7 @@ import * as THREE from "three";
 import { WallMechanicalLayers } from "./WallMechanicalLayers";
 import { CeilingCassettes } from "./CeilingCassettes";
 import { BrandSignage } from "./BrandSignage";
+import { TestFloor } from "./TestFloor";
 
 export function TestArchitecture() {
   const WORLD_WIDTH = 420;
@@ -12,61 +13,17 @@ export function TestArchitecture() {
 
   return (
     <group>
-      {/* 🛡️ MODULAR CEILING SUPERSTRUCTURE (Light Pass) */}
-      <CeilingCassettes lightTheme />
+      {/* 🛡️ MODULAR CEILING SUPERSTRUCTURE */}
+      <CeilingCassettes />
 
-      {/* 🛡️ MECHANICAL WALL INFRASTRUCTURE (Light Pass) */}
-      <WallMechanicalLayers lightTheme />
+      {/* 🛡️ MECHANICAL WALL INFRASTRUCTURE */}
+      <WallMechanicalLayers />
 
       {/* 🛡️ BRAND SIGNAGE */}
       <BrandSignage />
 
       {/* 🛡️ HIGH-REFLECTIVITY ENGINEERED FLOOR */}
-      <group position={[0, -0.5, 0]}>
-        {/* Mirror-like Substrate */}
-        <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-          <planeGeometry args={[WORLD_WIDTH, WORLD_DEPTH]} />
-          <meshStandardMaterial 
-            color="#0f172a" 
-            roughness={0.04} 
-            metalness={0.85} 
-          />
-        </mesh>
-
-        {/* 🧱 FLOOR DETAILS */}
-        {Array.from({ length: 30 }).map((_, i) => (
-          Array.from({ length: 24 }).map((_, j) => {
-            const x = i * 14.4 - (30 * 14.4) / 2;
-            const z = j * 14.4 - (24 * 14.4) / 2;
-            return (
-              <group key={`floor-tile-${i}-${j}`} position={[x, 0.05, z]}>
-                <mesh rotation={[-Math.PI / 2, 0, 0]}>
-                   <planeGeometry args={[14, 14]} />
-                   <meshStandardMaterial color="#f8fafc" roughness={0.1} metalness={0.2} />
-                </mesh>
-                
-                {/* Floor Glow Trenches (Blue/White Light Strips) */}
-                <mesh position={[7.2, 0, 0]}>
-                   <boxGeometry args={[0.2, 0.1, 14.4]} />
-                   <meshStandardMaterial color="#ffffff" emissive="#38bdf8" emissiveIntensity={3.0} metalness={1} />
-                </mesh>
-                <mesh position={[0, 0, 7.2]}>
-                   <boxGeometry args={[14.4, 0.1, 0.2]} />
-                   <meshStandardMaterial color="#ffffff" emissive="#38bdf8" emissiveIntensity={3.0} metalness={1} />
-                </mesh>
-
-                {/* Industrial Cable Hatches */}
-                {i % 4 === 0 && j % 4 === 0 && (
-                  <mesh position={[0, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-                    <planeGeometry args={[4, 4]} />
-                    <meshStandardMaterial color="#cbd5e1" roughness={0.7} metalness={0.5} />
-                  </mesh>
-                )}
-              </group>
-            );
-          })
-        ))}
-      </group>
+      <TestFloor />
 
       {/* 🛡️ SIDE MEZZANINES & GREENERY */}
       {[-180, 180].map((xPos, i) => (

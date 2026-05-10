@@ -8,101 +8,133 @@ export function WallMechanicalLayers({ lightTheme = false }: { lightTheme?: bool
   const WORLD_DEPTH = 340;
   const WORLD_HEIGHT = 120;
 
+export function WallMechanicalLayers() {
+  const WORLD_WIDTH = 420;
+  const WORLD_DEPTH = 340;
+  const WORLD_HEIGHT = 120;
+
   const colors = {
-    shell: lightTheme ? "#e5e7eb" : "#020617",
-    pocket: lightTheme ? "#94a3b8" : "#0b1120",
-    metal: lightTheme ? "#cbd5e1" : "#334155",
-    trim: lightTheme ? "#ffffff" : "#1e293b",
-    glass: lightTheme ? "#e2e8f0" : "#0f172a",
+    base: "#020617",
+    structure: "#0f172a",
+    detail: "#1e293b",
+    accent: "#334155",
+    glow: "#2563eb",
   };
 
   return (
     <group>
       {/* 🛡️ BACK WALL (Z = -170) */}
       <group position={[0, WORLD_HEIGHT / 2, -170]}>
-        {/* STRUCTURAL SHELL */}
+        {/* Layer 1: The Shell */}
         <mesh>
-          <boxGeometry args={[WORLD_WIDTH, WORLD_HEIGHT, 16]} />
-          <meshStandardMaterial color={colors.shell} roughness={0.55} metalness={0.35} envMapIntensity={1.2} />
+          <boxGeometry args={[WORLD_WIDTH, WORLD_HEIGHT, 10]} />
+          <meshStandardMaterial color={colors.base} roughness={0.8} />
         </mesh>
 
-        {/* RECESSED CAVITIES */}
-        {Array.from({ length: Math.floor(WORLD_WIDTH / 40) }).map((_, j) => (
-          <group key={`back-segment-${j}`} position={[j * 40 - WORLD_WIDTH / 2 + 20, 0, 3]}>
+        {/* Layer 2: Mid-Structure (Vertical Ribs) */}
+        {Array.from({ length: 12 }).map((_, i) => (
+          <group key={`back-rib-${i}`} position={[i * 40 - WORLD_WIDTH / 2 + 20, 0, 5]}>
+             {/* Support Pillars */}
              <mesh>
-                <boxGeometry args={[36, WORLD_HEIGHT - 20, 2]} />
-                <meshStandardMaterial color={colors.pocket} />
+                <boxGeometry args={[6, WORLD_HEIGHT, 4]} />
+                <meshStandardMaterial color={colors.structure} metalness={0.6} roughness={0.4} />
              </mesh>
-             
-             {[-12, 0, 12].map((xOff, k) => (
-               <mesh key={`pipe-${k}`} position={[xOff, 0, 0.5]}>
-                  <cylinderGeometry args={[0.5, 0.5, WORLD_HEIGHT - 20, 8]} />
-                  <meshStandardMaterial color={colors.metal} metalness={0.8} />
-               </mesh>
-             ))}
-
-             {[20, -20].map((yOff, k) => (
-               <mesh key={`tray-${k}`} position={[0, yOff, 0.6]}>
-                  <boxGeometry args={[34, 1.5, 0.8]} />
-                  <meshStandardMaterial color={colors.trim} />
+             {/* Recessed Pocket */}
+             <mesh position={[0, 0, -2]}>
+                <boxGeometry args={[34, WORLD_HEIGHT - 20, 4]} />
+                <meshStandardMaterial color="#000000" roughness={1} />
+             </mesh>
+             {/* Vertical Pipes in Pocket */}
+             {[-6, 0, 6].map((x, j) => (
+               <mesh key={`pipe-${j}`} position={[x, 0, -1]}>
+                  <cylinderGeometry args={[0.4, 0.4, WORLD_HEIGHT - 20, 8]} />
+                  <meshStandardMaterial color={colors.accent} metalness={0.9} />
                </mesh>
              ))}
           </group>
         ))}
-        {/* EDGE LIGHTING */}
-        <mesh position={[0, WORLD_HEIGHT / 2 - 1, 4.2]}>
-           <boxGeometry args={[WORLD_WIDTH, 0.5, 0.5]} />
-           <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={3} />
-        </mesh>
+
+        {/* Layer 3: Foreground Detailing (Cable Rails) */}
+        {[-30, 0, 30].map((y) => (
+          <mesh key={`rail-${y}`} position={[0, y, 10]}>
+             <boxGeometry args={[WORLD_WIDTH, 1.2, 0.8]} />
+             <meshStandardMaterial color={colors.detail} metalness={0.7} />
+          </mesh>
+        ))}
       </group>
 
       {/* 🛡️ SIDE WALLS (X = -210 and X = 210) */}
       {[-210, 210].map((xPos, i) => (
         <group key={`side-wall-${i}`} position={[xPos, WORLD_HEIGHT / 2, 0]} rotation={[0, Math.PI / 2, 0]}>
-          {/* STRUCTURAL SHELL */}
+          {/* Main Shell */}
           <mesh>
-            <boxGeometry args={[WORLD_DEPTH, WORLD_HEIGHT, 16]} />
-            <meshStandardMaterial color={colors.shell} roughness={0.55} metalness={0.35} envMapIntensity={1.2} />
+            <boxGeometry args={[WORLD_DEPTH, WORLD_HEIGHT, 12]} />
+            <meshStandardMaterial color={colors.base} roughness={0.8} />
           </mesh>
 
-          {/* GLASS SERVER CABINET RECESSES */}
-          {Array.from({ length: Math.floor(WORLD_DEPTH / 40) }).map((_, j) => (
-            <group key={`side-segment-${j}`} position={[j * 40 - WORLD_DEPTH / 2 + 20, -10, i === 0 ? 8 : -8]}>
-               {/* Recess Background */}
+          {/* Depth Layering */}
+          {Array.from({ length: 8 }).map((_, j) => (
+            <group key={`side-segment-${j}`} position={[j * 45 - WORLD_DEPTH / 2 + 22, 0, 6]}>
+               {/* Mid Panel */}
                <mesh>
-                  <boxGeometry args={[34, 80, 8]} />
-                  <meshStandardMaterial color={colors.pocket} roughness={0.8} />
+                  <boxGeometry args={[40, WORLD_HEIGHT - 30, 2]} />
+                  <meshStandardMaterial color={colors.structure} roughness={0.4} metalness={0.6} />
                </mesh>
                
-               {/* Glass Panel */}
-               <mesh position={[0, 0, i === 0 ? 4 : -4]}>
-                  <boxGeometry args={[34, 80, 0.5]} />
-                  <meshStandardMaterial color={colors.glass} transparent opacity={0.22} metalness={0.9} roughness={0.08} envMapIntensity={1.5} />
+               {/* Recessed Maintenance Bay */}
+               <mesh position={[0, -10, -3]}>
+                  <boxGeometry args={[36, 70, 6]} />
+                  <meshStandardMaterial color="#000000" />
                </mesh>
 
-               {/* Internal Server Indicators */}
-               {Array.from({ length: 8 }).map((_, k) => (
-                 <mesh key={`server-light-${k}`} position={[0, k * 8 - 28, i === 0 ? 1.5 : -1.5]}>
-                    <boxGeometry args={[30, 1, 1]} />
-                    <meshStandardMaterial color="#1e3a8a" emissive="#3b82f6" emissiveIntensity={0.8} />
-                 </mesh>
-               ))}
+               {/* Maintenance Ladders (Scale Reference) */}
+               <group position={[16, 0, 1]}>
+                  {Array.from({ length: 20 }).map((_, l) => (
+                    <mesh key={`rung-${l}`} position={[0, l * 3 - 30, 0]}>
+                       <boxGeometry args={[2, 0.2, 0.2]} />
+                       <meshStandardMaterial color={colors.accent} />
+                    </mesh>
+                  ))}
+                  <mesh position={[-1, 0, 0]}>
+                     <boxGeometry args={[0.2, 70, 0.2]} />
+                     <meshStandardMaterial color={colors.accent} />
+                  </mesh>
+                  <mesh position={[1, 0, 0]}>
+                     <boxGeometry args={[0.2, 70, 0.2]} />
+                     <meshStandardMaterial color={colors.accent} />
+                  </mesh>
+               </group>
 
-               {/* Vertical Blue LED Edge Strips */}
-               <mesh position={[-18, 10, i === 0 ? 4.5 : -4.5]}>
-                  <boxGeometry args={[0.5, 100, 0.5]} />
-                  <meshStandardMaterial color="#ffffff" emissive="#3b82f6" emissiveIntensity={3} />
+               {/* Foreground Support Rails */}
+               <mesh position={[0, 40, 4]}>
+                  <boxGeometry args={[45, 2, 2]} />
+                  <meshStandardMaterial color={colors.detail} metalness={0.8} />
                </mesh>
             </group>
           ))}
-          
-          {/* EDGE LIGHTING */}
-          <mesh position={[0, WORLD_HEIGHT / 2 - 1, i === 0 ? 4.2 : -4.2]}>
-             <boxGeometry args={[WORLD_DEPTH, 0.5, 0.5]} />
-             <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={3} />
-          </mesh>
+
+          {/* Lower Maintenance Catwalk (Scale Reference) */}
+          <group position={[0, -50, 12]}>
+             <mesh>
+                <boxGeometry args={[WORLD_DEPTH, 2, 10]} />
+                <meshStandardMaterial color={colors.detail} roughness={0.2} metalness={0.9} />
+             </mesh>
+             {/* Railing */}
+             <mesh position={[0, 4, 4]}>
+                <boxGeometry args={[WORLD_DEPTH, 0.4, 0.4]} />
+                <meshStandardMaterial color={colors.accent} />
+             </mesh>
+             {Array.from({ length: 20 }).map((_, r) => (
+               <mesh key={`post-${r}`} position={[r * 20 - WORLD_DEPTH / 2 + 10, 2, 4]}>
+                  <boxGeometry args={[0.4, 4, 0.4]} />
+                  <meshStandardMaterial color={colors.accent} />
+               </mesh>
+             ))}
+          </group>
         </group>
       ))}
     </group>
+  );
+}
   );
 }

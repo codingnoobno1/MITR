@@ -9,8 +9,8 @@ export function TestEnvironment() {
   const pointsRef = useRef<THREE.Points>(null!);
 
   const particles = useMemo(() => {
-    const temp = new Float32Array(1500 * 3);
-    for (let i = 0; i < 1500; i++) {
+    const temp = new Float32Array(150 * 3);
+    for (let i = 0; i < 150; i++) {
       temp[i * 3] = (Math.random() - 0.5) * 500;
       temp[i * 3 + 1] = Math.random() * 120;
       temp[i * 3 + 2] = (Math.random() - 0.5) * 400;
@@ -27,64 +27,62 @@ export function TestEnvironment() {
 
   return (
     <>
-      {/* 🌤️ HIGH-KEY CLINICAL ENVIRONMENT */}
-      <color attach="background" args={["#f8fafc"]} />
+      {/* 🌑 DARK THEME ENVIRONMENT */}
+      <color attach="background" args={["#020617"]} />
       
-      {/* Clearer White Fog */}
-      <fogExp2 attach="fog" args={["#f1f5f9", 0.0004]} />
+      {/* Dense Cinematic Fog */}
+      <fogExp2 attach="fog" args={["#020617", 0.0025]} />
 
       {/* 💡 GLOBAL ILLUMINATION BLUEPRINT */}
-      {/* 1. PRIMARY LIGHT (Strong Sunlight Feel) */}
+      {/* 1. PRIMARY LIGHT (Very Subtle Blue Rim) */}
       <directionalLight 
         position={[20, 100, 40]} 
-        intensity={3.5} 
-        color="#ffffff" 
-        castShadow 
-        shadow-mapSize={[2048, 2048]}
+        intensity={0.2} 
+        color="#38bdf8" 
       />
 
-      {/* 2. HIGH AMBIENT FILL */}
-      <ambientLight intensity={0.35} color="#f8fafc" />
+      {/* 2. MINIMAL AMBIENT FILL */}
+      <ambientLight intensity={0.02} color="#0f172a" />
       
       {/* 🏙️ GLOBAL REFLECTION SYSTEM */}
       <Environment preset="city" />
       
-      {/* 3. SKY/GROUND BOUNCE */}
+      {/* 3. SKY/GROUND BOUNCE (Subtle Deep Blue) */}
       <hemisphereLight 
-        intensity={0.6} 
-        color="#e0f2fe" 
-        groundColor="#f1f5f9" 
+        intensity={0.05} 
+        color="#1e3a8a" 
+        groundColor="#020617" 
       />
 
-      {/* 4. FLUORESCENT TROUGH LIGHTS */}
+      {/* 4. FLUORESCENT TROUGH LIGHTS (Dimmed) */}
       {[-80, -40, 0, 40, 80].map((z, i) => (
         <rectAreaLight
           key={`ceiling-light-${i}`}
           position={[0, 88, z]}
           width={400}
           height={2}
-          intensity={2.5}
+          intensity={0.2}
           rotation={[-Math.PI / 2, 0, 0]}
-          color="#ffffff"
+          color="#1e40af"
         />
       ))}
 
-      {/* 5. SIDE WALL BLUE ACCENT LIGHTS */}
+      {/* 5. SIDE WALL BLUE ACCENT LIGHTS (Mood only) */}
       {[-200, 200].map((x, i) => (
         <group key={`side-lights-${i}`}>
           {[-120, -40, 40, 120].map((z, j) => (
             <pointLight
               key={`blue-light-${i}-${j}`}
               position={[x, 40, z]}
-              intensity={10}
-              distance={100}
+              intensity={1}
+              distance={60}
               color="#38bdf8"
             />
           ))}
         </group>
       ))}
 
-      {/* 🌬️ ATMOSPHERIC PARTICLES (Subtle white dust) */}
+      {/* 🌬️ ATMOSPHERIC PARTICLES (Subtle Haze) */}
       <points ref={pointsRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -96,20 +94,20 @@ export function TestEnvironment() {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.12}
-          color="#ffffff"
+          size={0.08}
+          color="#94a3b8"
           transparent
-          opacity={0.03}
+          opacity={0.02}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />
       </points>
 
-      {/* 🌬️ VOLUMETRIC LIGHT SHAFTS */}
-      {[-80, -40, 0, 40, 80].map((z, i) => (
+      {/* 🌬️ SELECTIVE ATMOSPHERIC SHAFTS (Center Aisle Only) */}
+      {[-40, 40].map((z, i) => (
         <mesh key={`volumetric-${i}`} position={[0, 44, z]}>
-           <boxGeometry args={[400, 88, 4]} />
-           <meshBasicMaterial color="#e0f2fe" transparent opacity={0.015} blending={THREE.AdditiveBlending} depthWrite={false} />
+           <cylinderGeometry args={[10, 30, 120, 32]} />
+           <meshBasicMaterial color="#38bdf8" transparent opacity={0.005} blending={THREE.AdditiveBlending} depthWrite={false} />
         </mesh>
       ))}
     </>
