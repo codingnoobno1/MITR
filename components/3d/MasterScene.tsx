@@ -20,6 +20,7 @@ import { UtilityModules } from "./environment/UtilityModules";
 import { VerticalRouting } from "./environment/VerticalRouting";
 import { OverheadInfrastructure } from "./environment/OverheadInfrastructure";
 import { ServerMegastructure } from "./environment/ServerMegastructure";
+import { HeroLogo } from "./environment/HeroLogo";
 import { AIOrchestratorChamber } from "./environment/AIOrchestratorChamber";
 import { SecurityOperationsZone } from "./environment/SecurityOperationsZone";
 import { CloudIntegrationLayer } from "./environment/CloudIntegrationLayer";
@@ -46,7 +47,7 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
   return (
     <div 
       ref={containerRef}
-      className={`absolute inset-0 z-0 bg-[#111827] transition-all duration-500 ${isFullscreen ? 'fixed inset-0 z-[999]' : ''}`}
+      className={`absolute inset-0 z-0 bg-[#1e293b] transition-all duration-500 ${isFullscreen ? 'fixed inset-0 z-[999]' : ''}`}
     >
       <Canvas 
         dpr={[1, 1.5]} 
@@ -55,7 +56,7 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
           alpha: false, 
           powerPreference: "high-performance",
           toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.1
+          toneMappingExposure: 1.3 // Increased for 'less darker' feel
         }}
         shadows={{ type: THREE.PCFShadowMap }}
       >
@@ -87,19 +88,22 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
           <WallPanels />
           <StructuralColumns />
           
-          {/* INTERACTION LAYERS (Systems Design) */}
+          {/* Interaction Layers */}
           <ColumnInfrastructure />
           <StructuralConnectors />
           <UtilityModules />
           <VerticalRouting />
           <OverheadInfrastructure />
           
+          {/* Hero Branding */}
+          <HeroLogo />
+          
           {/* Mid-scale Infrastructure */}
           <MaintenanceWalkways />
           <CableInfrastructure />
           <CoolingSystem />
           
-          {/* 🚀 READABLE OPERATIONAL HARDWARE (The Hero Subject) */}
+          {/* Operational Hardware */}
           <ServerMegastructure />
           
           {/* Key Facility Zones */}
