@@ -19,7 +19,7 @@ import { StructuralConnectors } from "./environment/StructuralConnectors";
 import { UtilityModules } from "./environment/UtilityModules";
 import { VerticalRouting } from "./environment/VerticalRouting";
 import { OverheadInfrastructure } from "./environment/OverheadInfrastructure";
-import { ServerCorridor } from "./environment/ServerCorridor";
+import { ServerMegastructure } from "./environment/ServerMegastructure";
 import { AIOrchestratorChamber } from "./environment/AIOrchestratorChamber";
 import { SecurityOperationsZone } from "./environment/SecurityOperationsZone";
 import { CloudIntegrationLayer } from "./environment/CloudIntegrationLayer";
@@ -99,8 +99,8 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
           <CableInfrastructure />
           <CoolingSystem />
           
-          {/* Operational Infrastructure */}
-          <ServerCorridor />
+          {/* 🚀 READABLE OPERATIONAL HARDWARE (The Hero Subject) */}
+          <ServerMegastructure />
           
           {/* Key Facility Zones */}
           <AIOrchestratorChamber />
