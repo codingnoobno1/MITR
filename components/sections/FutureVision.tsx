@@ -1,11 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function FutureVision() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   return (
     <section className="relative min-h-screen bg-white flex flex-col items-center justify-center overflow-hidden py-40 border-t border-slate-100">
       {/* Cinematic Background - Light Mode */}
@@ -14,7 +20,7 @@ export function FutureVision() {
         <div className="absolute inset-0 opacity-[0.03]">
            {/* Smart City Visualization Mock */}
            <div className="grid grid-cols-6 h-full gap-2">
-              {[...Array(24)].map((_, i) => (
+              {isMounted && [...Array(24)].map((_, i) => (
                 <motion.div
                   key={i}
                   className="bg-blue-600/20 border-x border-blue-600/10"
@@ -29,7 +35,7 @@ export function FutureVision() {
 
       {/* Floating Sparkles - Crimson Accent */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+        {isMounted && [...Array(20)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-crimson-600 rounded-full blur-[1px]"
