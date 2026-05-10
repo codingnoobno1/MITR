@@ -7,33 +7,33 @@ import { Database, Layout, Brain, Cpu, Share2, Zap, Circle, CheckCircle2 } from 
 const layers = [
   {
     id: "intelligence",
-    title: "Layer 03 / Intelligence",
-    subtitle: "Agentic AI Orchestration",
-    desc: "The cross-module brain that performs autonomous coordination and predictive analytics.",
+    title: "Layer 03 / Operations",
+    subtitle: "Automated Workflow Systems",
+    desc: "The coordination layer that handles cross-module business logic and operational scheduling.",
     icon: <Brain className="w-8 h-8" />,
     color: "text-blue-600",
     bgColor: "bg-blue-50",
-    details: ["Autonomous Agent Logic", "System-Wide Optimization", "Neural Task Routing"]
+    details: ["Standardized Business Logic", "Operational Monitoring", "Task Routing"]
   },
   {
     id: "nodes",
-    title: "Layer 02 / Nodes",
-    subtitle: "Modular Product Units",
-    desc: "Individual operational modules that handle specific industrial workflows independently.",
+    title: "Layer 02 / Products",
+    subtitle: "Modular Functional Units",
+    desc: "Individual software solutions that manage specific business functions independently.",
     icon: <Layout className="w-8 h-8" />,
     color: "text-slate-900",
     bgColor: "bg-slate-50",
-    details: ["Horizontal Scalability", "REST/GraphQL Node APIs", "Domain-Specific Logic"]
+    details: ["Service Scalability", "Grounded API Access", "Domain-Specific Tools"]
   },
   {
     id: "infrastructure",
-    title: "Layer 01 / Infrastructure",
-    subtitle: "Foundational Data Mesh",
-    desc: "The universal data layer providing a secure, single source of truth for all modules.",
+    title: "Layer 01 / Platform",
+    subtitle: "Core Data Infrastructure",
+    desc: "The secure, foundational data layer providing a single source of truth for the entire platform.",
     icon: <Database className="w-8 h-8" />,
     color: "text-blue-600",
     bgColor: "bg-blue-50",
-    details: ["Unified Authentication", "Distributed Data Persistence", "Military-Grade Security"]
+    details: ["Centralized Authentication", "Distributed Persistence", "Enterprise Security"]
   }
 ];
 
@@ -50,26 +50,26 @@ export function ArchitectureDeepDive() {
               className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 mb-6 flex items-center gap-3"
             >
               <div className="w-8 h-px bg-blue-600" />
-              Technical Blueprint
+              Platform Infrastructure
             </motion.div>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               className="text-4xl md:text-5xl lg:text-6xl font-heading font-black text-slate-950 tracking-tighter uppercase leading-[0.9] mb-8"
             >
-              THE STACK <br />
+              OUR SYSTEM <br />
               <span className="text-blue-600">ARCHITECTURE</span>
             </motion.h2>
             <p className="text-base text-slate-500 font-medium leading-relaxed mb-10">
-              MITR is built on a high-density intelligence stack designed for 
-              infinite scalability across industrial nodes.
+              The MITR platform is built on a robust, multi-layer architecture 
+              designed for enterprise reliability and operational efficiency.
             </p>
             
             <div className="space-y-4">
                {[
-                 { l: "Security", v: "End-to-End Encryption" },
-                 { l: "Throughput", v: "100k+ TPS" },
-                 { l: "Reliability", v: "99.99% Uptime" }
+                 { l: "Security", v: "Industry Standard" },
+                 { l: "Performance", v: "High Availability" },
+                 { l: "Uptime", v: "99.9% SLA" }
                ].map((spec, i) => (
                  <div key={i} className="flex justify-between items-center py-3 border-b border-slate-100">
                     <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{spec.l}</span>
