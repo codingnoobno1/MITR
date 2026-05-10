@@ -144,7 +144,7 @@ export function ServerRack({
 }
 
 // Dynamic server generation from product data
-export function DynamicInfrastructure({ products }: { products: Array<{ name: string; status: string }> }) {
+export function DynamicInfrastructure({ products }: { products: Array<{ name: string; status?: string }> }) {
   return (
     <group>
       {products.map((product, i) => (
