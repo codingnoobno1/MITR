@@ -5,8 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { useScroll, PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
 
-export function CameraRig() {
-  const scroll = useScroll();
+export function CameraRig({ index = 0 }: { index?: number }) {
   const cameraGroup = useRef<THREE.Group>(null!);
 
   const WAYPOINTS = [
@@ -20,37 +19,26 @@ export function CameraRig() {
   const currentLookAt = useRef(new THREE.Vector3(-10, 8, -80));
 
   useFrame((state, delta) => {
-    // Scroll progress from 0 to 1
-    const t = scroll.offset; 
-    
-    // Smooth scroll offset with damping
-    const segment = t * (WAYPOINTS.length - 1);
-    const index = Math.floor(segment);
-    const fraction = segment - index;
-
-    const start = WAYPOINTS[Math.min(index, WAYPOINTS.length - 1)];
-    const end = WAYPOINTS[Math.min(index + 1, WAYPOINTS.length - 1)];
+    const target = WAYPOINTS[index];
 
     // Base position
-    const targetPos = new THREE.Vector3().lerpVectors(start.pos, end.pos, fraction);
+    const targetPos = target.pos.clone();
     
     // Drift overlay (sin waves for natural floating)
     const time = state.clock.getElapsedTime();
-    targetPos.x += Math.sin(time * 0.4) * 0.4; // Reduced drift for premium feel
+    targetPos.x += Math.sin(time * 0.4) * 0.4;
     targetPos.y += Math.cos(time * 0.3) * 0.4;
 
     // Apply damped movement to camera group
-    cameraGroup.current.position.lerp(targetPos, delta * 2.5);
+    cameraGroup.current.position.lerp(targetPos, delta * 2);
 
     // LookAt Target
-    const lookAtTarget = new THREE.Vector3().lerpVectors(start.target, end.target, fraction);
-    currentLookAt.current.lerp(lookAtTarget, delta * 3);
-    
+    currentLookAt.current.lerp(target.target, delta * 2.5);
     state.camera.lookAt(currentLookAt.current);
   });
 
   return (
-    <group ref={cameraGroup} position={[0, 18, 70]}>
+    <group ref={cameraGroup} position={[17, 16, 75]}>
       <PerspectiveCamera makeDefault fov={32} />
     </group>
   );
