@@ -20,6 +20,7 @@ import { VerticalRouting } from "./environment/VerticalRouting";
 import { OverheadInfrastructure } from "./environment/OverheadInfrastructure";
 import { ServerMegastructure } from "./environment/ServerMegastructure";
 import { HeroLogo } from "./environment/HeroLogo";
+import { IntelligenceCore } from "./environment/IntelligenceCore";
 import { AIOrchestratorChamber } from "./environment/AIOrchestratorChamber";
 import { SecurityOperationsZone } from "./environment/SecurityOperationsZone";
 import { CloudIntegrationLayer } from "./environment/CloudIntegrationLayer";
@@ -59,7 +60,8 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
         }}
         shadows={{ type: THREE.PCFShadowMap }}
       >
-        <PerspectiveCamera makeDefault position={[0, 20, 60]} fov={45} />
+        {/* 🎬 OFFSET CAMERA - Breaking the visual slicing lines */}
+        <PerspectiveCamera makeDefault position={[10, 22, 60]} fov={45} />
         {!isFullscreen && !interactive ? <CinematicCameraRail /> : null}
         
         <OrbitControls 
@@ -67,7 +69,7 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
           enableZoom={interactive || isFullscreen}
           enableRotate={interactive || isFullscreen}
           minDistance={30}
-          maxDistance={120} // Tighter zoom range to prevent seeing outside
+          maxDistance={120} 
           minPolarAngle={0.3}
           maxPolarAngle={Math.PI / 2.15}
           target={[0, 18, -60]} 
@@ -91,19 +93,22 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
           <UtilityModules />
           <VerticalRouting />
           <OverheadInfrastructure />
+          
+          {/* Central Infrastructure Anchor */}
+          <IntelligenceCore />
+          
+          {/* Hero Branding */}
           <HeroLogo />
 
-          {/* 🛠️ AIRTIGHT FACILITY ENCLOSURE — Geometry-Audited */}
-          {/* END WALL: Far end of corridor (behind logo) */}
+          {/* 🛠️ AIRTIGHT FACILITY ENCLOSURE */}
           <mesh position={[0, 25, -155]}>
              <boxGeometry args={[1600, 110, 10]} />
-             <meshStandardMaterial color="#0b1120" roughness={1} />
+             <meshStandardMaterial color="#0f172a" roughness={1} />
           </mesh>
           
-          {/* END WALL: Near end (behind camera start) */}
           <mesh position={[0, 25, 115]}>
              <boxGeometry args={[1600, 110, 10]} />
-             <meshStandardMaterial color="#0b1120" roughness={1} />
+             <meshStandardMaterial color="#0f172a" roughness={1} />
           </mesh>
           
           <MaintenanceWalkways />
@@ -125,7 +130,7 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
         <PerformanceMonitor />
       </Canvas>
       
-      {/* HUD & Controls removed for brevity in summary, kept in code */}
+      {/* Controls & HUD Overlay kept same */}
       <div className="absolute bottom-6 right-6 flex gap-3 z-50">
         <button
           onClick={toggleFullscreen}
@@ -134,7 +139,6 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
           {isFullscreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
         </button>
       </div>
-      {/* HUD and Interaction Hint kept same as before */}
       <div className="absolute top-8 left-8 z-50 pointer-events-none">
         <div className="bg-slate-900/40 backdrop-blur-sm p-5 rounded-2xl border border-white/5 shadow-2xl">
           <div className="flex items-center gap-3 mb-3">

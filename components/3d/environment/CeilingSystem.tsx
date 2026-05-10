@@ -10,23 +10,31 @@ export function CeilingSystem() {
 
   return (
     <group>
-      {/* MAIN STRUCTURAL CEILING (Solid box instead of plane for airtight seal) */}
+      {/* MAIN STRUCTURAL CEILING */}
       <mesh position={[0, CEILING_Y + 1, -20]}>
         <boxGeometry args={[1500, 4, CEILING_DEPTH]} />
-        <meshStandardMaterial color="#1f2937" roughness={0.85} side={THREE.DoubleSide} />
+        <meshStandardMaterial color="#1e293b" roughness={0.85} side={THREE.DoubleSide} />
       </mesh>
 
-      {/* RECESSED MAINTENANCE CAVITIES */}
+      {/* RECESSED MAINTENANCE CAVITIES (Lightened) */}
       {Array.from({ length: 7 }).map((_, i) => (
         <group key={`recess-${i}`} position={[i * 200 - 600, CEILING_Y + 4, -20]}>
            <mesh>
               <boxGeometry args={[40, 6, CEILING_DEPTH - 20]} />
-              <meshStandardMaterial color="#0b1120" />
+              <meshStandardMaterial color="#0f172a" /> {/* Lightened from #0b1120 */}
            </mesh>
            <mesh position={[0, 2, 0]}>
               <boxGeometry args={[10, 2, CEILING_DEPTH - 40]} />
-              <meshStandardMaterial color="#111827" metalness={0.5} />
+              <meshStandardMaterial color="#1e293b" metalness={0.5} /> {/* Lightened */}
            </mesh>
+           
+           {/* 🛠️ EDGE HIGHLIGHTS: Break up the void strip */}
+           {[-1, 1].map((side) => (
+             <mesh key={`highlight-${side}`} position={[side * 20, -3.1, 0]}>
+                <boxGeometry args={[0.5, 0.1, CEILING_DEPTH - 20]} />
+                <meshStandardMaterial color="#334155" emissive="#334155" emissiveIntensity={0.4} />
+             </mesh>
+           ))}
         </group>
       ))}
 
@@ -34,7 +42,7 @@ export function CeilingSystem() {
       {[-150, 110].map((zPos, i) => (
         <mesh key={`perimeter-rail-${i}`} position={[0, CEILING_Y, zPos]}>
            <boxGeometry args={[1500, 3, 4]} />
-           <meshStandardMaterial color="#111827" metalness={0.6} />
+           <meshStandardMaterial color="#1e293b" metalness={0.6} />
         </mesh>
       ))}
 
@@ -54,7 +62,7 @@ export function CeilingSystem() {
             const state = (j + i) % 5;
             const isActive = state !== 2;
             const intensityMult = state === 0 ? 1.5 : state === 1 ? 0.7 : 0.3;
-            const finalEmissive = 1.4 + 0.3 * intensityMult; // Deterministic instead of random
+            const finalEmissive = 1.4 + 0.3 * intensityMult; 
 
             return (
               <group key={`tube-${j}`} position={[0, 0, j * 24 - 110]}>
