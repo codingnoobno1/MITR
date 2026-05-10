@@ -40,11 +40,17 @@ export function MITRInfrastructureWorld() {
   return (
     <div 
       ref={containerRef}
-      className={`absolute inset-0 z-0 bg-[#070b14] transition-all duration-500 ${isFullscreen ? 'fixed inset-0 z-[999]' : ''}`}
+      className={`absolute inset-0 z-0 bg-[#111827] transition-all duration-500 ${isFullscreen ? 'fixed inset-0 z-[999]' : ''}`}
     >
       <Canvas 
         dpr={[1, 1.5]} 
-        gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
+        gl={{ 
+          antialias: true, 
+          alpha: false, 
+          powerPreference: "high-performance",
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.1
+        }}
         shadows
       >
         <PerspectiveCamera makeDefault position={[0, 10, 80]} fov={45} />

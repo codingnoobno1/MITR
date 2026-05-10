@@ -6,16 +6,31 @@ import * as THREE from "three";
 export function Atmosphere() {
   return (
     <>
-      {/* Cinematic dark background */}
-      <color attach="background" args={["#070b14"]} />
+      {/* Cinematic dark background - avoiding crushed blacks */}
+      <color attach="background" args={["#111827"]} />
 
-      {/* Exponential fog for REAL depth */}
-      <fogExp2 attach="fog" args={["#070b14", 0.003]} />
+      {/* Exponential fog for ATMOSPHERIC depth (not invisibility) */}
+      <fogExp2 attach="fog" args={["#111827", 0.002]} />
 
-      {/* LOW ambient only */}
+      {/* 1. PRIMARY READABILITY LIGHT (Global Form Illumination) */}
+      <directionalLight
+        position={[80, 120, 40]}
+        intensity={0.8}
+        color="#dbe4f0"
+        castShadow
+      />
+
+      {/* 5. INDIRECT BOUNCE LIGHT (Edge Visibility) */}
+      <hemisphereLight
+        intensity={0.35}
+        color="#cbd5e1"
+        groundColor="#0f172a"
+      />
+
+      {/* LOW ambient fill */}
       <ambientLight intensity={0.12} color="#94a3b8" />
 
-      {/* MAIN corridor lights — sparse + asymmetrical */}
+      {/* 6. MAIN corridor lights — broader area lighting feel */}
       {[
         { x: -140, y: 18, z: -25, intensity: 3.2 },
         { x: -40, y: 16, z: -35, intensity: 2.4 },
@@ -23,52 +38,40 @@ export function Atmosphere() {
         { x: 180, y: 17, z: -40, intensity: 2.8 },
       ].map((l, i) => (
         <group key={i}>
-          {/* overhead white industrial */}
+          {/* overhead industrial fill */}
           <pointLight
             position={[l.x, l.y, l.z]}
             intensity={l.intensity}
             color="#e5e7eb"
-            distance={90}
-            decay={2}
+            distance={120}
+            decay={1.5}
           />
 
-          {/* lower cold fill */}
+          {/* lower blue accent */}
           <pointLight
             position={[l.x + 10, 4, l.z + 5]}
-            intensity={0.8}
+            intensity={1.0}
             color="#315b9c"
-            distance={45}
-            decay={2}
+            distance={60}
+            decay={1.5}
           />
         </group>
       ))}
 
-      {/* AI CORE shaft */}
+      {/* 9. AI CORE hero lighting */}
       <spotLight
-        position={[0, 35, -60]}
-        angle={0.18}
+        position={[0, 40, -60]}
+        angle={0.22}
         penumbra={1}
-        intensity={2.5}
-        distance={160}
+        intensity={2.2}
+        distance={180}
         color="#dbeafe"
         castShadow
       />
 
-      {/* subtle warm maintenance zone */}
-      <pointLight
-        position={[120, 8, -20]}
-        intensity={1.2}
-        color="#f59e0b"
-        distance={40}
-      />
-
-      {/* red security anomaly */}
-      <pointLight
-        position={[-180, 6, -50]}
-        intensity={0.7}
-        color="#ef4444"
-        distance={30}
-      />
+      {/* Maintenance lights */}
+      <pointLight position={[120, 8, -20]} intensity={1.5} color="#f59e0b" distance={50} />
+      <pointLight position={[-180, 6, -50]} intensity={1.0} color="#ef4444" distance={40} />
     </>
   );
 }
@@ -76,292 +79,68 @@ export function Atmosphere() {
 export function ServerRoomEnclosure() {
   return (
     <group>
-      {/* ===================================================== */}
-      {/* FLOOR */}
-      {/* ===================================================== */}
-
-      <mesh
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -0.5, -20]}
-        receiveShadow
-      >
+      {/* FLOOR - Industrial dark gray */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, -20]} receiveShadow>
         <planeGeometry args={[1200, 260]} />
-        <meshStandardMaterial
-          color="#0a0f1b"
-          roughness={0.72}
-          metalness={0.18}
-        />
+        <meshStandardMaterial color="#111827" roughness={0.72} metalness={0.18} />
       </mesh>
 
-      {/* floor segmentation */}
+      {/* Floor tiles */}
       {Array.from({ length: 80 }).map((_, i) => (
-        <mesh
-          key={`floor-line-x-${i}`}
-          rotation={[-Math.PI / 2, 0, 0]}
-          position={[i * 15 - 600, -0.49, -20]}
-        >
+        <mesh key={`floor-x-${i}`} rotation={[-Math.PI / 2, 0, 0]} position={[i * 15 - 600, -0.49, -20]}>
           <planeGeometry args={[0.04, 260]} />
-          <meshStandardMaterial
-            color="#111827"
-            transparent
-            opacity={0.5}
-          />
+          <meshStandardMaterial color="#1e293b" transparent opacity={0.3} />
         </mesh>
       ))}
 
-      {Array.from({ length: 24 }).map((_, i) => (
-        <mesh
-          key={`floor-line-z-${i}`}
-          rotation={[-Math.PI / 2, 0, 0]}
-          position={[0, -0.49, i * 12 - 140]}
-        >
-          <planeGeometry args={[1200, 0.04]} />
-          <meshStandardMaterial
-            color="#111827"
-            transparent
-            opacity={0.3}
-          />
-        </mesh>
-      ))}
-
-      {/* ===================================================== */}
-      {/* CEILING */}
-      {/* ===================================================== */}
-
-      <mesh
-        position={[0, 22, -20]}
-        rotation={[Math.PI / 2, 0, 0]}
-      >
+      {/* CEILING - Material variation */}
+      <mesh position={[0, 22, -20]} rotation={[Math.PI / 2, 0, 0]}>
         <planeGeometry args={[1200, 260]} />
-        <meshStandardMaterial
-          color="#111827"
-          roughness={0.82}
-          metalness={0.15}
-        />
+        <meshStandardMaterial color="#0f1724" roughness={0.8} />
       </mesh>
 
-      {/* large ceiling beams */}
+      {/* BEAMS - Value separation */}
       {Array.from({ length: 40 }).map((_, i) => (
-        <mesh
-          key={`beam-${i}`}
-          position={[i * 30 - 600, 21.2, -20]}
-        >
+        <mesh key={`beam-${i}`} position={[i * 30 - 600, 21.2, -20]}>
           <boxGeometry args={[1.5, 1, 260]} />
-          <meshStandardMaterial
-            color="#0b1120"
-            roughness={0.7}
-            metalness={0.3}
-          />
+          <meshStandardMaterial color="#1e293b" roughness={0.6} />
         </mesh>
       ))}
 
-      {/* ===================================================== */}
-      {/* UPPER INFRASTRUCTURE */}
-      {/* ===================================================== */}
-
-      {/* suspended cable trays */}
-      {[-40, 0, 40].map((z, i) => (
-        <group key={`tray-${i}`}>
-          <mesh position={[0, 18, z]}>
-            <boxGeometry args={[1200, 0.25, 1]} />
-            <meshStandardMaterial
-              color="#1e293b"
-              metalness={0.9}
-              roughness={0.25}
-            />
+      {/* PILLARS */}
+      {Array.from({ length: 14 }).map((_, i) => (
+        <group key={`pillar-${i}`} position={[i * 80 - 520, 10, -35]}>
+          <mesh castShadow>
+            <boxGeometry args={[2.2, 22, 2.2]} />
+            <meshStandardMaterial color="#182131" roughness={0.5} metalness={0.4} />
           </mesh>
-
-          {/* hanging supports */}
-          {Array.from({ length: 30 }).map((_, j) => (
-            <mesh
-              key={`support-${j}`}
-              position={[j * 40 - 600, 20, z]}
-            >
-              <boxGeometry args={[0.1, 4, 0.1]} />
-              <meshStandardMaterial color="#334155" />
-            </mesh>
-          ))}
+          <mesh position={[0, -2, 1.12]}>
+            <planeGeometry args={[0.15, 8]} />
+            <meshStandardMaterial color="#315b9c" emissive="#315b9c" emissiveIntensity={0.8} transparent opacity={0.4} />
+          </mesh>
         </group>
       ))}
 
-      {/* ===================================================== */}
-      {/* SIDE WALLS */}
-      {/* ===================================================== */}
-
-      {/* left wall */}
-      <mesh position={[0, 10, -145]} rotation={[0, 0, 0]}>
-        <planeGeometry args={[1200, 40]} />
-        <meshStandardMaterial
-          color="#0b1220"
-          roughness={0.95}
-        />
-      </mesh>
-
-      {/* right wall */}
-      <mesh position={[0, 10, 105]} rotation={[0, Math.PI, 0]}>
-        <planeGeometry args={[1200, 40]} />
-        <meshStandardMaterial
-          color="#0b1220"
-          roughness={0.95}
-        />
-      </mesh>
-
-      {/* ===================================================== */}
-      {/* MASSIVE BACK INFRASTRUCTURE SILHOUETTES */}
-      {/* ===================================================== */}
-
-      {Array.from({ length: 20 }).map((_, i) => (
-        <mesh
-          key={`bg-tower-${i}`}
-          position={[
-            i * 60 - 600,
-            18 + Math.random() * 15,
-            -110 - Math.random() * 20,
-          ]}
-        >
-          <boxGeometry
-            args={[
-              12 + Math.random() * 8,
-              30 + Math.random() * 20,
-              10 + Math.random() * 5,
-            ]}
-          />
-          <meshStandardMaterial
-            color="#05070d"
-            roughness={1}
-            metalness={0}
-          />
-        </mesh>
-      ))}
-
-      {/* ===================================================== */}
-      {/* SUPPORT PILLARS */}
-      {/* ===================================================== */}
-
-      {Array.from({ length: 14 }).map((_, i) => {
-        const x = i * 80 - 520;
-
-        return (
-          <group key={`pillar-${i}`} position={[x, 10, -35]}>
-            {/* pillar */}
-            <mesh castShadow>
-              <boxGeometry args={[2.2, 22, 2.2]} />
-              <meshStandardMaterial
-                color="#1a2233"
-                roughness={0.5}
-                metalness={0.55}
-              />
-            </mesh>
-
-            {/* subtle vertical light */}
-            <mesh position={[0, -2, 1.12]}>
-              <planeGeometry args={[0.15, 8]} />
-              <meshStandardMaterial
-                color="#315b9c"
-                emissive="#315b9c"
-                emissiveIntensity={0.4}
-                transparent
-                opacity={0.25}
-              />
-            </mesh>
-          </group>
-        );
-      })}
-
-      {/* ===================================================== */}
-      {/* FOREGROUND OCCLUSION LAYER */}
-      {/* ===================================================== */}
-
-      {/* near-camera dark silhouettes */}
+      {/* 8. FOREGROUND OCCLUSION - Lower opacity for readability */}
       {[-80, -20, 40].map((x, i) => (
-        <mesh
-          key={`foreground-${i}`}
-          position={[x, 8, 25]}
-        >
+        <mesh key={`foreground-${i}`} position={[x, 8, 25]}>
           <boxGeometry args={[6, 18, 6]} />
-          <meshStandardMaterial
-            color="#02040a"
-            roughness={1}
-            metalness={0}
-            transparent
-            opacity={0.9}
-          />
+          <meshStandardMaterial color="#0f1724" roughness={1} transparent opacity={0.45} />
         </mesh>
       ))}
 
-      {/* hanging foreground cables */}
-      {Array.from({ length: 14 }).map((_, i) => (
-        <mesh
-          key={`cable-${i}`}
-          position={[i * 25 - 200, 18, 20]}
-        >
-          <cylinderGeometry args={[0.08, 0.08, 16, 6]} />
-          <meshStandardMaterial
-            color="#05070d"
-            roughness={1}
-          />
-        </mesh>
-      ))}
-
-      {/* ===================================================== */}
-      {/* AISLE LIGHT STRIPS */}
-      {/* ===================================================== */}
-
-      {[-90, -20, 60, 140].map((x, i) => (
-        <mesh
-          key={`strip-${i}`}
-          position={[x, -0.45, -20]}
-          rotation={[-Math.PI / 2, 0, 0]}
-        >
-          <planeGeometry args={[0.12, 120]} />
-          <meshStandardMaterial
-            color="#315b9c"
-            emissive="#315b9c"
-            emissiveIntensity={0.18}
-            transparent
-            opacity={0.2}
-          />
-        </mesh>
-      ))}
-
-      {/* ===================================================== */}
-      {/* AI CORE CHAMBER */}
-      {/* ===================================================== */}
-
+      {/* AI CORE CHAMBER - Hero Visibility */}
       <group position={[0, 0, -70]}>
-        {/* outer ring */}
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[16, 0.4, 24, 100]} />
-          <meshStandardMaterial
-            color="#1d4ed8"
-            emissive="#1d4ed8"
-            emissiveIntensity={0.5}
-            metalness={1}
-            roughness={0.2}
-          />
+          <meshStandardMaterial color="#1d4ed8" emissive="#1d4ed8" emissiveIntensity={1} metalness={1} transparent opacity={0.35} />
         </mesh>
-
-        {/* center pillar */}
         <mesh position={[0, 10, 0]}>
           <cylinderGeometry args={[3, 4, 20, 16]} />
-          <meshStandardMaterial
-            color="#111827"
-            metalness={0.8}
-            roughness={0.3}
-          />
+          <meshStandardMaterial color="#111827" metalness={0.8} />
         </mesh>
-
-        {/* vertical beam */}
-        <mesh position={[0, 18, 0]}>
-          <cylinderGeometry args={[0.4, 0.4, 35, 12]} />
-          <meshStandardMaterial
-            color="#60a5fa"
-            emissive="#60a5fa"
-            emissiveIntensity={1.5}
-            transparent
-            opacity={0.18}
-          />
-        </mesh>
+        {/* Core glow */}
+        <pointLight intensity={3.5} color="#315b9c" distance={30} />
       </group>
     </group>
   );
