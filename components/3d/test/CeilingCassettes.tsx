@@ -3,11 +3,6 @@
 import React from "react";
 import * as THREE from "three";
 
-export function CeilingCassettes({ lightTheme = false }: { lightTheme?: boolean }) {
-  const WORLD_WIDTH = 420;
-  const WORLD_DEPTH = 340;
-  const CEILING_Y = 90;
-
 export function CeilingCassettes() {
   const WORLD_WIDTH = 420;
   const WORLD_DEPTH = 340;
@@ -89,7 +84,5 @@ export function CeilingCassettes() {
         </mesh>
       ))}
     </group>
-  );
-}
   );
 }

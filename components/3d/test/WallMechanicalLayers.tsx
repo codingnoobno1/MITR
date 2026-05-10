@@ -3,11 +3,6 @@
 import React from "react";
 import * as THREE from "three";
 
-export function WallMechanicalLayers({ lightTheme = false }: { lightTheme?: boolean }) {
-  const WORLD_WIDTH = 420;
-  const WORLD_DEPTH = 340;
-  const WORLD_HEIGHT = 120;
-
 export function WallMechanicalLayers() {
   const WORLD_WIDTH = 420;
   const WORLD_DEPTH = 340;
@@ -134,7 +129,5 @@ export function WallMechanicalLayers() {
         </group>
       ))}
     </group>
-  );
-}
   );
 }

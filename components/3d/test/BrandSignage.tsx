@@ -9,8 +9,6 @@ export function BrandSignage() {
 
   return (
     <group>
-  return (
-    <group>
       {/* 🛡️ LEFT WALL: KARYA BUILDING SOLUTIONS */}
       <group position={[-205, 60, -40]} rotation={[0, Math.PI / 2, 0]}>
         <mesh position={[0, 0, -0.5]}>
@@ -115,9 +113,6 @@ export function BrandSignage() {
           </mesh>
         </group>
       </group>
-    </group>
-  );
-}
     </group>
   );
 }
