@@ -10,14 +10,14 @@ export function CameraRig() {
   const cameraGroup = useRef<THREE.Group>(null!);
 
   const WAYPOINTS = [
-    { pos: new THREE.Vector3(0, 18, 70), target: new THREE.Vector3(0, 12, -80) }, // Intro (Cinematic Operator)
-    { pos: new THREE.Vector3(0, 12, 35), target: new THREE.Vector3(0, 8, -60) },  // Server Aisle
-    { pos: new THREE.Vector3(0, 15, -10), target: new THREE.Vector3(0, 12, -50) }, // MLOps
-    { pos: new THREE.Vector3(-15, 8, 20), target: new THREE.Vector3(5, 5, -30) }, // Security
-    { pos: new THREE.Vector3(0, 45, 120), target: new THREE.Vector3(0, 0, -80) },  // Cloud View
+    { pos: new THREE.Vector3(17, 16, 75), target: new THREE.Vector3(-10, 8, -80) }, // Intro (Diagonal Slice)
+    { pos: new THREE.Vector3(0, 12, 35), target: new THREE.Vector3(0, 8, -60) },    // Server Aisle
+    { pos: new THREE.Vector3(0, 15, -10), target: new THREE.Vector3(0, 12, -50) },   // MLOps
+    { pos: new THREE.Vector3(-15, 8, 20), target: new THREE.Vector3(5, 5, -30) },   // Security
+    { pos: new THREE.Vector3(0, 45, 120), target: new THREE.Vector3(0, 0, -80) },    // Cloud View
   ];
 
-  const currentLookAt = useRef(new THREE.Vector3(0, 12, -80));
+  const currentLookAt = useRef(new THREE.Vector3(-10, 8, -80));
 
   useFrame((state, delta) => {
     // Scroll progress from 0 to 1
