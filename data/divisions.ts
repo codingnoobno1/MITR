@@ -5,49 +5,49 @@ export const divisions: Division[] = [
     id: 'karya',
     slug: 'karya',
     name: 'KARYA',
-    subtitle: 'Construction & Industrial Intelligence',
+    subtitle: 'Industrial Infrastructure Solutions',
     description:
-      'Digitizing and organizing the fragmented construction and real estate ecosystem using intelligent automation and infrastructure systems.',
-    longDescription: `KARYA represents our comprehensive vision for modernizing the construction and real estate industry. 
-      We tackle fragmentation through intelligent B2B networking, unified procurement systems, and infrastructure marketplaces 
-      that connect contractors, architects, and suppliers in a seamless ecosystem.`,
+      'Providing end-to-end digital solutions for the construction and real estate industries through automated procurement and project management systems.',
+    longDescription: `KARYA focuses on modernizing the construction and real estate supply chain. 
+      We resolve industry fragmentation by implementing centralized B2B networking, standardized procurement protocols, 
+      and digital marketplaces that unify contractors, architects, and suppliers into a single efficient network.`,
     icon: 'building2',
     color: '#FF6B35',
     metadata: {
-      tagline: 'Building the Future of Construction',
-      focusArea: 'Real Estate & Infrastructure Digitization',
+      tagline: 'Modernizing Industrial Operations',
+      focusArea: 'Construction & Real Estate Technology',
       established: 2024
     },
     stats: [
-      { label: 'Active Products', value: '2' },
-      { label: 'Market Focus', value: 'Construction' },
-      { label: 'Launch Status', value: 'Production' }
+      { label: 'Active Solutions', value: '2' },
+      { label: 'Core Market', value: 'Industrial' },
+      { label: 'Operational Status', value: 'Live' }
     ],
     products: [
       {
         id: 'vendor-connect',
         slug: 'vendor-connect',
         name: 'Vendor Connect',
-        description: 'Intelligent B2B supplier network and procurement.',
+        description: 'B2B supplier network and procurement platform.',
         divisionId: 'karya',
         status: 'active',
         features: [
-          'AI-powered supplier matching',
-          'Real-time procurement workflows',
-          'Contract management system',
-          'Quality assurance tracking',
-          'Instant pricing comparisons'
+          'Automated supplier matching',
+          'Standardized procurement workflows',
+          'Digital contract management',
+          'Quality compliance tracking',
+          'Real-time pricing analysis'
         ],
         details: {
           longDescription:
-            'Vendor Connect revolutionizes procurement by creating an intelligent marketplace where construction firms discover, verify, and collaborate with suppliers. Built on agentic AI systems, it automates vendor matching based on project requirements, history, and quality metrics.',
+            'Vendor Connect streamlines procurement by providing a verified marketplace for industrial firms. The platform automates the discovery and verification of suppliers, allowing for faster decision-making and reduced overhead.',
           highlights: [
-            'Reduces procurement time by 70%',
-            'Ensures quality through AI verification',
-            'Real-time supplier availability'
+            'Significant reduction in procurement cycles',
+            'Verified supplier database',
+            'Direct procurement pipeline'
           ],
           cta: {
-            text: 'Explore Vendor Connect',
+            text: 'View Solution',
             href: '#'
           }
         }
@@ -56,26 +56,26 @@ export const divisions: Division[] = [
         id: 'buildlink',
         slug: 'buildlink',
         name: 'BuildLink',
-        description: 'Unified infrastructure marketplace for contractors and architects.',
+        description: 'Project management and resource marketplace for contractors.',
         divisionId: 'karya',
         status: 'active',
         features: [
-          'Project discovery and bidding',
-          'Resource allocation optimization',
-          'Team collaboration tools',
-          'Material inventory tracking',
-          'Timeline & milestone management'
+          'Project bidding and discovery',
+          'Resource allocation tools',
+          'Collaborative workflow management',
+          'Inventory and supply tracking',
+          'Milestone and timeline monitoring'
         ],
         details: {
           longDescription:
-            'BuildLink connects the construction ecosystem by providing contractors, architects, and project managers with a unified platform to discover projects, bid collaboratively, and manage resources in real time.',
+            'BuildLink provides contractors and architects with a unified platform to manage projects, allocate resources, and coordinate with stakeholders. It serves as the primary operational dashboard for industrial projects.',
           highlights: [
-            'Connect with 10,000+ construction firms',
-            'Unified project management',
-            'Transparent bid management'
+            'Unified project monitoring',
+            'Standardized bidding process',
+            'Real-time resource tracking'
           ],
           cta: {
-            text: 'Explore BuildLink',
+            text: 'View Solution',
             href: '#'
           }
         }
@@ -86,49 +86,49 @@ export const divisions: Division[] = [
     id: 'sankalap',
     slug: 'sankalap-community',
     name: 'SANKALAP COMMUNITY',
-    subtitle: 'Innovation & Intelligent SaaS',
+    subtitle: 'Software & Operational Systems',
     description:
-      'The technological backbone for traditional computing modernization, agentic AI systems, and student-driven open-source collaboration.',
-    longDescription: `SANKALAP Community is our innovation hub focused on modernizing legacy systems through intelligent automation. 
-      We develop agentic AI agents, smart workplace orchestration tools, and collaborative platforms that bridge traditional 
-      computing with next-generation intelligence. The name reflects our commitment to collective thinking and innovation.`,
+      'Developing foundational software systems, AI-powered productivity tools, and community-driven technology solutions for the modern workforce.',
+    longDescription: `SANKALAP Community is our research and development hub focused on operational efficiency. 
+      We build productivity software, smart facility management systems, and collaborative ecosystems that integrate 
+      traditional business processes with modern automation technology.`,
     icon: 'zap',
     color: '#4A90E2',
     metadata: {
-      tagline: 'Modernizing Computing Through Intelligence',
-      focusArea: 'AI, Automation & Student Innovation',
+      tagline: 'Driving Operational Efficiency',
+      focusArea: 'SaaS & Enterprise Automation',
       established: 2024
     },
     stats: [
       { label: 'Active Products', value: '3' },
-      { label: 'Community Focus', value: 'Open Source' },
-      { label: 'Stage', value: 'Beta & Launching' }
+      { label: 'Focus Area', value: 'Productivity' },
+      { label: 'Deployment', value: 'Cloud & Desktop' }
     ],
     products: [
       {
         id: 'syncro',
         slug: 'syncro-desktop-agent',
         name: 'SYNCRO Desktop Agent',
-        description: 'AI-powered workstation orchestration.',
+        description: 'Automated workstation management and productivity software.',
         divisionId: 'sankalap',
         status: 'active',
         features: [
-          'Intelligent task orchestration',
-          'Multi-agent collaboration',
-          'Workflow automation',
-          'System optimization',
-          'Real-time monitoring dashboard'
+          'Workflow automation engine',
+          'Desktop productivity tools',
+          'Process optimization',
+          'Usage monitoring',
+          'Integrated management dashboard'
         ],
         details: {
           longDescription:
-            'SYNCRO transforms your desktop into an intelligent workspace where agentic AI agents handle complex workflows. It orchestrates multi-agent systems, automates routine tasks, and optimizes system performance in real time.',
+            'SYNCRO optimizes workstation productivity by automating routine background tasks and providing users with an integrated dashboard for managing complex workflows.',
           highlights: [
-            '60% productivity increase for knowledge workers',
-            'Multi-agent coordination engine',
-            'Natural language workflow programming'
+            'Measurable productivity gains',
+            'Reduced manual task load',
+            'Centralized workstation control'
           ],
           cta: {
-            text: 'Get SYNCRO',
+            text: 'Get Syncro',
             href: '#'
           }
         }
@@ -137,26 +137,26 @@ export const divisions: Division[] = [
         id: 'pg-connect',
         slug: 'pg-connect',
         name: 'PG CONNECT',
-        description: 'Smart accommodation and student-living ecosystem.',
+        description: 'Facility management and community living platform.',
         divisionId: 'sankalap',
         status: 'beta',
         features: [
-          'Room discovery and booking',
-          'Tenant verification system',
-          'Maintenance request management',
-          'Community engagement tools',
-          'Payment & lease automation'
+          'Facility discovery and booking',
+          'Digital verification system',
+          'Maintenance and ticket management',
+          'Resident engagement tools',
+          'Automated billing and payments'
         ],
         details: {
           longDescription:
-            'PG CONNECT reimagines student living by connecting students with quality accommodations and creating vibrant communities. AI-powered tenant matching, smart facilities management, and integrated community features make it the modern student housing platform.',
+            'PG CONNECT provides a comprehensive management platform for modern living spaces. It streamlines the entire resident lifecycle—from discovery and verification to billing and maintenance.',
           highlights: [
-            'Serving 50,000+ students',
-            'Zero hassle housing search',
-            'Smart community building'
+            'Digital end-to-end management',
+            'Automated payment collection',
+            'Streamlined facility operations'
           ],
           cta: {
-            text: 'Join PG CONNECT (Beta)',
+            text: 'Join Beta',
             href: '#'
           }
         }
@@ -165,26 +165,26 @@ export const divisions: Division[] = [
         id: 'house-helpers',
         slug: 'house-helpers',
         name: 'House Helpers',
-        description: 'Intelligent home workforce management platform.',
+        description: 'Professional service management and workforce platform.',
         divisionId: 'sankalap',
         status: 'launching',
         features: [
-          'Service provider marketplace',
-          'Background verification system',
-          'Scheduling and dispatch',
-          'Quality ratings & reviews',
-          'Secure payment processing'
+          'Professional service marketplace',
+          'Identity verification system',
+          'Scheduling and dispatch tools',
+          'Service quality monitoring',
+          'Secure transaction processing'
         ],
         details: {
           longDescription:
-            'House Helpers connects families with vetted home service professionals—cleaners, cooks, gardeners, and more. Our intelligent matching algorithm, comprehensive background checks, and quality assurance system ensure peace of mind.',
+            'House Helpers connects professional service providers with households through a secure, managed marketplace. The platform handles verification, scheduling, and payment processing to ensure service reliability.',
           highlights: [
-            'Background-verified professionals',
-            'AI-powered matching',
-            'Guaranteed service quality'
+            'Verified professional network',
+            'Standardized service quality',
+            'Secure managed transactions'
           ],
           cta: {
-            text: 'Join Waitlist (Launching Soon)',
+            text: 'Join Waitlist',
             href: '#'
           }
         }
@@ -192,10 +192,6 @@ export const divisions: Division[] = [
     ]
   }
 ];
-
-/**
- * Helper functions for division data access
- */
 
 export function getDivisionBySlug(slug: string): Division | undefined {
   return divisions.find(d => d.slug === slug);
