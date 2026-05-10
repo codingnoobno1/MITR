@@ -11,6 +11,7 @@ import { EcosystemRoadmap } from "@/components/sections/EcosystemRoadmap";
 import { TeamSection } from "@/components/sections/team";
 import { TechStack } from "@/components/animations/TechStack";
 import { FutureVision } from "@/components/sections/FutureVision";
+import { BrandIntroduction } from "@/components/sections/BrandIntroduction";
 import { Footer } from "@/components/layout/Footer";
 
 export default function HomePage() {
@@ -19,8 +20,11 @@ export default function HomePage() {
       <Navbar />
       
       <div className="relative z-0">
-        {/* Section 1: Hero / Brand Philosophy */}
+        {/* Section 1: Interactive 3D World (Main Focus) */}
         <HeroPhilosophy />
+
+        {/* Section 2: Brand Identity / Heading (Moved from Hero) */}
+        <BrandIntroduction />
         
         {/* Section: Core Divisions */}
         <DivisionsSection />

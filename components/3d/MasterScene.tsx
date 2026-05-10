@@ -27,7 +27,7 @@ import { CinematicCameraRail } from "./environment/CinematicCameraRail";
 import { DataFlow, AmbientDust } from "./fx/Effects";
 import { Maximize2, Minimize2 } from "lucide-react";
 
-export function MITRInfrastructureWorld() {
+export function MITRInfrastructureWorld({ interactive = true }: { interactive?: boolean }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -57,20 +57,20 @@ export function MITRInfrastructureWorld() {
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.1
         }}
-        shadows
+        shadows={{ type: THREE.PCFShadowMap }}
       >
-        <PerspectiveCamera makeDefault position={[0, 12, 80]} fov={45} />
-        <CinematicCameraRail />
+        <PerspectiveCamera makeDefault position={[0, 15, 120]} fov={45} />
+        {!isFullscreen && !interactive ? <CinematicCameraRail /> : null}
         
         {/* User can still override for manual exploration */}
         <OrbitControls 
-          enablePan
-          enableZoom
-          enableRotate
+          enablePan={interactive || isFullscreen}
+          enableZoom={interactive || isFullscreen}
+          enableRotate={interactive || isFullscreen}
           minDistance={10}
-          maxDistance={300}
-          minPolarAngle={0.1}
-          maxPolarAngle={Math.PI / 2.05}
+          maxDistance={500}
+          minPolarAngle={0}
+          maxPolarAngle={Math.PI}
           target={[0, 5, -20]}
           enableDamping
           dampingFactor={0.03}
