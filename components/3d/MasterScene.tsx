@@ -63,18 +63,20 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
         <PerspectiveCamera makeDefault position={[0, 25, 150]} fov={45} />
         {!isFullscreen && !interactive ? <CinematicCameraRail /> : null}
         
-        {/* 🎬 STABLE CAMERA CONTROLS - Professional 3D Look */}
+        {/* 🎬 HIGH-STABILITY GAME-LIKE CONTROLS */}
         <OrbitControls 
-          enablePan={interactive || isFullscreen}
+          enablePan={false} // Disable panning to prevent 'drifting'
           enableZoom={interactive || isFullscreen}
           enableRotate={interactive || isFullscreen}
-          minDistance={20}
-          maxDistance={450}
-          minPolarAngle={0.1} // Prevent looking directly up
-          maxPolarAngle={Math.PI / 2.1} // Strictly prevent looking through the floor
-          target={[0, 15, -20]}
+          minDistance={30} // Tighter min distance
+          maxDistance={400} // Tighter max distance
+          minPolarAngle={0.2}
+          maxPolarAngle={Math.PI / 2.15} // Strict floor limit
+          target={[0, 18, -20]} // Stable focal point
           enableDamping
-          dampingFactor={0.04}
+          dampingFactor={0.12} // Increased for 'tighter', more stable response
+          rotateSpeed={0.5} // Slower, more deliberate rotation
+          zoomSpeed={0.8}
         />
         
         <Atmosphere />
@@ -156,7 +158,7 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
       {/* Interaction Hint */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-40">
         <div className="flex items-center gap-4 text-[10px] text-white font-medium tracking-[0.2em] uppercase">
-          <span>Move Mouse to Explore</span>
+          <span>Rotate to Explore</span>
           <div className="w-12 h-[1px] bg-white/20" />
           <span>Scroll to Zoom</span>
         </div>
