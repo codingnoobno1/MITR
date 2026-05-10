@@ -41,14 +41,14 @@ export function TestArchitecture() {
                    <meshStandardMaterial color="#f8fafc" roughness={0.1} metalness={0.2} />
                 </mesh>
                 
-                {/* Metallic Strips */}
+                {/* Floor Glow Trenches (Blue/White Light Strips) */}
                 <mesh position={[7.2, 0, 0]}>
                    <boxGeometry args={[0.2, 0.1, 14.4]} />
-                   <meshStandardMaterial color="#cbd5e1" metalness={1} />
+                   <meshStandardMaterial color="#ffffff" emissive="#e0f2fe" emissiveIntensity={1.5} metalness={1} />
                 </mesh>
                 <mesh position={[0, 0, 7.2]}>
                    <boxGeometry args={[14.4, 0.1, 0.2]} />
-                   <meshStandardMaterial color="#cbd5e1" metalness={1} />
+                   <meshStandardMaterial color="#ffffff" emissive="#e0f2fe" emissiveIntensity={1.5} metalness={1} />
                 </mesh>
               </group>
             );
