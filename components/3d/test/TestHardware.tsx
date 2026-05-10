@@ -23,17 +23,14 @@ export function TestHardware() {
          {/* 🛡️ COMMAND TERMINALS (Detailed) */}
          {[-15, 0, 15].map((x, i) => (
            <group key={`terminal-${i}`} position={[x, 2, -10]}>
-              {/* Stand */}
               <mesh position={[0, 2, 0]}>
                  <boxGeometry args={[1, 4, 1]} />
                  <meshStandardMaterial color="#334155" />
               </mesh>
-              {/* Console */}
               <mesh position={[0, 4, 0]} rotation={[-Math.PI / 4, 0, 0]}>
                  <boxGeometry args={[12, 1, 8]} />
                  <meshStandardMaterial color="#0b1120" emissive="#3b82f6" emissiveIntensity={0.5} />
               </mesh>
-              {/* Telemetry Display */}
               <mesh position={[0, 4.6, -0.1]} rotation={[-Math.PI / 4, 0, 0]}>
                  <planeGeometry args={[10, 6]} />
                  <meshBasicMaterial color="#3b82f6" transparent opacity={0.2} />
@@ -47,7 +44,6 @@ export function TestHardware() {
                <boxGeometry args={[80, 0.2, 0.2]} />
                <meshStandardMaterial color="#475569" />
             </mesh>
-            {/* Glass Guard */}
             <mesh position={[0, -1.5, 0]}>
                <boxGeometry args={[80, 3, 0.1]} />
                <meshStandardMaterial color="#60a5fa" transparent opacity={0.1} />
@@ -59,9 +55,10 @@ export function TestHardware() {
       <group position={[0, 0, 0]}>
          {Array.from({ length: 5 }).map((_, row) => (
            Array.from({ length: 5 }).map((_, col) => {
-             const x = col * 24 - 48; // Wider spacing for detailed modules
-             const z = row * 30 - 60;  // Deeper spacing
-             return <ServerModule key={`server-${row}-${col}`} position={[x, 0, z]} />;
+             const x = col * 24 - 48; 
+             const z = row * 30 - 60;  
+             const serverId = row * 5 + col; // Unique ID per server
+             return <ServerModule key={`server-${serverId}`} serverId={serverId} position={[x, 0, z]} />;
            })
          ))}
       </group>
@@ -69,7 +66,7 @@ export function TestHardware() {
       {/* 🛡️ CENTRAL INFRASTRUCTURE MONUMENT */}
       <MITRCoreSystem />
       
-      {/* 🛡️ DATA STREAM OVERLAYS (Operational Systems) */}
+      {/* 🛡️ DATA STREAM OVERLAYS */}
       <group position={[0, 40, -40]}>
         {Array.from({ length: 12 }).map((_, i) => (
           <DataStream key={`stream-${i}`} index={i} />
@@ -86,7 +83,6 @@ function DataStream({ index }: { index: number }) {
     <mesh 
       ref={meshRef} 
       position={[(index % 4) * 40 - 60, 0, (index / 4) * 40 - 60]}
-      rotation={[0, 0, 0]}
     >
        <cylinderGeometry args={[0.05, 0.05, 100, 8]} />
        <meshBasicMaterial color="#60a5fa" transparent opacity={0.05} />

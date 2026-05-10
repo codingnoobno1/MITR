@@ -4,7 +4,7 @@ import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-export function ServerModule({ position }: { position: [number, number, number] }) {
+export function ServerModule({ position, serverId = 0 }: { position: [number, number, number], serverId?: number }) {
   const SERVER_WIDTH = 10;
   const SERVER_HEIGHT = 14;
   const SERVER_DEPTH = 8;
@@ -67,8 +67,8 @@ export function ServerModule({ position }: { position: [number, number, number] 
                   emissiveIntensity={0.2}
                 />
              </mesh>
-             {/* 💡 "SEVERE WORK" ANIMATED LEDS */}
-             <StatusLED index={i} />
+             {/* 💡 DEEPLY RANDOMIZED "SEVERE WORK" LEDS */}
+             <StatusLED bladeIndex={i} serverId={serverId} />
           </group>
         </group>
       ))}
@@ -80,8 +80,8 @@ export function ServerModule({ position }: { position: [number, number, number] 
       </mesh>
       
       {/* 🛡️ LAYER 7: CABLE PORTS */}
-      {[-3, -1, 1, 3].map((x, i) => (
-        <mesh key={`port-${i}`} position={[x, 0.8, 4.35]} rotation={[Math.PI / 2, 0, 0]}>
+      {[-3, -1, 1, 3].map((x, j) => (
+        <mesh key={`port-${j}`} position={[x, 0.8, 4.35]} rotation={[Math.PI / 2, 0, 0]}>
            <cylinderGeometry args={[0.2, 0.2, 0.1, 16]} />
            <meshStandardMaterial color="#020617" />
         </mesh>
@@ -90,17 +90,22 @@ export function ServerModule({ position }: { position: [number, number, number] 
   );
 }
 
-function StatusLED({ index }: { index: number }) {
+function StatusLED({ bladeIndex, serverId }: { bladeIndex: number, serverId: number }) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const glowRef = useRef<THREE.Mesh>(null!);
   
-  const config = useMemo(() => ({
-    baseRate: 4 + (index % 5) * 6, // High speed base
-    burstRate: 15 + (index % 3) * 10, // Stutter burst speed
-    pattern: index % 3, // 0: Burst, 1: Rapid Stutter, 2: Heavy Load Pulse
-    color: index % 5 === 0 ? "#ef4444" : index % 3 === 0 ? "#f59e0b" : "#3b82f6", // Red/Amber/Blue
-    offset: index * 0.4
-  }), [index]);
+  // Create a deep unique seed for this specific LED
+  const config = useMemo(() => {
+    const seed = serverId * 100 + bladeIndex;
+    return {
+      baseRate: 5 + (seed % 7) * 4,
+      burstRate: 20 + (seed % 13) * 15,
+      pattern: seed % 4, // 0: Burst, 1: Glitch, 2: Heavy Load, 3: Sync Stutter
+      color: seed % 7 === 0 ? "#ef4444" : seed % 4 === 0 ? "#f59e0b" : "#3b82f6",
+      offset: seed * 0.317, // Irregular offset
+      dutyCycle: 0.3 + (seed % 10) * 0.05
+    };
+  }, [bladeIndex, serverId]);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
@@ -111,39 +116,47 @@ function StatusLED({ index }: { index: number }) {
       let intensity = 0;
       let glowScale = 1;
 
-      // 🎭 "SEVERE WORK" PATTERN LOGIC
+      // 🎭 DEEPLY RANDOMIZED BEHAVIOR
+      const seedTime = t + config.offset;
+
       if (config.pattern === 0) {
-        // Pattern 0: Data Burst (Long pause, then rapid-fire bursts)
-        const cycle = (t + config.offset) % 4;
-        if (cycle < 0.8) {
-           intensity = Math.sin(t * config.burstRate) > 0 ? 15 : 0;
-           glowScale = 2;
+        // Pattern 0: Irregular Data Bursts
+        const cycle = seedTime % (2 + (serverId % 3));
+        if (cycle < 0.5) {
+           intensity = Math.sin(t * config.burstRate) > 0 ? 25 : 0;
+           glowScale = 2.5;
         } else {
-           intensity = 0.2;
-           glowScale = 0.5;
+           intensity = 0.5;
+           glowScale = 0.6;
         }
       } else if (config.pattern === 1) {
-        // Pattern 1: Rapid Stutter (Constant flickering, high intensity)
-        intensity = Math.random() > 0.4 ? 12 : 2;
-        glowScale = 1.2 + Math.random() * 0.8;
+        // Pattern 1: Glitch Work (Randomized rapid flicker)
+        const noise = Math.sin(t * 50) * Math.cos(t * 23);
+        intensity = noise > 0 ? 15 : 0.1;
+        glowScale = 1.5 + noise * 0.5;
+      } else if (config.pattern === 2) {
+        // Pattern 2: Heavy Compute Pulse (Exponential surge)
+        const p = Math.sin(t * config.baseRate);
+        intensity = 1 + Math.pow(Math.max(0, p), 3) * 35;
+        glowScale = 1 + Math.max(0, p) * 2;
       } else {
-        // Pattern 2: Heavy Load Pulse (Rapid deep pulsing)
-        const p = Math.sin(t * config.baseRate + config.offset);
-        intensity = 1 + Math.pow((p * 0.5 + 0.5), 4) * 20;
-        glowScale = 1 + (p * 0.5 + 0.5) * 1.5;
+        // Pattern 3: Sequential Cluster Sync (Simulates raid/parity work)
+        const syncTime = (t * 8 + serverId) % 16;
+        const isActive = Math.abs(syncTime - bladeIndex) < 1.5;
+        intensity = isActive ? 20 : 0.5;
+        glowScale = isActive ? 2.2 : 0.8;
       }
 
       mat.emissiveIntensity = intensity;
-      glowMat.opacity = Math.min(intensity * 0.05, 0.4);
+      glowMat.opacity = Math.min(intensity * 0.03, 0.5);
       glowRef.current.scale.setScalar(glowScale);
     }
   });
 
   return (
     <group position={[0.6, 0, 0.15]}>
-      {/* Primary LED Core */}
       <mesh ref={meshRef}>
-        <planeGeometry args={[0.2, 0.2]} />
+        <planeGeometry args={[0.25, 0.25]} />
         <meshStandardMaterial 
           color={config.color} 
           emissive={config.color}
@@ -151,10 +164,8 @@ function StatusLED({ index }: { index: number }) {
           transparent
         />
       </mesh>
-      
-      {/* Volumetric Glow (Visual feedback for "severe" work) */}
       <mesh ref={glowRef}>
-        <planeGeometry args={[0.5, 0.5]} />
+        <planeGeometry args={[0.6, 0.6]} />
         <meshBasicMaterial 
           color={config.color} 
           transparent 
