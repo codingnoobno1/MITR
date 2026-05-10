@@ -52,11 +52,11 @@ export function AmbientDust() {
     <Points positions={points}>
       <PointMaterial
         transparent
-        color={palette.slate}
-        size={0.03}
+        color={palette.silver}
+        size={0.01}
         sizeAttenuation={true}
         depthWrite={false}
-        opacity={0.05}
+        opacity={0.03}
       />
     </Points>
   );

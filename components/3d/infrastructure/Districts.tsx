@@ -11,9 +11,10 @@ function ServerRack({ position, label, active = false }: { position: [number, nu
   const lightRef = useRef<THREE.Mesh>(null!);
   
   useFrame((state) => {
-    if (active) {
+    if (active && lightRef.current) {
       const t = state.clock.getElapsedTime();
-      lightRef.current.material.opacity = (Math.sin(t * 10) + 1) / 2;
+      const material = lightRef.current.material as THREE.MeshStandardMaterial;
+      if (material) material.opacity = (Math.sin(t * 10) + 1) / 2;
     }
   });
 
