@@ -23,8 +23,8 @@ export function TestHardware() {
         position={[0, 80, 0]} 
         angle={0.15} 
         penumbra={1} 
-        intensity={20} 
-        distance={200} 
+        intensity={3000} 
+        distance={250} 
         color="#e0f2fe" 
         castShadow
       />
@@ -78,9 +78,9 @@ export function TestHardware() {
       </group>
 
       {/* 💡 ACCENT LIGHTS (Very Selective) */}
-      <pointLight position={[0, 20, -100]} intensity={2} distance={150} color="#38bdf8" />
-      <pointLight position={[-60, 15, 20]} intensity={1} distance={100} color="#1e40af" />
-      <pointLight position={[60, 15, 20]} intensity={1} distance={100} color="#1e40af" />
+      <pointLight position={[0, 20, -100]} intensity={500} distance={150} color="#38bdf8" />
+      <pointLight position={[-60, 15, 20]} intensity={250} distance={100} color="#1e40af" />
+      <pointLight position={[60, 15, 20]} intensity={250} distance={100} color="#1e40af" />
 
       {/* DATA STREAMS */}
       <group position={[0, 40, -40]}>

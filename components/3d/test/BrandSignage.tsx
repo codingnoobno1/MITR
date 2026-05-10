@@ -28,7 +28,6 @@ export function BrandSignage() {
           color="#3b82f6"
           anchorX="left"
           anchorY="middle"
-          font="https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxKKTU1Kg.woff"
         >
           KARYA
           <meshStandardMaterial color="#3b82f6" emissive="#3b82f6" emissiveIntensity={0.4} />
