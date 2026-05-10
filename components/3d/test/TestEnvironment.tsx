@@ -2,6 +2,7 @@
 
 import React, { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import { Environment } from "@react-three/drei";
 import * as THREE from "three";
 
 export function TestEnvironment() {
@@ -43,7 +44,10 @@ export function TestEnvironment() {
       />
 
       {/* 2. HIGH AMBIENT FILL */}
-      <ambientLight intensity={0.6} color="#f8fafc" />
+      <ambientLight intensity={0.35} color="#f8fafc" />
+      
+      {/* 🏙️ GLOBAL REFLECTION SYSTEM */}
+      <Environment preset="city" />
       
       {/* 3. SKY/GROUND BOUNCE */}
       <hemisphereLight 
@@ -100,6 +104,14 @@ export function TestEnvironment() {
           depthWrite={false}
         />
       </points>
+
+      {/* 🌬️ VOLUMETRIC LIGHT SHAFTS */}
+      {[-80, -40, 0, 40, 80].map((z, i) => (
+        <mesh key={`volumetric-${i}`} position={[0, 44, z]}>
+           <boxGeometry args={[400, 88, 4]} />
+           <meshBasicMaterial color="#e0f2fe" transparent opacity={0.015} blending={THREE.AdditiveBlending} depthWrite={false} />
+        </mesh>
+      ))}
     </>
   );
 }

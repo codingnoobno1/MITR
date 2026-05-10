@@ -27,9 +27,9 @@ export function TestArchitecture() {
         <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
           <planeGeometry args={[WORLD_WIDTH, WORLD_DEPTH]} />
           <meshStandardMaterial 
-            color="#f1f5f9" 
-            roughness={0.05} 
-            metalness={0.9} 
+            color="#0f172a" 
+            roughness={0.04} 
+            metalness={0.85} 
           />
         </mesh>
 
@@ -54,6 +54,14 @@ export function TestArchitecture() {
                    <boxGeometry args={[14.4, 0.1, 0.2]} />
                    <meshStandardMaterial color="#ffffff" emissive="#38bdf8" emissiveIntensity={3.0} metalness={1} />
                 </mesh>
+
+                {/* Industrial Cable Hatches */}
+                {i % 4 === 0 && j % 4 === 0 && (
+                  <mesh position={[0, 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                    <planeGeometry args={[4, 4]} />
+                    <meshStandardMaterial color="#cbd5e1" roughness={0.7} metalness={0.5} />
+                  </mesh>
+                )}
               </group>
             );
           })
@@ -95,6 +103,23 @@ export function TestArchitecture() {
            ))}
         </group>
       ))}
+      {/* 🛡️ FOREGROUND OBSERVATION DECK */}
+      <group position={[0, 0, 140]}>
+        {/* Glass Barrier */}
+        <mesh position={[0, 3, -15]}>
+           <boxGeometry args={[120, 6, 0.5]} />
+           <meshStandardMaterial color="#e2e8f0" transparent opacity={0.22} roughness={0.08} metalness={0.9} />
+        </mesh>
+        {/* Command Rail */}
+        <mesh position={[0, 6, -15]} rotation={[0, 0, Math.PI / 2]}>
+           <cylinderGeometry args={[0.3, 0.3, 120, 16]} />
+           <meshStandardMaterial color="#1e293b" metalness={0.8} roughness={0.3} />
+        </mesh>
+        <mesh position={[0, 6, -15]}>
+           <boxGeometry args={[120, 0.5, 1.5]} />
+           <meshStandardMaterial color="#334155" metalness={0.8} />
+        </mesh>
+      </group>
     </group>
   );
 }

@@ -31,9 +31,9 @@ export function CeilingCassettes({ lightTheme = false }: { lightTheme?: boolean 
                  <meshStandardMaterial color={colors.frame} roughness={0.5} metalness={0.3} />
               </mesh>
               
-              {/* 🛡️ LAYER 2: RECESSED CENTER */}
-              <mesh position={[0, 1.5, 0]}>
-                 <boxGeometry args={[30, 2, 36]} />
+              {/* 🛡️ LAYER 2: DEEP RECESSED CENTER */}
+              <mesh position={[0, 4.5, 0]}>
+                 <boxGeometry args={[30, 8, 36]} />
                  <meshStandardMaterial color={colors.recess} roughness={0.6} />
               </mesh>
 
@@ -57,22 +57,36 @@ export function CeilingCassettes({ lightTheme = false }: { lightTheme?: boolean 
                 </mesh>
               ))}
 
-              {/* 🛡️ LAYER 5: ACCESS HATCHES (Micro-detail) */}
+              {/* 🛡️ LAYER 5: ACCESS HATCHES & HVAC DUCTS */}
               <mesh position={[12, 1.8, 14]}>
                  <boxGeometry args={[4, 0.1, 4]} />
                  <meshStandardMaterial color={colors.hatch} metalness={0.4} />
               </mesh>
+
+              {/* Suspended Vent Duct */}
+              {j % 2 === 0 && (
+                <mesh position={[0, -2.5, 0]}>
+                   <cylinderGeometry args={[1.5, 1.5, 38, 16]} rotation={[Math.PI / 2, 0, 0]} />
+                   <meshStandardMaterial color={colors.metal || "#94a3b8"} roughness={0.4} metalness={0.7} envMapIntensity={1.5} />
+                </mesh>
+              )}
             </group>
           );
         })
       ))}
 
-      {/* 🛡️ STRUCTURAL CHANNELS (Deep background superstructure) */}
+      {/* 🛡️ STRUCTURAL CHANNELS (Varying heights for depth) */}
       {Array.from({ length: 6 }).map((_, i) => (
-        <mesh key={`channel-${i}`} position={[0, 4, i * 60 - 150]}>
-           <boxGeometry args={[WORLD_WIDTH, 8, 12]} />
-           <meshStandardMaterial color={colors.channel} roughness={0.4} metalness={0.3} />
-        </mesh>
+        <group key={`channel-${i}`} position={[0, i % 2 === 0 ? 8 : 14, i * 60 - 150]}>
+          <mesh>
+             <boxGeometry args={[WORLD_WIDTH, 12, 12]} />
+             <meshStandardMaterial color={colors.channel} roughness={0.4} metalness={0.3} />
+          </mesh>
+          <mesh position={[0, -6.5, 0]}>
+             <boxGeometry args={[WORLD_WIDTH, 1, 14]} />
+             <meshStandardMaterial color={colors.rib} metalness={0.8} />
+          </mesh>
+        </group>
       ))}
     </group>
   );

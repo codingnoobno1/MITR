@@ -53,16 +53,16 @@ export function TestHardware() {
 
       {/* SERVER FIELD */}
       <group position={[0, 0, 0]}>
-         {Array.from({ length: 8 }).map((_, row) => (
+         {Array.from({ length: 5 }).map((_, row) => (
            <group key={`row-${row}`}>
-             {Array.from({ length: 8 }).map((_, col) => {
-               const x = col * 18 - 63;
-               const z = row * 24 - 84;
-               const serverId = row * 8 + col;
+             {Array.from({ length: 5 }).map((_, col) => {
+               const x = col * 32 - 64; // Spaced out
+               const z = row * 40 - 80;
+               const serverId = row * 5 + col;
                return <ServerModule key={`server-${serverId}`} serverId={serverId} position={[x, 0, z]} />;
              })}
              {/* Aisle LED strip */}
-             <mesh position={[0, 0.05, row * 24 - 72]}>
+             <mesh position={[0, 0.05, row * 40 - 60]}>
                <boxGeometry args={[160, 0.1, 0.4]} />
                <meshStandardMaterial color="#ffffff" emissive="#38bdf8" emissiveIntensity={3} />
              </mesh>

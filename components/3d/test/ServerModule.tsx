@@ -11,10 +11,16 @@ export function ServerModule({ position, serverId = 0 }: { position: [number, nu
 
   return (
     <group position={position}>
-      {/* 🛡️ LAYER 1: OUTER REINFORCED SHELL (Dark Metal) */}
+      {/* 🛡️ LAYER 1: OUTER REINFORCED SHELL (Dark Metal, Beveled Base) */}
       <mesh position={[0, SERVER_HEIGHT / 2, 0]} castShadow>
         <boxGeometry args={[SERVER_WIDTH, SERVER_HEIGHT, SERVER_DEPTH]} />
-        <meshStandardMaterial color="#111827" roughness={0.3} metalness={0.7} transparent opacity={0.9} />
+        <meshStandardMaterial color="#111827" roughness={0.3} metalness={0.8} />
+      </mesh>
+      
+      {/* Outer Bevel Frame */}
+      <mesh position={[0, SERVER_HEIGHT / 2, SERVER_DEPTH / 2 + 0.1]}>
+        <boxGeometry args={[SERVER_WIDTH + 0.4, SERVER_HEIGHT + 0.4, 0.2]} />
+        <meshStandardMaterial color="#0f172a" roughness={0.5} metalness={0.9} />
       </mesh>
 
       {/* Side Handles */}
@@ -31,40 +37,47 @@ export function ServerModule({ position, serverId = 0 }: { position: [number, nu
         </group>
       ))}
 
-      {/* 🛡️ LAYER 2: INNER CHASSIS */}
-      <mesh position={[0, SERVER_HEIGHT / 2, 0.4]}>
-        <boxGeometry args={[SERVER_WIDTH - 0.8, SERVER_HEIGHT - 1.2, SERVER_DEPTH]} />
-        <meshStandardMaterial color="#0f172a" roughness={0.8} />
+      {/* 🛡️ LAYER 2: INNER CHASSIS (Deep Recess) */}
+      <mesh position={[0, SERVER_HEIGHT / 2, -1]}>
+        <boxGeometry args={[SERVER_WIDTH - 1.2, SERVER_HEIGHT - 1.6, SERVER_DEPTH - 2]} />
+        <meshStandardMaterial color="#020617" roughness={0.9} />
       </mesh>
 
       {/* 🛡️ LAYER 3: SERVER BLADE UNITS */}
       {Array.from({ length: 12 }).map((_, i) => (
-        <group key={`blade-${i}`} position={[0, i * 1.4 + 2, 4.2]}>
+        <group key={`blade-${i}`} position={[0, i * 1.4 + 2, 3.0]}>
+          {/* Main Blade Body */}
           <mesh>
-            <boxGeometry args={[SERVER_WIDTH - 1.2, 0.9, 0.8]} />
-            <meshStandardMaterial color="#1e293b" metalness={0.6} roughness={0.3} />
+            <boxGeometry args={[SERVER_WIDTH - 1.6, 1.0, 3]} />
+            <meshStandardMaterial color="#1e293b" metalness={0.7} roughness={0.4} />
           </mesh>
           
-          {/* 🛡️ LAYER 4: COOLING VENTS */}
-          <mesh position={[0, 0, 0.41]}>
-             <planeGeometry args={[7, 0.6]} />
+          {/* Front Beveled Face */}
+          <mesh position={[0, 0, 1.55]}>
+            <boxGeometry args={[SERVER_WIDTH - 1.8, 0.8, 0.1]} />
+            <meshStandardMaterial color="#334155" metalness={0.9} roughness={0.2} />
+          </mesh>
+          
+          {/* 🛡️ LAYER 4: COOLING VENTS (Segmented) */}
+          <mesh position={[-1, 0, 1.61]}>
+             <planeGeometry args={[4, 0.5]} />
              <meshStandardMaterial color="#020617" roughness={0.9} />
           </mesh>
-          {Array.from({ length: 12 }).map((_, j) => (
-            <mesh key={`vent-${j}`} position={[j * 0.5 - 2.75, 0, 0.42]}>
-               <boxGeometry args={[0.05, 0.5, 0.05]} />
+          {Array.from({ length: 8 }).map((_, j) => (
+            <mesh key={`vent-${j}`} position={[j * 0.4 - 2.4, 0, 1.62]}>
+               <boxGeometry args={[0.05, 0.4, 0.05]} />
                <meshBasicMaterial color="#111827" />
             </mesh>
           ))}
 
           {/* 🛡️ LAYER 5: TELEMETRY & LED STRIPS */}
-          <group position={[3.5, 0, 0.45]}>
+          <group position={[2.5, 0, 1.65]}>
              <mesh>
-                <planeGeometry args={[0.8, 0.2]} />
+                <planeGeometry args={[1.2, 0.3]} />
                 <meshStandardMaterial 
                   color={i % 3 === 0 ? "#1e3a8a" : "#0f172a"} 
                   emissive={i % 3 === 0 ? "#22d3ee" : "#3b82f6"}
-                  emissiveIntensity={0.3}
+                  emissiveIntensity={0.5}
                 />
              </mesh>
              {/* 💡 DEEPLY RANDOMIZED "SEVERE WORK" LEDS */}
@@ -88,13 +101,26 @@ export function ServerModule({ position, serverId = 0 }: { position: [number, nu
       ))}
 
       {/* 🛡️ FRONT LED STRIPS (Vertical Edges) */}
-      <mesh position={[-SERVER_WIDTH / 2 + 0.1, SERVER_HEIGHT / 2, SERVER_DEPTH / 2 + 0.05]}>
+      <mesh position={[-SERVER_WIDTH / 2 + 0.1, SERVER_HEIGHT / 2, SERVER_DEPTH / 2 + 0.15]}>
          <boxGeometry args={[0.1, SERVER_HEIGHT - 0.4, 0.1]} />
          <meshStandardMaterial color="#ffffff" emissive="#3b82f6" emissiveIntensity={3} />
       </mesh>
-      <mesh position={[SERVER_WIDTH / 2 - 0.1, SERVER_HEIGHT / 2, SERVER_DEPTH / 2 + 0.05]}>
+      <mesh position={[SERVER_WIDTH / 2 - 0.1, SERVER_HEIGHT / 2, SERVER_DEPTH / 2 + 0.15]}>
          <boxGeometry args={[0.1, SERVER_HEIGHT - 0.4, 0.1]} />
          <meshStandardMaterial color="#ffffff" emissive="#3b82f6" emissiveIntensity={3} />
+      </mesh>
+
+      {/* 🛡️ GLASS CABINET DOOR */}
+      <mesh position={[0, SERVER_HEIGHT / 2, SERVER_DEPTH / 2 + 0.2]}>
+         <boxGeometry args={[SERVER_WIDTH - 0.4, SERVER_HEIGHT - 0.4, 0.1]} />
+         <meshStandardMaterial 
+            color="#0f172a" 
+            transparent 
+            opacity={0.22} 
+            roughness={0.08} 
+            metalness={0.9} 
+            envMapIntensity={2.0} 
+         />
       </mesh>
     </group>
   );

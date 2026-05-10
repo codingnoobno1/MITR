@@ -30,7 +30,6 @@ export function BrandSignage() {
           color="#2563eb"
           anchorX="left"
           anchorY="middle"
-          font="/fonts/Inter-Bold.ttf"
           characters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!"
         >
           KARYA
@@ -42,7 +41,6 @@ export function BrandSignage() {
           color="#334155"
           anchorX="left"
           anchorY="middle"
-          font="/fonts/Inter-Regular.ttf"
         >
           BUILDING SOLUTIONS
         </Text>
@@ -71,7 +69,6 @@ export function BrandSignage() {
           color="#16a34a"
           anchorX="left"
           anchorY="middle"
-          font="/fonts/Inter-Bold.ttf"
         >
           SANKALAP
           <meshStandardMaterial color="#16a34a" emissive="#22c55e" emissiveIntensity={1} />
@@ -82,7 +79,6 @@ export function BrandSignage() {
           color="#334155"
           anchorX="left"
           anchorY="middle"
-          font="/fonts/Inter-Regular.ttf"
         >
           IGNITING POSSIBILITIES
         </Text>

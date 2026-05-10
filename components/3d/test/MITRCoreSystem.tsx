@@ -113,7 +113,6 @@ export function MITRCoreSystem() {
               color="#38bdf8"
               anchorX="center"
               anchorY="middle"
-              font="/fonts/Inter-Bold.ttf"
             >
               INFRASTRUCTURE FOR A DIGITAL FUTURE
               <meshStandardMaterial color="#38bdf8" emissive="#38bdf8" emissiveIntensity={2} />
