@@ -42,7 +42,7 @@ export function TeamSection() {
     <section id="team" className="py-40 bg-white relative overflow-hidden border-t border-slate-100">
       {/* Background Text */}
       <div className="absolute inset-0 opacity-[0.01] pointer-events-none select-none overflow-hidden">
-        <div className="text-[50rem] font-black text-slate-950 -translate-x-1/4 -translate-y-1/4 uppercase">CORE</div>
+        <div className="text-[20rem] md:text-[30rem] font-black text-slate-950 -translate-x-1/4 -translate-y-1/4 uppercase">CORE</div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -58,7 +58,7 @@ export function TeamSection() {
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              className="text-6xl md:text-[10rem] font-heading font-black text-slate-950 tracking-tighter leading-[0.75] uppercase"
+              className="text-5xl md:text-8xl font-heading font-black text-slate-950 tracking-tighter leading-[0.9] uppercase"
             >
               OPERATIONAL <br />
               <span className="text-blue-600">LEADERSHIP</span>

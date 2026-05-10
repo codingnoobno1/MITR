@@ -42,7 +42,7 @@ export function ArchitectureDeepDive() {
     <section className="py-40 bg-white relative overflow-hidden border-y border-slate-100">
       {/* Decorative Technical Elements */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none select-none z-0">
-         <div className="text-[30rem] font-black text-slate-900 rotate-90 translate-x-1/2">TECH</div>
+         <div className="text-[15rem] md:text-[20rem] font-black text-slate-900 rotate-90 translate-x-1/2">TECH</div>
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -59,7 +59,7 @@ export function ArchitectureDeepDive() {
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              className="text-7xl md:text-8xl font-heading font-black text-slate-950 tracking-tighter leading-[0.8] mb-12 uppercase"
+              className="text-5xl md:text-8xl font-heading font-black text-slate-950 tracking-tighter leading-[0.9] mb-12 uppercase"
             >
               THE <br />
               <span className="text-blue-600">STACK</span> <br />
