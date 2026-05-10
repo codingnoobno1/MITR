@@ -2,33 +2,60 @@
 
 import React, { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Points, PointMaterial, Line, Float, PerspectiveCamera } from "@react-three/drei";
+import { Points, PointMaterial, Line, Float, PerspectiveCamera, Grid, Box } from "@react-three/drei";
 import * as THREE from "three";
 
-// Individual Pulse Component
-function ElectricPulse({ path, delay = 0 }: { path: THREE.Vector3[], delay?: number }) {
+// 1. Static Circuit Grid (The Deepest Layer)
+function CircuitGrid() {
+  return (
+    <group position={[0, 0, -10]}>
+      <Grid 
+        infiniteGrid 
+        fadeDistance={50} 
+        fadeStrength={5} 
+        cellSize={1} 
+        sectionSize={5} 
+        sectionThickness={1} 
+        sectionColor="#2563eb"
+        cellColor="#e2e8f0"
+        cellThickness={0.5}
+      />
+    </group>
+  );
+}
+
+// 2. Individual Pulse Component
+function ElectricPulse({ path, delay = 0, color = "#2563eb" }: { path: THREE.Vector3[], delay?: number, color?: string }) {
   const pulseRef = useRef<THREE.Mesh>(null!);
   const curve = useMemo(() => new THREE.CatmullRomCurve3(path), [path]);
 
   useFrame((state) => {
-    const t = ((state.clock.getElapsedTime() + delay) * 0.2) % 1;
+    const t = ((state.clock.getElapsedTime() + delay) * 0.15) % 1;
     const position = curve.getPointAt(t);
     pulseRef.current.position.copy(position);
   });
 
   return (
     <mesh ref={pulseRef}>
-      <sphereGeometry args={[0.02, 16, 16]} />
-      <meshBasicMaterial color="#2563eb" />
-      <pointLight color="#2563eb" intensity={0.5} distance={1} />
+      <sphereGeometry args={[0.03, 8, 8]} />
+      <meshBasicMaterial color={color} />
+      <pointLight color={color} intensity={0.8} distance={2} />
     </mesh>
   );
 }
 
-// Circuit Layer Component
-function CircuitLayer({ depth, count = 10, color = "#2563eb" }: { depth: number, count?: number, color?: string }) {
-  const groupRef = useRef<THREE.Group>(null!);
+// 3. Circuit Node (Intersections)
+function CircuitNode({ position, color = "#2563eb" }: { position: THREE.Vector3, color?: string }) {
+  return (
+    <mesh position={position}>
+      <boxGeometry args={[0.08, 0.08, 0.08]} />
+      <meshStandardMaterial color={color} emissive={color} emissiveIntensity={2} />
+    </mesh>
+  );
+}
 
+// 4. Circuit Layer (Functional Group)
+function CircuitLayer({ depth, count = 10, color = "#2563eb", speed = 0.1 }: { depth: number, count?: number, color?: string, speed?: number }) {
   const paths = useMemo(() => {
     return Array.from({ length: count }).map(() => {
       const start = new THREE.Vector3(
@@ -38,14 +65,14 @@ function CircuitLayer({ depth, count = 10, color = "#2563eb" }: { depth: number,
       );
       
       const mid1 = start.clone().add(new THREE.Vector3(
-        (Math.random() - 0.5) * 5,
-        (Math.random() - 0.5) * 2,
+        Math.random() > 0.5 ? (Math.random() - 0.5) * 8 : 0,
+        Math.random() > 0.5 ? 0 : (Math.random() - 0.5) * 8,
         0
       ));
 
       const mid2 = mid1.clone().add(new THREE.Vector3(
-        (Math.random() - 0.5) * 2,
-        (Math.random() - 0.5) * 5,
+        Math.random() > 0.5 ? 0 : (Math.random() - 0.5) * 5,
+        Math.random() > 0.5 ? (Math.random() - 0.5) * 5 : 0,
         0
       ));
 
@@ -60,31 +87,34 @@ function CircuitLayer({ depth, count = 10, color = "#2563eb" }: { depth: number,
   }, [count, depth]);
 
   return (
-    <group ref={groupRef}>
+    <group>
       {paths.map((path, i) => (
         <React.Fragment key={i}>
           <Line
             points={path}
             color={color}
-            lineWidth={0.5}
+            lineWidth={0.8}
             transparent
-            opacity={0.1}
+            opacity={0.15}
           />
-          <ElectricPulse path={path} delay={i * 0.5} />
+          <ElectricPulse path={path} delay={i * 1.2} color={color} />
+          {/* Add nodes at start and end */}
+          <CircuitNode position={path[0]} color={color} />
+          <CircuitNode position={path[path.length - 1]} color={color} />
         </React.Fragment>
       ))}
     </group>
   );
 }
 
-// Background Particles
-function BackgroundParticles() {
+// 5. Floating Data Particles (Closest Layer)
+function FloatingData() {
   const points = useMemo(() => {
-    const p = new Float32Array(2000 * 3);
-    for (let i = 0; i < 2000; i++) {
-      p[i * 3] = (Math.random() - 0.5) * 40;
-      p[i * 3 + 1] = (Math.random() - 0.5) * 40;
-      p[i * 3 + 2] = (Math.random() - 0.5) * 20 - 10;
+    const p = new Float32Array(500 * 3);
+    for (let i = 0; i < 500; i++) {
+      p[i * 3] = (Math.random() - 0.5) * 30;
+      p[i * 3 + 1] = (Math.random() - 0.5) * 30;
+      p[i * 3 + 2] = (Math.random() - 0.5) * 10 + 5;
     }
     return p;
   }, []);
@@ -94,10 +124,10 @@ function BackgroundParticles() {
       <PointMaterial
         transparent
         color="#2563eb"
-        size={0.02}
+        size={0.05}
         sizeAttenuation={true}
         depthWrite={false}
-        opacity={0.2}
+        opacity={0.3}
       />
     </Points>
   );
@@ -105,24 +135,34 @@ function BackgroundParticles() {
 
 export function CircuitBackground() {
   return (
-    <div className="absolute inset-0 z-0">
+    <div className="absolute inset-0 z-0 bg-white">
       <Canvas dpr={[1, 2]}>
-        <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={60} />
-        <color attach="background" args={["#ffffff"]} />
+        <PerspectiveCamera makeDefault position={[0, 0, 15]} fov={50} />
         <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} intensity={1} />
         
-        <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-          {/* Depth Layers */}
-          <CircuitLayer depth={0} count={12} color="#2563eb" />
-          <CircuitLayer depth={-2} count={8} color="#dc2626" />
-          <CircuitLayer depth={-5} count={15} color="#2563eb" />
-          <CircuitLayer depth={-8} count={10} color="#cbd5e1" />
-          <CircuitLayer depth={2} count={5} color="#2563eb" />
+        <Float speed={1} rotationIntensity={0.1} floatIntensity={0.2}>
+          {/* DEPTH SEPARATION: Layered Circuit Components */}
+          
+          {/* Deep Layer (Infrastructure) */}
+          <CircuitLayer depth={-12} count={20} color="#e2e8f0" />
+          
+          {/* Middle Layer (Operational Systems) */}
+          <CircuitLayer depth={-5} count={12} color="#2563eb" />
+          
+          {/* Focused Layer (Agentic Workflow) */}
+          <CircuitLayer depth={0} count={8} color="#2563eb" />
+          
+          {/* Near Layer (Interface Nodes) */}
+          <CircuitLayer depth={4} count={5} color="#3b82f6" />
+          
+          {/* Static Background Grid */}
+          <CircuitGrid />
         </Float>
 
-        <BackgroundParticles />
+        <FloatingData />
       </Canvas>
-      <div className="absolute inset-0 bg-white/20 backdrop-blur-[2px]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-white/60 pointer-events-none" />
     </div>
   );
 }
