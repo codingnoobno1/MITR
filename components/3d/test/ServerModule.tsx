@@ -61,7 +61,11 @@ export function ServerModule({ position }: { position: [number, number, number] 
           <group position={[3.5, 0, 0.45]}>
              <mesh>
                 <planeGeometry args={[0.8, 0.2]} />
-                <meshBasicMaterial color={i % 3 === 0 ? "#22c55e" : "#60a5fa"} />
+                <meshStandardMaterial 
+                  color={i % 3 === 0 ? "#1e3a8a" : "#0f172a"} 
+                  emissive={i % 3 === 0 ? "#22d3ee" : "#3b82f6"}
+                  emissiveIntensity={0.2}
+                />
              </mesh>
              {/* 💡 ANIMATED STATUS LEDS */}
              <StatusLED index={i} />
@@ -89,36 +93,37 @@ export function ServerModule({ position }: { position: [number, number, number] 
 function StatusLED({ index }: { index: number }) {
   const meshRef = useRef<THREE.Mesh>(null!);
   
-  // Deterministic but non-uniform blink patterns
   const config = useMemo(() => ({
-    rate: 2 + (index % 3) * 1.5,
-    phase: (index * 0.7) % (Math.PI * 2),
-    threshold: 0.7 + (index % 5) * 0.05,
+    rate: 3 + (index % 4) * 2, // Faster rates
+    phase: (index * 1.5) % (Math.PI * 2),
     color: index % 4 === 0 ? "#ef4444" : index % 3 === 0 ? "#22c55e" : "#60a5fa"
   }), [index]);
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
     if (meshRef.current) {
-      const val = Math.sin(time * config.rate + config.phase);
-      const mat = meshRef.current.material as THREE.MeshBasicMaterial;
+      const mat = meshRef.current.material as THREE.MeshStandardMaterial;
+      const pulse = Math.sin(time * config.rate + config.phase);
       
-      // Binary blink or smooth pulse depending on index
+      // Much more dramatic blinking
       if (index % 2 === 0) {
-        mat.opacity = val > config.threshold ? 1 : 0.1;
+        // Binary blink
+        mat.emissiveIntensity = pulse > 0.5 ? 5 : 0.1;
       } else {
-        mat.opacity = 0.2 + (val * 0.5 + 0.5) * 0.8;
+        // Smooth fast pulse
+        mat.emissiveIntensity = 0.5 + (pulse * 0.5 + 0.5) * 4;
       }
     }
   });
 
   return (
-    <mesh ref={meshRef} position={[0.6, 0, 0]}>
-      <planeGeometry args={[0.15, 0.15]} />
-      <meshBasicMaterial 
+    <mesh ref={meshRef} position={[0.6, 0, 0.1]}>
+      <planeGeometry args={[0.2, 0.2]} />
+      <meshStandardMaterial 
         color={config.color} 
-        transparent 
-        opacity={0.1} 
+        emissive={config.color}
+        emissiveIntensity={1}
+        transparent
       />
     </mesh>
   );
