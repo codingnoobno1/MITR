@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, PerformanceMonitor, PerspectiveCamera } from "@react-three/drei";
+import * as THREE from "three";
 import { Atmosphere } from "./core/WorldSystems";
 import { BuildingShell } from "./environment/BuildingShell";
 import { InteriorArchitecture } from "./environment/InteriorArchitecture";
