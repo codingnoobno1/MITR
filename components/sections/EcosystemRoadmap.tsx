@@ -30,13 +30,13 @@ const roadmap = [
 
 export function EcosystemRoadmap() {
   return (
-    <section className="py-24 bg-white relative overflow-hidden border-t border-slate-100">
+    <section className="py-24 bg-white relative overflow-hidden border-t border-slate-100 font-sans">
       <div className="container mx-auto px-6">
         <div className="text-center mb-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 mb-4"
+            className="text-[10px] font-bold uppercase tracking-wider text-blue-600 mb-4"
           >
             Product Development
           </motion.div>
@@ -44,10 +44,9 @@ export function EcosystemRoadmap() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-6xl font-heading font-black text-slate-950 tracking-tighter leading-none uppercase"
+            className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight leading-none"
           >
-            OUR STRATEGIC <br />
-            <span className="text-blue-600">ROADMAP</span>
+            Our Strategic <span className="text-blue-600">Roadmap</span>
           </motion.h2>
         </div>
 
@@ -66,19 +65,19 @@ export function EcosystemRoadmap() {
               )}
               
               {/* Timeline Node */}
-              <div className="absolute left-0 top-0 w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-blue-600 group-hover:border-blue-500/30 transition-all z-10 shadow-sm">
+              <div className="absolute left-0 top-0 w-10 h-10 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-blue-600 group-hover:border-blue-600 transition-all z-10 shadow-sm">
                 {phase.icon}
               </div>
 
               <div className="flex flex-col md:flex-row gap-6 md:gap-12">
                  <div className="shrink-0 pt-1">
-                    <div className="text-xl font-black text-blue-600 tracking-tighter mb-1 uppercase">{phase.period}</div>
-                    <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{phase.status}</div>
+                    <div className="text-xl font-bold text-blue-600 tracking-tight mb-1">{phase.period}</div>
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{phase.status}</div>
                  </div>
                  
-                 <div className="flex-1 p-8 rounded-[2rem] bg-slate-50 border border-slate-200 group-hover:bg-white group-hover:shadow-xl transition-all duration-500">
-                    <h3 className="text-xl font-heading font-black text-slate-950 mb-3 uppercase tracking-tight">{phase.title}</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                 <div className="flex-1 p-8 rounded-xl bg-slate-50 border border-slate-200 group-hover:bg-white group-hover:shadow-lg transition-all duration-500">
+                    <h3 className="text-lg font-bold text-slate-900 mb-3 tracking-tight">{phase.title}</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed font-normal">
                       {phase.desc}
                     </p>
                  </div>
