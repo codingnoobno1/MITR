@@ -27,8 +27,8 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   
-  --font-sans: var(--font-outfit), var(--font-inter), ui-sans-serif, system-ui;
-  --font-heading: var(--font-syne), var(--font-outfit), system-ui;
+  --font-sans: var(--font-roboto), var(--font-inter), ui-sans-serif, system-ui;
+  --font-heading: var(--font-roboto), system-ui;
   
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) * 0.8);
@@ -123,11 +123,10 @@
   }
 
   .brutalist-border {
-    border: 1px solid #000;
-    box-shadow: 2px 2px 0px #000;
+    @apply border border-slate-200;
   }
 
   .brutalist-shadow {
-    box-shadow: 6px 6px 0px rgba(37,99,235,0.05);
+    @apply shadow-sm;
   }
 }

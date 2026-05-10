@@ -1,20 +1,15 @@
 import type { Metadata } from "next";
-import { Inter, Syne, Outfit } from "next/font/google";
+import { Roboto, Inter } from "next/font/google";
 import "./globals.css";
+
+const roboto = Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+});
 
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const syne = Syne({
-  variable: "--font-syne",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-const outfit = Outfit({
-  variable: "--font-outfit",
   subsets: ["latin"],
 });
 
@@ -34,9 +29,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${syne.variable} ${outfit.variable} h-full antialiased`}
+      className={`${roboto.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-white text-slate-900 selection:bg-blue-600 selection:text-white">
+      <body className="min-h-full flex flex-col bg-white text-slate-900 selection:bg-blue-600 selection:text-white font-sans">
         {children}
       </body>
     </html>
