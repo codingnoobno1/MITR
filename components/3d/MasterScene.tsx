@@ -93,26 +93,18 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
           <OverheadInfrastructure />
           <HeroLogo />
 
-          {/* 🛠️ AIRTIGHT FACILITY ENCLOSURE (Total Void Removal) */}
-          {/* 1. FAR CLOSURE WALL */}
-          <mesh position={[0, 25, -300]}>
-             <boxGeometry args={[2000, 200, 20]} />
+          {/* 🛠️ AIRTIGHT FACILITY ENCLOSURE — Geometry-Audited */}
+          {/* END WALL: Far end of corridor (behind logo) */}
+          <mesh position={[0, 25, -155]}>
+             <boxGeometry args={[1600, 110, 10]} />
              <meshStandardMaterial color="#0b1120" roughness={1} />
           </mesh>
           
-          {/* 2. NEAR CLOSURE WALL (Behind camera) */}
-          <mesh position={[0, 25, 200]}>
-             <boxGeometry args={[2000, 200, 20]} />
+          {/* END WALL: Near end (behind camera start) */}
+          <mesh position={[0, 25, 115]}>
+             <boxGeometry args={[1600, 110, 10]} />
              <meshStandardMaterial color="#0b1120" roughness={1} />
           </mesh>
-
-          {/* 3. SIDE VOID PLATES (Safety buffer beyond wall panels) */}
-          {[-160, 120].map((z, i) => (
-             <mesh key={`void-plate-${i}`} position={[0, 25, z]}>
-                <boxGeometry args={[2000, 200, 2]} />
-                <meshStandardMaterial color="#0b1120" />
-             </mesh>
-          ))}
           
           <MaintenanceWalkways />
           <CableInfrastructure />

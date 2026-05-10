@@ -24,7 +24,7 @@ export function InteriorArchitecture() {
 
               {/* outer support */}
               <mesh castShadow>
-                <boxGeometry args={[6, 28, 300]} />
+                <boxGeometry args={[6, 28, 240]} />
                 <meshStandardMaterial
                   color="#0f1724"
                   roughness={0.72}
@@ -34,7 +34,7 @@ export function InteriorArchitecture() {
 
               {/* recessed inner channel */}
               <mesh>
-                <boxGeometry args={[4, 24, 280]} />
+                <boxGeometry args={[4, 24, 220]} />
                 <meshStandardMaterial
                   color="#070b14"
                   roughness={1}
@@ -43,7 +43,7 @@ export function InteriorArchitecture() {
 
               {/* lower reinforcement */}
               <mesh position={[0, -12, 0]}>
-                <boxGeometry args={[10, 3, 310]} />
+                <boxGeometry args={[10, 3, 250]} />
                 <meshStandardMaterial
                   color="#111827"
                   roughness={0.95}
@@ -57,7 +57,7 @@ export function InteriorArchitecture() {
             {/* ===================================================== */}
 
             <mesh position={[0, 28, -20]}>
-              <boxGeometry args={[10, 4, 300]} />
+              <boxGeometry args={[10, 4, 240]} />
               <meshStandardMaterial
                 color="#1a2233"
                 roughness={0.55}
@@ -69,7 +69,7 @@ export function InteriorArchitecture() {
             {/* RECESSED SHADOW POCKETS */}
             {/* ===================================================== */}
 
-            {[-120, -40, 40, 120].map((z, j) => (
+            {[-80, -20, 20, 60].map((z, j) => (
               <mesh
                 key={`shadow-pocket-${j}`}
                 position={[0, 10, z]}
@@ -86,7 +86,7 @@ export function InteriorArchitecture() {
             {/* SIDE SUPPORT STRUTS */}
             {/* ===================================================== */}
 
-            {[-135, 135].map((z, j) => (
+            {[-120, 80].map((z, j) => (
               <group
                 key={`strut-${j}`}
                 position={[0, 8, z]}
@@ -122,7 +122,7 @@ export function InteriorArchitecture() {
 
               {/* bridge */}
               <mesh>
-                <boxGeometry args={[3, 0.4, 180]} />
+                <boxGeometry args={[3, 0.4, 160]} />
                 <meshStandardMaterial
                   color="#1f2937"
                   roughness={0.8}
@@ -136,7 +136,7 @@ export function InteriorArchitecture() {
                   key={`rail-${j}`}
                   position={[xPos, 0.7, 0]}
                 >
-                  <boxGeometry args={[0.08, 1.2, 180]} />
+                  <boxGeometry args={[0.08, 1.2, 160]} />
                   <meshStandardMaterial
                     color="#64748b"
                   />
@@ -149,7 +149,7 @@ export function InteriorArchitecture() {
             {/* CABLE PASSAGEWAYS */}
             {/* ===================================================== */}
 
-            {[-80, 0, 80].map((z, j) => (
+            {[-60, 0, 60].map((z, j) => (
               <mesh
                 key={`cable-route-${j}`}
                 position={[0, 24, z]}
@@ -167,10 +167,11 @@ export function InteriorArchitecture() {
       })}
 
       {/* ===================================================== */}
-      {/* SIDE CHAMBER CORRIDORS */}
+      {/* WALL-FLUSH CORRIDOR ALCOVES (Replaces side chambers) */}
+      {/* These now sit AGAINST the wall plane, not beyond it  */}
       {/* ===================================================== */}
 
-      {[-160, 120].map((z, i) => (
+      {[-145, 105].map((z, i) => (
         <group key={`side-sector-${i}`} position={[0, 0, z]}>
 
           {Array.from({ length: 6 }).map((_, j) => {
@@ -179,7 +180,7 @@ export function InteriorArchitecture() {
             return (
               <group key={`door-sector-${j}`} position={[x, 0, 0]}>
 
-                {/* corridor opening */}
+                {/* corridor alcove flush against wall */}
                 <mesh position={[0, 14, 0]}>
                   <boxGeometry args={[24, 30, 3]} />
                   <meshStandardMaterial
@@ -188,27 +189,14 @@ export function InteriorArchitecture() {
                   />
                 </mesh>
 
-                {/* recessed chamber depth */}
-                <mesh position={[0, 10, i === 0 ? -30 : 30]}>
-                  <boxGeometry args={[18, 20, 50]} />
+                {/* shallow recess (stays within wall plane) */}
+                <mesh position={[0, 10, i === 0 ? 2 : -2]}>
+                  <boxGeometry args={[18, 20, 4]} />
                   <meshStandardMaterial
                     color="#05070d"
                     roughness={1}
                   />
                 </mesh>
-
-                {/* chamber support walls */}
-                {[-10, 10].map((xOff, k) => (
-                  <mesh
-                    key={`wall-${k}`}
-                    position={[xOff, 10, i === 0 ? -18 : 18]}
-                  >
-                    <boxGeometry args={[2, 20, 30]} />
-                    <meshStandardMaterial
-                      color="#111827"
-                    />
-                  </mesh>
-                ))}
 
               </group>
             );
@@ -218,13 +206,11 @@ export function InteriorArchitecture() {
       ))}
 
       {/* ===================================================== */}
-      {/* FOREGROUND OCCLUSION ARCHES */}
+      {/* FOREGROUND OCCLUSION ARCHES (Constrained to interior) */}
       {/* ===================================================== */}
 
       {[-320, -120, 80].map((x, i) => (
         <group key={`foreground-arch-${i}`} position={[x, 0, 40]}>
-
-          {/* dark foreground structure */}
           <mesh position={[0, 16, 0]}>
             <boxGeometry args={[8, 32, 40]} />
             <meshStandardMaterial
@@ -234,35 +220,7 @@ export function InteriorArchitecture() {
               opacity={0.96}
             />
           </mesh>
-
         </group>
-      ))}
-
-      {/* ===================================================== */}
-      {/* DISTANT BACKGROUND INFRASTRUCTURE */}
-      {/* ===================================================== */}
-
-      {Array.from({ length: 14 }).map((_, i) => (
-        <mesh
-          key={`bg-structure-${i}`}
-          position={[
-            i * 100 - 700,
-            18 + Math.random() * 10,
-            -180 - Math.random() * 80,
-          ]}
-        >
-          <boxGeometry
-            args={[
-              20 + Math.random() * 20,
-              30 + Math.random() * 20,
-              20 + Math.random() * 20,
-            ]}
-          />
-          <meshStandardMaterial
-            color="#03050a"
-            roughness={1}
-          />
-        </mesh>
       ))}
 
     </group>

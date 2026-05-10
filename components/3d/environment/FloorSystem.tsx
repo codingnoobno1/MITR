@@ -6,13 +6,14 @@ import * as THREE from "three";
 export function FloorSystem() {
   return (
     <group>
-      {/* Primary Floor Substrate - Lighter for global readability */}
+      {/* Primary Floor Substrate — Matches wall bounds exactly */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, -20]} receiveShadow>
-        <planeGeometry args={[1200, 260]} />
+        <planeGeometry args={[1500, 262]} />
         <meshStandardMaterial 
           color="#1e293b" 
           roughness={0.75} 
-          metalness={0.12} 
+          metalness={0.12}
+          side={THREE.DoubleSide}
         />
       </mesh>
 
@@ -31,7 +32,7 @@ export function FloorSystem() {
             <meshStandardMaterial color="#0f1724" />
           </mesh>
 
-          {/* BIGGEST VISUAL FIX: Contact shadow darkness for Column Grounding */}
+          {/* Contact shadow darkness for Column Grounding */}
           {[-95, 95].map((zPos, j) => (
             <mesh key={`col-ground-${j}`} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, zPos]}>
               <ringGeometry args={[2.8, 4.5, 32]} />
@@ -41,9 +42,9 @@ export function FloorSystem() {
         </group>
       ))}
 
-      {/* Central Navigation Aisle / Reflective Maintenance Strips */}
+      {/* Central Navigation Aisle */}
       <mesh position={[0, -0.47, -20]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[1200, 4]} />
+        <planeGeometry args={[1500, 4]} />
         <meshStandardMaterial 
           color="#315b9c" 
           emissive="#315b9c" 
@@ -53,17 +54,23 @@ export function FloorSystem() {
         />
       </mesh>
 
-      {/* Worn/Textured Overlay Patches */}
-      {Array.from({ length: 25 }).map((_, i) => (
-        <mesh 
-          key={`wear-${i}`} 
-          position={[(Math.random() - 0.5) * 1000, -0.46, (Math.random() - 0.5) * 200 - 20]} 
-          rotation={[-Math.PI / 2, 0, Math.random() * Math.PI]}
-        >
-          <planeGeometry args={[8, 12]} />
-          <meshStandardMaterial color="#475569" transparent opacity={0.15} />
-        </mesh>
-      ))}
+      {/* Worn/Textured Overlay Patches (deterministic positions) */}
+      {Array.from({ length: 25 }).map((_, i) => {
+        // Deterministic positions using index math instead of Math.random
+        const xPos = ((i * 73 + 17) % 1000) - 500;
+        const zPos = ((i * 37 + 11) % 200) - 120;
+        const rot = (i * 0.314);
+        return (
+          <mesh 
+            key={`wear-${i}`} 
+            position={[xPos, -0.46, zPos]} 
+            rotation={[-Math.PI / 2, 0, rot]}
+          >
+            <planeGeometry args={[8, 12]} />
+            <meshStandardMaterial color="#475569" transparent opacity={0.15} />
+          </mesh>
+        );
+      })}
     </group>
   );
 }

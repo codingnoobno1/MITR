@@ -8,11 +8,12 @@ export function ServerMegastructure() {
   return (
     <group>
       {/* 1. LEFT SIDE - MASSIVE GPU COMPUTE WALL (AI Cluster) */}
-      <group position={[-55, 0, -50]}>
-        {Array.from({ length: 12 }).map((_, i) => (
+      {/* Constrained to Z: -140..100 (inside walls with margin) */}
+      <group position={[-55, 0, -20]}>
+        {Array.from({ length: 8 }).map((_, i) => (
           <ComputeTower 
             key={`gpu-tower-${i}`} 
-            position={[0, 0, i * 45 - 250]} 
+            position={[0, 0, i * 30 - 110]} 
             type="gpu" 
             height={28}
             sector="AI_CORE_CLUSTER"
@@ -21,11 +22,11 @@ export function ServerMegastructure() {
       </group>
 
       {/* 2. RIGHT SIDE - CLOUD ORCHESTRATION NODES */}
-      <group position={[-155, 0, -50]}> {/* Moved further left to create more floor space */}
+      <group position={[55, 0, -20]}>
         {Array.from({ length: 8 }).map((_, i) => (
           <ComputeTower 
             key={`cloud-node-${i}`} 
-            position={[0, 0, i * 60 - 200]} 
+            position={[0, 0, i * 30 - 110]} 
             type="cloud" 
             height={24}
             sector="CLOUD_SYNC_UPLINK"
@@ -34,16 +35,17 @@ export function ServerMegastructure() {
       </group>
 
       {/* 3. CENTER REINFORCED GATEWAY SECTOR (Security Cluster) */}
-      <group position={[0, 0, 100]}>
+      <group position={[0, 0, 80]}>
          <ComputeTower position={[-30, 0, 0]} type="security" height={32} sector="SEC_GRID_ALPHA" />
          <ComputeTower position={[30, 0, 0]} type="security" height={32} sector="SEC_GRID_BETA" />
       </group>
 
-      {/* 4. ASYMMETRICAL INFRASTRUCTURE BLOCKS (Deployment Nodes) */}
-      <group position={[155, 0, -100]}>
-        {Array.from({ length: 5 }).map((_, i) => (
-           <ComputeTower key={`deploy-${i}`} position={[0, 0, i * 80]} type="deploy" height={20} sector="NODE_X_DEPLOY" />
-        ))}
+      {/* 4. DEEP CORRIDOR BLOCKS (Deployment Nodes) */}
+      <group position={[0, 0, -20]}>
+        <ComputeTower position={[-120, 0, -80]} type="deploy" height={20} sector="NODE_X_DEPLOY" />
+        <ComputeTower position={[120, 0, -80]} type="deploy" height={20} sector="NODE_X_DEPLOY" />
+        <ComputeTower position={[-120, 0, 40]} type="deploy" height={22} sector="NODE_Y_DEPLOY" />
+        <ComputeTower position={[120, 0, 40]} type="deploy" height={22} sector="NODE_Y_DEPLOY" />
       </group>
     </group>
   );
@@ -80,7 +82,7 @@ function ComputeTower({
 
   return (
     <group position={position}>
-      {/* 🛠️ FIX: Lift everything by height/2 so it sits on the floor */}
+      {/* Lift everything by height/2 so it sits on the floor */}
       <group position={[0, height / 2, 0]}>
         {/* LAYER 1: OUTER INDUSTRIAL FRAME */}
         <mesh castShadow receiveShadow>
