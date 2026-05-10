@@ -44,11 +44,11 @@ export function CPUChip({ position, size = [3, 0.6, 3], label = "MITR-ORCHESTRAT
         <React.Fragment key={i}>
           <mesh position={[(i / 6 - 0.9) * size[0], -size[1] / 2, size[2] / 2 + 0.1]}>
              <boxGeometry args={[0.1, 0.2, 0.2]} />
-             <meshStandardMaterial color={hardwareColors.capacitorCap} metalness={0.8} />
+              <meshStandardMaterial color={palette.silver} metalness={0.8} />
           </mesh>
           <mesh position={[(i / 6 - 0.9) * size[0], -size[1] / 2, -size[2] / 2 - 0.1]}>
              <boxGeometry args={[0.1, 0.2, 0.2]} />
-             <meshStandardMaterial color={hardwareColors.capacitorCap} metalness={0.8} />
+              <meshStandardMaterial color={palette.silver} metalness={0.8} />
           </mesh>
         </React.Fragment>
       ))}
@@ -65,7 +65,7 @@ export function Capacitor({ position }: { position: [number, number, number] }) 
       </mesh>
       <mesh position={[0, 0.41, 0]}>
         <cylinderGeometry args={[0.25, 0.25, 0.05, 16]} />
-        <meshStandardMaterial color={hardwareColors.capacitorCap} metalness={0.8} />
+        <meshStandardMaterial color={palette.silver} metalness={0.8} />
       </mesh>
     </group>
   );

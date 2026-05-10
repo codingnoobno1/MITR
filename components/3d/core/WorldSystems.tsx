@@ -38,7 +38,7 @@ export function Atmosphere() {
   return (
     <>
       <color attach="background" args={["#eef2f7"]} />
-      <FogExp2 attach="fog" args={["#dfe6ee", 0.015]} />
+      <FogExp2 color="#dfe6ee" density={0.015} />
       <ambientLight intensity={0.4} />
       
       {/* Volumetric Simulation Lights */}
