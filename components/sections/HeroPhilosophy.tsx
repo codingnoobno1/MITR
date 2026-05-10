@@ -29,9 +29,9 @@ export function HeroPhilosophy() {
       <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none z-0">
         <motion.div 
           initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 0.03, scale: 1.2 }}
+          animate={{ opacity: 0.03, scale: 1 }}
           transition={{ duration: 2 }}
-          className="text-[40rem] font-black text-slate-900 tracking-tighter"
+          className="text-[20rem] md:text-[30rem] font-black text-slate-900 tracking-tighter"
         >
           MITR
         </motion.div>
@@ -51,12 +51,12 @@ export function HeroPhilosophy() {
         </motion.div>
 
         {/* Artistic Heading */}
-        <div className="relative mb-16">
+        <div className="relative mb-12">
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-7xl md:text-[12rem] font-heading font-black tracking-tighter leading-[0.8] text-slate-950"
+            className="text-5xl md:text-8xl lg:text-9xl font-heading font-black tracking-tighter leading-[0.9] text-slate-950"
           >
             MODULAR <br />
             <span className="relative">

@@ -32,7 +32,7 @@ export function DivisionsSection() {
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-6xl md:text-[10rem] font-heading font-black text-slate-950 tracking-tighter leading-[0.75] uppercase"
+            className="text-5xl md:text-8xl font-heading font-black text-slate-950 tracking-tighter leading-[0.9] uppercase"
           >
             THE TWO <br />
             <span className="text-blue-600">CENTERS</span>
@@ -66,7 +66,7 @@ export function DivisionsSection() {
                 className="relative h-full"
               >
                 {/* Large Background Initials/Number */}
-                <div className="absolute -top-16 -right-16 text-[25rem] font-black text-slate-900/[0.02] pointer-events-none select-none tracking-tighter leading-none group-hover:text-blue-600/[0.03] transition-colors duration-700">
+                <div className="absolute -top-10 -right-10 text-[12rem] md:text-[18rem] font-black text-slate-900/[0.02] pointer-events-none select-none tracking-tighter leading-none group-hover:text-blue-600/[0.03] transition-colors duration-700">
                   0{index + 1}
                 </div>
 
