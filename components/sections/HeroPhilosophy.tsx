@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ThreeHero } from "@/components/animations/ThreeHero";
+import { CircuitBackground } from "@/components/animations/CircuitBackground";
 import { FloatingFiles } from "@/components/animations/FloatingFiles";
 import { ArrowRight, Zap, Globe, Cpu, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,7 @@ export function HeroPhilosophy() {
       <div className="absolute inset-0 mesh-gradient opacity-30 z-0" />
       <div className="absolute inset-0 noise z-10" />
       
-      <ThreeHero />
+      <CircuitBackground />
       <div className="absolute inset-0 z-20 pointer-events-none opacity-20">
         <FloatingFiles />
       </div>
