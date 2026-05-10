@@ -67,7 +67,7 @@ export function ServerModule({ position }: { position: [number, number, number] 
                   emissiveIntensity={0.2}
                 />
              </mesh>
-             {/* 💡 ANIMATED STATUS LEDS */}
+             {/* 💡 "SEVERE WORK" ANIMATED LEDS */}
              <StatusLED index={i} />
           </group>
         </group>
@@ -92,39 +92,77 @@ export function ServerModule({ position }: { position: [number, number, number] 
 
 function StatusLED({ index }: { index: number }) {
   const meshRef = useRef<THREE.Mesh>(null!);
+  const glowRef = useRef<THREE.Mesh>(null!);
   
   const config = useMemo(() => ({
-    rate: 3 + (index % 4) * 2, // Faster rates
-    phase: (index * 1.5) % (Math.PI * 2),
-    color: index % 4 === 0 ? "#ef4444" : index % 3 === 0 ? "#22c55e" : "#60a5fa"
+    baseRate: 4 + (index % 5) * 6, // High speed base
+    burstRate: 15 + (index % 3) * 10, // Stutter burst speed
+    pattern: index % 3, // 0: Burst, 1: Rapid Stutter, 2: Heavy Load Pulse
+    color: index % 5 === 0 ? "#ef4444" : index % 3 === 0 ? "#f59e0b" : "#3b82f6", // Red/Amber/Blue
+    offset: index * 0.4
   }), [index]);
 
   useFrame((state) => {
-    const time = state.clock.getElapsedTime();
-    if (meshRef.current) {
+    const t = state.clock.getElapsedTime();
+    if (meshRef.current && glowRef.current) {
       const mat = meshRef.current.material as THREE.MeshStandardMaterial;
-      const pulse = Math.sin(time * config.rate + config.phase);
+      const glowMat = glowRef.current.material as THREE.MeshBasicMaterial;
       
-      // Much more dramatic blinking
-      if (index % 2 === 0) {
-        // Binary blink
-        mat.emissiveIntensity = pulse > 0.5 ? 5 : 0.1;
+      let intensity = 0;
+      let glowScale = 1;
+
+      // 🎭 "SEVERE WORK" PATTERN LOGIC
+      if (config.pattern === 0) {
+        // Pattern 0: Data Burst (Long pause, then rapid-fire bursts)
+        const cycle = (t + config.offset) % 4;
+        if (cycle < 0.8) {
+           intensity = Math.sin(t * config.burstRate) > 0 ? 15 : 0;
+           glowScale = 2;
+        } else {
+           intensity = 0.2;
+           glowScale = 0.5;
+        }
+      } else if (config.pattern === 1) {
+        // Pattern 1: Rapid Stutter (Constant flickering, high intensity)
+        intensity = Math.random() > 0.4 ? 12 : 2;
+        glowScale = 1.2 + Math.random() * 0.8;
       } else {
-        // Smooth fast pulse
-        mat.emissiveIntensity = 0.5 + (pulse * 0.5 + 0.5) * 4;
+        // Pattern 2: Heavy Load Pulse (Rapid deep pulsing)
+        const p = Math.sin(t * config.baseRate + config.offset);
+        intensity = 1 + Math.pow((p * 0.5 + 0.5), 4) * 20;
+        glowScale = 1 + (p * 0.5 + 0.5) * 1.5;
       }
+
+      mat.emissiveIntensity = intensity;
+      glowMat.opacity = Math.min(intensity * 0.05, 0.4);
+      glowRef.current.scale.setScalar(glowScale);
     }
   });
 
   return (
-    <mesh ref={meshRef} position={[0.6, 0, 0.1]}>
-      <planeGeometry args={[0.2, 0.2]} />
-      <meshStandardMaterial 
-        color={config.color} 
-        emissive={config.color}
-        emissiveIntensity={1}
-        transparent
-      />
-    </mesh>
+    <group position={[0.6, 0, 0.15]}>
+      {/* Primary LED Core */}
+      <mesh ref={meshRef}>
+        <planeGeometry args={[0.2, 0.2]} />
+        <meshStandardMaterial 
+          color={config.color} 
+          emissive={config.color}
+          emissiveIntensity={1}
+          transparent
+        />
+      </mesh>
+      
+      {/* Volumetric Glow (Visual feedback for "severe" work) */}
+      <mesh ref={glowRef}>
+        <planeGeometry args={[0.5, 0.5]} />
+        <meshBasicMaterial 
+          color={config.color} 
+          transparent 
+          opacity={0.1} 
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </mesh>
+    </group>
   );
 }
