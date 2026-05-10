@@ -30,6 +30,14 @@ export function FloorSystem() {
             <boxGeometry args={[1, 0.1, 260]} />
             <meshStandardMaterial color="#0f1724" />
           </mesh>
+
+          {/* BIGGEST VISUAL FIX: Contact shadow darkness for Column Grounding */}
+          {[-95, 95].map((zPos, j) => (
+            <mesh key={`col-ground-${j}`} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.01, zPos]}>
+              <ringGeometry args={[2.8, 4.5, 32]} />
+              <meshStandardMaterial color="#070b14" transparent opacity={0.6} />
+            </mesh>
+          ))}
         </group>
       ))}
 

@@ -14,6 +14,10 @@ import { StructuralColumns } from "./environment/StructuralColumns";
 import { MaintenanceWalkways } from "./environment/MaintenanceWalkways";
 import { CableInfrastructure } from "./environment/CableInfrastructure";
 import { CoolingSystem } from "./environment/CoolingSystem";
+import { ColumnInfrastructure } from "./environment/ColumnInfrastructure";
+import { StructuralConnectors } from "./environment/StructuralConnectors";
+import { UtilityModules } from "./environment/UtilityModules";
+import { VerticalRouting } from "./environment/VerticalRouting";
 import { ServerCorridor } from "./environment/ServerCorridor";
 import { AIOrchestratorChamber } from "./environment/AIOrchestratorChamber";
 import { SecurityOperationsZone } from "./environment/SecurityOperationsZone";
@@ -54,7 +58,7 @@ export function MITRInfrastructureWorld() {
         }}
         shadows
       >
-        <PerspectiveCamera makeDefault position={[0, 10, 80]} fov={45} />
+        <PerspectiveCamera makeDefault position={[0, 12, 80]} fov={45} />
         <CinematicCameraRail />
         
         {/* User can still override for manual exploration */}
@@ -81,6 +85,14 @@ export function MITRInfrastructureWorld() {
           <CeilingSystem />
           <WallPanels />
           <StructuralColumns />
+          
+          {/* INTERACTION LAYERS (Systems Design) */}
+          <ColumnInfrastructure />
+          <StructuralConnectors />
+          <UtilityModules />
+          <VerticalRouting />
+          
+          {/* Mid-scale Infrastructure */}
           <MaintenanceWalkways />
           <CableInfrastructure />
           <CoolingSystem />
@@ -94,9 +106,9 @@ export function MITRInfrastructureWorld() {
           <CloudIntegrationLayer />
 
           {/* Environmental FX */}
-          <DataFlow from={[-40, 8, -20]} to={[40, 8, -20]}  count={4} color="#FF9900" label="SYNC_01" />
-          <DataFlow from={[40, 9, -40]}  to={[120, 9, -40]} count={4} color="#0078D4" label="DEPLOY_X" />
-          <DataFlow from={[120, 7, 0]}   to={[40, 7, -80]}  count={5} color="#326CE5" label="ROUTING_PROD" />
+          <DataFlow from={[-40, 8, -20]} to={[40, 8, -20]}  count={4} color="#e5e7eb" label="SYNC_01" />
+          <DataFlow from={[40, 9, -40]}  to={[120, 9, -40]} count={4} color="#94a3b8" label="DEPLOY_X" />
+          <DataFlow from={[120, 7, 0]}   to={[40, 7, -80]}  count={5} color="#315b9c" label="ROUTING_PROD" />
           
           <AmbientDust />
         </group>

@@ -6,79 +6,69 @@ import * as THREE from "three";
 export function StructuralColumns() {
   return (
     <group>
-      {/* PRIMARY INFRASTRUCTURE GRID - Selective Shadows */}
+      {/* 5. ARCHITECTURAL RHYTHM VARIATION */}
       {Array.from({ length: 14 }).map((_, i) => {
         const x = i * 90 - 600;
+        const isMegaSupport = i % 3 === 0;
+        const isGateway = x > -100 && x < 100; // Near AI Core
 
         return (
-          <group key={`column-sector-${i}`} position={[x, 0, 0]}>
+          <group key={`col-rhythm-${i}`} position={[x, 0, 0]}>
+            {/* Primary Pillar Structures */}
+            {[-95, 95].map((zPos, j) => {
+              const height = isMegaSupport ? 28 : 22;
+              const width = isMegaSupport ? 6 : 3;
 
-            {/* LEFT MAIN COLUMN - Hero Architecture should cast shadows */}
-            <group position={[0, 12, -95]}>
-              {/* primary body - Metallic reflection response */}
-              <mesh castShadow receiveShadow>
-                <boxGeometry args={[4, 24, 4]} />
-                <meshStandardMaterial 
-                  color="#334155" 
-                  roughness={0.55} 
-                  metalness={0.35} 
-                />
-              </mesh>
+              return (
+                <group key={`pillar-${j}`} position={[0, height / 2, zPos]}>
+                  {/* MAIN ARCHITECTURAL FRAME with Inset Panels */}
+                  <mesh castShadow receiveShadow>
+                    <boxGeometry args={[width, height, width]} />
+                    <meshStandardMaterial 
+                      color={isGateway ? "#475569" : "#334155"} 
+                      metalness={0.4} 
+                      roughness={0.5} 
+                    />
+                  </mesh>
 
-              {/* reinforced outer shell - Value separation */}
-              <mesh>
-                <boxGeometry args={[4.8, 25, 4.8]} />
-                <meshStandardMaterial color="#1e293b" roughness={0.7} metalness={0.2} />
-              </mesh>
+                  {/* 4. GEOMETRY SILHOUETTE ENHANCEMENT */}
+                  {/* Beveled Inset Cutouts */}
+                  <mesh position={[0, 0, width / 2 + 0.1]}>
+                    <boxGeometry args={[width - 1, height - 4, 0.2]} />
+                    <meshStandardMaterial color="#111827" />
+                  </mesh>
 
-              {/* foundation */}
-              <mesh position={[0, -12.5, 0]}>
-                <boxGeometry args={[7, 1.4, 7]} />
-                <meshStandardMaterial color="#0f1724" roughness={1} />
-              </mesh>
+                  {/* Reinforced Outer Bracing (only for mega columns) */}
+                  {isMegaSupport && (
+                    <mesh position={[0, 0, 0]}>
+                      <boxGeometry args={[width + 1, height + 2, width + 1]} />
+                      <meshStandardMaterial color="#1e293b" transparent opacity={0.3} metalness={1} />
+                    </mesh>
+                  )}
 
-              {/* upper support cap */}
-              <mesh position={[0, 12.8, 0]}>
-                <boxGeometry args={[6, 1.2, 6]} />
-                <meshStandardMaterial color="#475569" metalness={0.4} roughness={0.6} />
-              </mesh>
+                  {/* 5. SCALE INDICATORS */}
+                  {/* Tiny Access Ladders */}
+                  <group position={[width / 2 + 0.2, -height / 2 + 3, 0]}>
+                    {Array.from({ length: 10 }).map((_, k) => (
+                      <mesh key={`rung-${k}`} position={[0, k * 1.5, 0]}>
+                        <boxGeometry args={[0.05, 0.05, 1.2]} />
+                        <meshStandardMaterial color="#475569" />
+                      </mesh>
+                    ))}
+                    <mesh position={[0, 7.5, 0]}>
+                       <boxGeometry args={[0.05, 15, 0.05]} />
+                       <meshStandardMaterial color="#475569" />
+                    </mesh>
+                  </group>
 
-              {/* vertical maintenance strip */}
-              <mesh position={[2.45, 0, 0]}>
-                <planeGeometry args={[0.18, 16]} />
-                <meshStandardMaterial color="#315b9c" emissive="#315b9c" emissiveIntensity={0.8} transparent opacity={0.4} />
-              </mesh>
-            </group>
-
-            {/* RIGHT MAIN COLUMN */}
-            <group position={[0, 12, 95]}>
-              <mesh castShadow receiveShadow>
-                <boxGeometry args={[4, 24, 4]} />
-                <meshStandardMaterial color="#334155" roughness={0.55} metalness={0.35} />
-              </mesh>
-              <mesh>
-                <boxGeometry args={[4.8, 25, 4.8]} />
-                <meshStandardMaterial color="#1e293b" roughness={0.7} metalness={0.2} />
-              </mesh>
-            </group>
-
-            {/* MASSIVE OVERHEAD CONNECTOR - Large structure should cast shadows */}
-            <group position={[0, 20, 0]}>
-              <mesh castShadow>
-                <boxGeometry args={[5, 2.5, 190]} />
-                <meshStandardMaterial color="#1f2937" roughness={0.65} metalness={0.3} />
-              </mesh>
-              <mesh position={[0, -1.8, 0]}>
-                <boxGeometry args={[7, 0.6, 190]} />
-                <meshStandardMaterial color="#0f1724" roughness={0.95} />
-              </mesh>
-            </group>
-
-            {/* SHADOW BREAKUP PANELS - No shadow for minor details to improve clarity */}
-            <mesh position={[0, 6, -130]}>
-              <boxGeometry args={[18, 12, 2]} />
-              <meshStandardMaterial color="#0f1724" roughness={1} />
-            </mesh>
+                  {/* Warning Decal Strips */}
+                  <mesh position={[0, -height / 2 + 1, width / 2 + 0.15]}>
+                    <planeGeometry args={[width - 0.5, 0.3]} />
+                    <meshStandardMaterial color="#f59e0b" emissive="#f59e0b" emissiveIntensity={0.5} />
+                  </mesh>
+                </group>
+              );
+            })}
           </group>
         );
       })}
