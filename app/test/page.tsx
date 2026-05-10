@@ -37,15 +37,15 @@ export default function TestPage() {
         {/* 🎥 MASTER CAMERA BLUEPRINT */}
         <PerspectiveCamera 
           makeDefault 
-          position={[0, 38, 130]} 
-          fov={42} 
+          position={[0, 55, 140]} 
+          fov={45} 
         />
         
         <OrbitControls 
           enablePan={false}
           maxDistance={250}
           minDistance={40}
-          target={[0, 24, -80]}
+          target={[0, 15, -80]}
           enableDamping
           dampingFactor={0.08}
           maxPolarAngle={Math.PI / 2.1}

@@ -9,8 +9,8 @@ export function TestPostProcessing() {
     <EffectComposer>
       {/* Tight, controlled bloom — makes fluorescent strips and holograms pop */}
       <Bloom
-        intensity={0.4}
-        luminanceThreshold={1.2}
+        intensity={0.8}
+        luminanceThreshold={0.8}
         luminanceSmoothing={0.3}
         kernelSize={KernelSize.MEDIUM}
         mipmapBlur

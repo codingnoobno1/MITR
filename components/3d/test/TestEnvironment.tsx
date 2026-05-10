@@ -43,7 +43,7 @@ export function TestEnvironment() {
       />
 
       {/* 2. HIGH AMBIENT FILL */}
-      <ambientLight intensity={0.8} color="#f8fafc" />
+      <ambientLight intensity={0.6} color="#f8fafc" />
       
       {/* 3. SKY/GROUND BOUNCE */}
       <hemisphereLight 
@@ -63,6 +63,21 @@ export function TestEnvironment() {
           rotation={[-Math.PI / 2, 0, 0]}
           color="#ffffff"
         />
+      ))}
+
+      {/* 5. SIDE WALL BLUE ACCENT LIGHTS */}
+      {[-200, 200].map((x, i) => (
+        <group key={`side-lights-${i}`}>
+          {[-120, -40, 40, 120].map((z, j) => (
+            <pointLight
+              key={`blue-light-${i}-${j}`}
+              position={[x, 40, z]}
+              intensity={10}
+              distance={100}
+              color="#38bdf8"
+            />
+          ))}
+        </group>
       ))}
 
       {/* 🌬️ ATMOSPHERIC PARTICLES (Subtle white dust) */}

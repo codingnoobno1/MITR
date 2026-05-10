@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useTexture, Float } from "@react-three/drei";
+import { useTexture, Float, Text } from "@react-three/drei";
 import * as THREE from "three";
 
 export function MITRCoreSystem() {
@@ -41,10 +41,10 @@ export function MITRCoreSystem() {
         </mesh>
 
         {/* Floor Glow Rings (Blue/White) */}
-        {[20, 32, 44].map((r, i) => (
+        {[20, 32, 48].map((r, i) => (
           <mesh key={`floor-glow-${i}`} rotation={[-Math.PI / 2, 0, 0]} position={[0, 1.1, 0]}>
-             <ringGeometry args={[r, r + 0.5, 64]} />
-             <meshBasicMaterial color="#38bdf8" transparent opacity={0.25} />
+             <ringGeometry args={[r, r + (i === 2 ? 2.0 : 0.5), 64]} />
+             <meshBasicMaterial color="#38bdf8" transparent opacity={i === 2 ? 0.6 : 0.3} />
           </mesh>
         ))}
 
@@ -76,9 +76,10 @@ export function MITRCoreSystem() {
 
       {/* KINETIC ORBITAL RINGS */}
       <group position={[0, 24, 0]}>
+        {/* Main Halo Ring */}
         <mesh ref={ring1Ref}>
-           <torusGeometry args={[22, 0.2, 16, 100]} />
-           <meshStandardMaterial color="#38bdf8" emissive="#38bdf8" emissiveIntensity={2} />
+           <torusGeometry args={[36, 0.4, 16, 100]} />
+           <meshStandardMaterial color="#38bdf8" emissive="#38bdf8" emissiveIntensity={3} />
         </mesh>
         <mesh ref={ring2Ref} rotation={[Math.PI / 2.5, 0, 0]}>
            <torusGeometry args={[28, 0.15, 16, 100]} />
@@ -93,18 +94,31 @@ export function MITRCoreSystem() {
       {/* MITR HOLOGRAPHIC CORE */}
       <group position={[0, 24, 0]}>
         <Float speed={4} rotationIntensity={0.2} floatIntensity={0.5}>
-          <mesh>
-             <planeGeometry args={[32, 32]} />
-             <meshBasicMaterial 
-              map={texture} 
-              transparent 
-              opacity={0.18} 
-              color="#38bdf8" 
-              blending={THREE.AdditiveBlending}
-              depthWrite={false}
-              side={THREE.DoubleSide}
-            />
-          </mesh>
+          <group>
+            <mesh>
+               <planeGeometry args={[50, 50]} />
+               <meshBasicMaterial 
+                map={texture} 
+                transparent 
+                opacity={0.5} 
+                color="#38bdf8" 
+                blending={THREE.AdditiveBlending}
+                depthWrite={false}
+                side={THREE.DoubleSide}
+              />
+            </mesh>
+            <Text
+              position={[0, -18, 0]}
+              fontSize={2.5}
+              color="#38bdf8"
+              anchorX="center"
+              anchorY="middle"
+              font="/fonts/Inter-Bold.ttf"
+            >
+              INFRASTRUCTURE FOR A DIGITAL FUTURE
+              <meshStandardMaterial color="#38bdf8" emissive="#38bdf8" emissiveIntensity={2} />
+            </Text>
+          </group>
         </Float>
 
         {/* Telemetry Orbits */}
@@ -122,7 +136,7 @@ export function MITRCoreSystem() {
         </group>
       </group>
 
-      <pointLight position={[0, 24, 0]} intensity={20} distance={150} color="#38bdf8" />
+      <pointLight position={[0, 24, 0]} intensity={40} distance={200} color="#38bdf8" />
     </group>
   );
 }

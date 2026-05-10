@@ -46,13 +46,13 @@ export function CeilingCassettes({ lightTheme = false }: { lightTheme?: boolean 
               ))}
 
               {/* 🛡️ LAYER 4: FLUORESCENT LED TROUGHS (Pure White Linear Strips) */}
-              {[-15, 15].map((zOff, k) => (
+              {[-15, 0, 15].map((zOff, k) => (
                 <mesh key={`light-${k}`} position={[0, -1.8, zOff]}>
-                   <boxGeometry args={[28, 0.2, 1]} />
+                   <boxGeometry args={[28, 0.2, 1.5]} />
                    <meshStandardMaterial 
                     color="#ffffff"
                     emissive={i % 3 === 0 ? "#e0f2fe" : "#ffffff"} 
-                    emissiveIntensity={2.5} 
+                    emissiveIntensity={4.0} 
                   />
                 </mesh>
               ))}
