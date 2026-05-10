@@ -5,7 +5,6 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls, PerformanceMonitor, PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
 import { Atmosphere } from "./core/WorldSystems";
-import { BuildingShell } from "./environment/BuildingShell";
 import { InteriorArchitecture } from "./environment/InteriorArchitecture";
 import { FloorSystem } from "./environment/FloorSystem";
 import { CeilingSystem } from "./environment/CeilingSystem";
@@ -60,30 +59,29 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
         }}
         shadows={{ type: THREE.PCFShadowMap }}
       >
-        <PerspectiveCamera makeDefault position={[0, 25, 150]} fov={45} />
+        {/* 🎬 START CAMERA - Inside building middle, just before MITR logo */}
+        <PerspectiveCamera makeDefault position={[0, 20, 60]} fov={45} />
         {!isFullscreen && !interactive ? <CinematicCameraRail /> : null}
         
-        {/* 🎬 HIGH-STABILITY GAME-LIKE CONTROLS */}
+        {/* 🎬 STABLE CAMERA CONTROLS - Tight and Focused */}
         <OrbitControls 
-          enablePan={false} // Disable panning to prevent 'drifting'
+          enablePan={false}
           enableZoom={interactive || isFullscreen}
           enableRotate={interactive || isFullscreen}
-          minDistance={30} // Tighter min distance
-          maxDistance={400} // Tighter max distance
+          minDistance={30}
+          maxDistance={150} // Restricted to stay INSIDE the building
           minPolarAngle={0.2}
-          maxPolarAngle={Math.PI / 2.15} // Strict floor limit
-          target={[0, 18, -20]} // Stable focal point
+          maxPolarAngle={Math.PI / 2.15}
+          target={[0, 18, -60]} // Locked onto the MITR Logo
           enableDamping
-          dampingFactor={0.12} // Increased for 'tighter', more stable response
-          rotateSpeed={0.5} // Slower, more deliberate rotation
-          zoomSpeed={0.8}
+          dampingFactor={0.12}
+          rotateSpeed={0.5}
         />
         
         <Atmosphere />
         
         <group>
-          {/* Layered Architectural Environment */}
-          <BuildingShell />
+          {/* Indoor-Only Architectural Environment (BuildingShell removed) */}
           <InteriorArchitecture />
           <FloorSystem />
           <CeilingSystem />
@@ -97,8 +95,14 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
           <VerticalRouting />
           <OverheadInfrastructure />
           
-          {/* Hero Branding */}
+          {/* Hero Branding - Directly in front of camera */}
           <HeroLogo />
+          
+          {/* Far Closure Wall - Ensures 'No Outside' view */}
+          <mesh position={[0, 25, -280]}>
+             <boxGeometry args={[1200, 100, 10]} />
+             <meshStandardMaterial color="#0b1120" roughness={1} />
+          </mesh>
           
           {/* Mid-scale Infrastructure */}
           <MaintenanceWalkways />

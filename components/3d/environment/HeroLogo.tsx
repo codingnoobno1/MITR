@@ -13,28 +13,26 @@ export function HeroLogo() {
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
     
-    // Rotating industrial infrastructure ring
     if (ringRef.current) {
       ringRef.current.rotation.z = time * 0.2;
     }
 
-    // Subtle holographic pulse
     if (ghostRef.current) {
       ghostRef.current.scale.setScalar(1 + Math.sin(time * 2) * 0.08);
       const mat = ghostRef.current.material as THREE.MeshBasicMaterial;
-      mat.opacity = 0.12 + Math.sin(time) * 0.05;
+      mat.opacity = 0.15 + Math.sin(time) * 0.05;
     }
   });
 
   return (
-    <group position={[80, 25, -60]}>
-      {/* 1. PRIMARY HOLOGRAPHIC LOGO - Integrated into taller room */}
+    <group position={[0, 20, -60]}> {/* Centered for direct visibility */}
+      {/* 1. PRIMARY HOLOGRAPHIC LOGO */}
       <mesh>
-        <planeGeometry args={[24, 24]} />
+        <planeGeometry args={[22, 22]} />
         <meshBasicMaterial
           map={texture}
           transparent
-          opacity={0.3}
+          opacity={0.4} 
           color="#ffffff"
           blending={THREE.AdditiveBlending}
           depthWrite={false}
@@ -42,13 +40,13 @@ export function HeroLogo() {
         />
       </mesh>
 
-      {/* 2. GHOST LAYER - Volumetric Depth */}
+      {/* 2. GHOST LAYER */}
       <mesh ref={ghostRef} position={[0, 0, 0.5]}>
-        <planeGeometry args={[25, 25]} />
+        <planeGeometry args={[23, 23]} />
         <meshBasicMaterial
           map={texture}
           transparent
-          opacity={0.15}
+          opacity={0.18}
           color="#60a5fa"
           blending={THREE.AdditiveBlending}
           depthWrite={false}
@@ -57,7 +55,7 @@ export function HeroLogo() {
 
       {/* 3. ROTATING INFRASTRUCTURE RING */}
       <mesh ref={ringRef} position={[0, 0, -1]}>
-        <ringGeometry args={[14, 15, 64]} />
+        <ringGeometry args={[13, 14, 64]} />
         <meshBasicMaterial
           color="#315b9c"
           transparent
@@ -69,7 +67,7 @@ export function HeroLogo() {
 
       {/* 4. SCAN LINE */}
       <mesh position={[0, 0, 0.2]}>
-        <planeGeometry args={[28, 0.1]} />
+        <planeGeometry args={[26, 0.1]} />
         <meshBasicMaterial 
           color="#93c5fd" 
           transparent 
@@ -80,7 +78,7 @@ export function HeroLogo() {
 
       {/* 5. AMBIENT GLOW */}
       <pointLight
-        intensity={4}
+        intensity={5}
         distance={80}
         color="#60a5fa"
         decay={2}
