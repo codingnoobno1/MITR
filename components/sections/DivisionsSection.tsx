@@ -2,111 +2,101 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Building2, Zap, ArrowUpRight, Plus } from "lucide-react";
+import { Building2, Zap, ArrowUpRight, Plus, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { divisions } from "@/data/divisions";
 
 const IconMap: Record<string, React.ReactNode> = {
-  building2: <Building2 className="w-10 h-10" />,
-  zap: <Zap className="w-10 h-10" />,
+  building2: <Building2 className="w-6 h-6" />,
+  zap: <Zap className="w-6 h-6" />,
 };
 
 export function DivisionsSection() {
   return (
-    <section id="ecosystem" className="py-40 relative bg-white overflow-hidden">
-      {/* Artistic Background Accents */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-crimson-600/[0.03] rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/[0.03] rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4" />
-
+    <section id="ecosystem" className="py-24 relative bg-white overflow-hidden border-t border-slate-100">
       <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-4xl mb-32">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 mb-8"
-          >
-            <div className="w-12 h-px bg-blue-600" />
-            Core Intelligence Clusters
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-8xl font-heading font-black text-slate-950 tracking-tighter leading-[0.9] uppercase"
-          >
-            THE TWO <br />
-            <span className="text-blue-600">CENTERS</span>
-          </motion.h2>
-          <motion.div 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="mt-12 flex flex-col md:flex-row gap-12 items-start"
-          >
-             <p className="text-3xl text-slate-400 font-medium leading-tight max-w-xl">
-               Fragmented industries require centralized intelligence. We focus on two primary operational pillars.
-             </p>
-             <div className="w-20 h-20 rounded-full border-2 border-slate-900 flex items-center justify-center rotate-45">
-                <Plus className="w-10 h-10 text-slate-900" />
-             </div>
-          </motion.div>
+        <div className="flex flex-col lg:flex-row justify-between items-end mb-20 gap-8">
+          <div className="max-w-2xl">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600 mb-4 flex items-center gap-3"
+            >
+              <div className="w-8 h-px bg-blue-600" />
+              Core Intelligence Clusters
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="text-4xl md:text-6xl font-heading font-black text-slate-950 tracking-tighter uppercase leading-[0.9]"
+            >
+              INDUSTRIAL <br />
+              <span className="text-blue-600">DIVISIONS</span>
+            </motion.h2>
+          </div>
+          <p className="max-w-md text-sm text-slate-500 font-medium leading-relaxed text-left lg:text-right">
+            We operate through two specialized intelligence hubs, each designed to modernize 
+            traditionally fragmented sectors through modular digital infrastructure.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {divisions.map((dept, index) => (
-            <Link key={dept.id} href={`/divisions/${dept.slug}`} className={cn(
-              "block relative group",
-              index === 1 && "lg:mt-32" // Asymmetrical offset
-            )}>
+            <Link key={dept.id} href={`/divisions/${dept.slug}`} className="group h-full">
               <motion.div
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                className="relative h-full"
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="relative h-full bg-slate-50 p-10 rounded-[2.5rem] border border-slate-200 group-hover:border-blue-500/30 group-hover:bg-white group-hover:shadow-2xl group-hover:shadow-blue-500/5 transition-all duration-500 flex flex-col"
               >
-                {/* Large Background Initials/Number */}
-                <div className="absolute -top-10 -right-10 text-[12rem] md:text-[18rem] font-black text-slate-900/[0.02] pointer-events-none select-none tracking-tighter leading-none group-hover:text-blue-600/[0.03] transition-colors duration-700">
-                  0{index + 1}
-                </div>
-
-                <div className="relative bg-white h-full p-16 rounded-[4rem] border-2 border-slate-900 shadow-[20px_20px_0px_#f1f5f9] group-hover:shadow-[20px_20px_0px_rgba(37,99,235,0.1)] group-hover:-translate-x-2 group-hover:-translate-y-2 transition-all duration-500 overflow-hidden flex flex-col">
-                  {/* Icon Module */}
+                {/* Header: Icon & Subtitle */}
+                <div className="flex items-center justify-between mb-8">
                   <div className={cn(
-                    "w-24 h-24 rounded-[2rem] flex items-center justify-center mb-12 shadow-2xl transition-all duration-700 border-2 border-slate-900",
-                    index === 0 ? "bg-blue-600 text-white" : "bg-white text-slate-900"
+                    "w-14 h-14 rounded-2xl flex items-center justify-center border border-slate-200 transition-all duration-500",
+                    index === 0 ? "bg-blue-600 text-white shadow-xl shadow-blue-600/20" : "bg-white text-slate-900"
                   )}>
-                    {IconMap[dept.icon] || <Zap className="w-10 h-10" />}
+                    {IconMap[dept.icon] || <Zap className="w-6 h-6" />}
                   </div>
-                  
-                  <div className="mb-12 flex-1">
-                    <h3 className="text-5xl font-heading font-black mb-6 tracking-tighter text-slate-950 group-hover:text-blue-600 transition-colors uppercase leading-[0.9]">
-                      {dept.name}
-                    </h3>
-                    <p className="text-[10px] uppercase tracking-[0.5em] text-blue-600 mb-8 font-black flex items-center gap-3">
-                      <span className="w-8 h-0.5 bg-blue-600" />
-                      {dept.subtitle}
-                    </p>
-                    <p className="text-slate-500 leading-relaxed text-2xl font-medium tracking-tight">
-                      {dept.description}
-                    </p>
+                  <div className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400">
+                    Phase 0{index + 1} / {dept.id}
                   </div>
-                  
-                  <div className="space-y-6 mb-16">
-                    <div className="flex flex-wrap gap-3">
-                      {dept.products.map(product => (
-                        <span key={product.id} className="text-xs font-black px-6 py-3 rounded-2xl bg-slate-50 text-slate-400 border-2 border-slate-100 group-hover:border-blue-600/20 group-hover:text-slate-600 transition-all uppercase tracking-widest">
-                          {product.name}
-                        </span>
-                      ))}
-                    </div>
+                </div>
+                
+                <div className="mb-8">
+                  <h3 className="text-3xl font-heading font-black mb-3 tracking-tighter text-slate-950 group-hover:text-blue-600 transition-colors uppercase">
+                    {dept.name}
+                  </h3>
+                  <div className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-6">
+                    {dept.subtitle}
                   </div>
-                  
-                  <div className="pt-12 border-t-2 border-slate-100 mt-auto flex items-center justify-between group-hover:border-blue-600/20 transition-all">
-                    <span className="text-sm font-black tracking-[0.4em] text-slate-900 uppercase">Explore Division</span>
-                    <div className="w-20 h-20 rounded-full bg-slate-950 text-white flex items-center justify-center group-hover:bg-blue-600 group-hover:rotate-45 transition-all duration-500 shadow-2xl">
-                       <ArrowUpRight className="w-10 h-10" />
-                    </div>
+                  <p className="text-slate-500 text-base font-medium leading-relaxed">
+                    {dept.description}
+                  </p>
+                </div>
+                
+                {/* Detailed Product List */}
+                <div className="space-y-4 mb-10 pt-8 border-t border-slate-200/50">
+                  <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Active Solutions</div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {dept.products.map(product => (
+                      <div key={product.id} className="flex items-center gap-2 p-3 rounded-xl bg-white border border-slate-100 group-hover:border-blue-600/10 transition-all">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
+                        <span className="text-[10px] font-bold text-slate-600 uppercase tracking-tight">{product.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* CTA Footer */}
+                <div className="pt-8 mt-auto flex items-center justify-between border-t border-slate-200/50">
+                  <div className="flex flex-col">
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Network Status</span>
+                    <span className="text-xs font-bold text-slate-900">Synchronized</span>
+                  </div>
+                  <div className="w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-300 group-hover:bg-slate-950 group-hover:text-white group-hover:border-slate-950 group-hover:rotate-45 transition-all duration-500 shadow-sm">
+                     <ArrowUpRight className="w-6 h-6" />
                   </div>
                 </div>
               </motion.div>
