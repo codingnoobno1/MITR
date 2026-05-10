@@ -129,7 +129,7 @@ export const divisions: Division[] = [
           ],
           cta: {
             text: 'Get Syncro',
-            href: '#'
+            href: 'https://project-syncroo.netlify.app/'
           }
         }
       },

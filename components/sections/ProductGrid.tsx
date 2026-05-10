@@ -24,7 +24,9 @@ export function ProductGrid({ products, division }: ProductGridProps) {
           transition={{ delay: index * 0.1, duration: 0.6 }}
         >
           <Link 
-            href={`/divisions/${division.slug}/${product.slug}`}
+            href={product.details?.cta?.href?.startsWith('http') ? product.details.cta.href : `/divisions/${division.slug}/${product.slug}`}
+            target={product.details?.cta?.href?.startsWith('http') ? "_blank" : undefined}
+            rel={product.details?.cta?.href?.startsWith('http') ? "noopener noreferrer" : undefined}
             className="group block h-full"
           >
             <div className="relative h-full bg-white p-10 rounded-[3rem] border border-slate-200 group-hover:border-transparent group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-500 flex flex-col overflow-hidden">

@@ -26,6 +26,7 @@ export interface Division {
   longDescription?: string;
   icon: string;
   color: string;
+  externalUrl?: string;
   products: Product[];
   metadata?: {
     tagline?: string;

@@ -52,6 +52,7 @@ export function Footer() {
               <div>
                 <h4 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-8">ECOSYSTEM</h4>
                 <ul className="space-y-4">
+                  <li><Link href="/products" className="text-slate-500 hover:text-blue-600 transition-colors font-bold uppercase text-[10px] tracking-widest">PRODUCTS</Link></li>
                   <li><Link href="/divisions/karya" className="text-slate-500 hover:text-blue-600 transition-colors font-bold uppercase text-[10px] tracking-widest">KARYA</Link></li>
                   <li><Link href="/divisions/sankalap-community" className="text-slate-500 hover:text-blue-600 transition-colors font-bold uppercase text-[10px] tracking-widest">SANKALAP</Link></li>
                   <li><Link href="/projects/syncro" className="text-slate-500 hover:text-blue-600 transition-colors font-bold uppercase text-[10px] tracking-widest">SYNCRO</Link></li>
