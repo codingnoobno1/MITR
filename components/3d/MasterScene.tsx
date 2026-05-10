@@ -4,12 +4,11 @@ import React, { useState, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, PerformanceMonitor, PerspectiveCamera } from "@react-three/drei";
 import { Atmosphere, ServerRoomEnclosure } from "./core/WorldSystems";
-import { ServerRack, ReflectionPlane, DynamicInfrastructure } from "./infrastructure/Districts";
+import { ServerRack, DynamicInfrastructure } from "./infrastructure/Districts";
 import { DataFlow, AmbientDust } from "./fx/Effects";
 import { divisions } from "@/data/divisions";
-import { Maximize2, Minimize2, RotateCcw } from "lucide-react";
+import { Maximize2, Minimize2 } from "lucide-react";
 
-// Gather all products from divisions data
 const allProducts = divisions.flatMap(d => d.products);
 
 export function MITRInfrastructureWorld() {
@@ -32,117 +31,88 @@ export function MITRInfrastructureWorld() {
       className={`absolute inset-0 z-0 bg-[#0c1222] ${isFullscreen ? 'fixed inset-0 z-[999]' : ''}`}
     >
       <Canvas 
-        shadows 
-        dpr={[1, 2]} 
-        gl={{ antialias: true, alpha: false }}
+        dpr={[1, 1.5]} 
+        gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
+        flat
       >
-        <PerspectiveCamera makeDefault position={[0, 8, 30]} fov={55} />
+        <PerspectiveCamera makeDefault position={[0, 8, 35]} fov={50} />
         
-        {/* User-controllable orbit camera */}
+        {/* Full user control — drag, zoom, pan */}
         <OrbitControls 
-          enablePan={true}
-          enableZoom={true}
-          enableRotate={true}
-          minDistance={5}
-          maxDistance={80}
-          minPolarAngle={0.3}
-          maxPolarAngle={Math.PI / 2.2}
-          target={[0, 5, -10]}
+          enablePan
+          enableZoom
+          enableRotate
+          minDistance={8}
+          maxDistance={150}
+          minPolarAngle={0.2}
+          maxPolarAngle={Math.PI / 2.1}
+          target={[20, 4, -15]}
           autoRotate
-          autoRotateSpeed={0.3}
+          autoRotateSpeed={0.15}
+          enableDamping
+          dampingFactor={0.05}
         />
         
         <Atmosphere />
         
         <group>
           <ServerRoomEnclosure />
-          <ReflectionPlane />
           
-          {/* === STATIC CLOUD INFRASTRUCTURE AISLES === */}
+          {/* Dark floor (no reflection — removes blur) */}
+          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, -10]} receiveShadow>
+            <planeGeometry args={[600, 150]} />
+            <meshStandardMaterial color="#0c1222" roughness={0.3} metalness={0.4} />
+          </mesh>
           
-          {/* AISLE LEFT — AWS Cluster */}
-          <group position={[-50, 0, 0]}>
-            {[-16, -8, 0, 8, 16].map((x, i) => (
-              <ServerRack 
-                key={`aws-${i}`} 
-                position={[x, 6, -20]} 
-                label={`AWS-NODE-${i + 1}`} 
-                active={i % 2 === 0} 
-                provider={0}
-              />
-            ))}
-          </group>
+          {/* === AWS AISLE (left) — spaced out along Z === */}
+          {[-30, -15, 0, 15, 30].map((z, i) => (
+            <ServerRack 
+              key={`aws-${i}`} 
+              position={[-25, 5, z - 20]} 
+              label={`AWS-${i + 1}`} 
+              active={i % 2 === 0} 
+              provider={0}
+            />
+          ))}
 
-          {/* AISLE CENTER — Azure Cluster */}
-          <group position={[0, 0, 0]}>
-            {[-16, -8, 0, 8, 16].map((x, i) => (
-              <ServerRack 
-                key={`az-${i}`} 
-                position={[x, 6, -35]} 
-                label={`AZURE-NODE-${i + 1}`} 
-                active={i % 3 !== 0} 
-                provider={1}
-              />
-            ))}
-          </group>
+          {/* === AZURE AISLE (center) === */}
+          {[-30, -15, 0, 15, 30].map((z, i) => (
+            <ServerRack 
+              key={`az-${i}`} 
+              position={[10, 5, z - 20]} 
+              label={`AZURE-${i + 1}`} 
+              active={i % 3 !== 0} 
+              provider={1}
+            />
+          ))}
 
-          {/* AISLE RIGHT — K8S Cluster */}
-          <group position={[50, 0, 0]}>
-            {[-16, -8, 0, 8, 16].map((x, i) => (
-              <ServerRack 
-                key={`k8s-${i}`} 
-                position={[x, 6, -20]} 
-                label={`K8S-POD-${i + 1}`} 
-                active 
-                provider={2}
-              />
-            ))}
-          </group>
+          {/* === K8S AISLE (right) === */}
+          {[-30, -15, 0, 15, 30].map((z, i) => (
+            <ServerRack 
+              key={`k8s-${i}`} 
+              position={[45, 5, z - 20]} 
+              label={`K8S-${i + 1}`} 
+              active 
+              provider={2}
+            />
+          ))}
 
-          {/* === DYNAMIC PRODUCT SERVERS (from divisions.ts) === */}
-          <group position={[0, 0, 5]}>
+          {/* === DYNAMIC PRODUCT SERVERS (far back row) === */}
+          <group position={[10, 0, -55]}>
             <DynamicInfrastructure products={allProducts} />
           </group>
 
           {/* === DATA FLOW ANIMATIONS === */}
-          {/* AWS → Azure data transfer */}
-          <DataFlow 
-            from={[-50, 8, -20]} 
-            to={[0, 8, -35]} 
-            count={4} 
-            color="#FF9900" 
-            label="DATA SYNC" 
-          />
-          {/* Azure → K8S deployment */}
-          <DataFlow 
-            from={[0, 10, -35]} 
-            to={[50, 10, -20]} 
-            count={3} 
-            color="#0078D4" 
-            label="DEPLOY PIPELINE" 
-          />
-          {/* K8S → Products routing */}
-          <DataFlow 
-            from={[50, 6, -20]} 
-            to={[0, 6, 5]} 
-            count={5} 
-            color="#326CE5" 
-            label="K8S ROUTING" 
-          />
-          {/* Cross-cloud orchestration */}
-          <DataFlow 
-            from={[-50, 12, -20]} 
-            to={[50, 12, -20]} 
-            count={6} 
-            color="#315b9c" 
-            label="ORCHESTRATION BUS" 
-          />
+          <DataFlow from={[-25, 8, -20]} to={[10, 8, -20]}  count={3} color="#FF9900" label="SYNC" />
+          <DataFlow from={[10, 9, -20]}  to={[45, 9, -20]}  count={3} color="#0078D4" label="DEPLOY" />
+          <DataFlow from={[45, 7, -20]}  to={[10, 7, -55]}  count={4} color="#326CE5" label="ROUTING" />
+          <DataFlow from={[-25, 10, -5]} to={[45, 10, -5]}  count={5} color="#315b9c" label="ORCHESTRATION" />
 
-          {/* Ceiling cable trays — structured */}
-          {Array.from({ length: 8 }).map((_, i) => (
-            <mesh key={`cable-${i}`} position={[i * 25 - 100, 14.5, -15]}>
-              <boxGeometry args={[0.15, 0.15, 80]} />
-              <meshStandardMaterial color="#334155" metalness={0.6} />
+          {/* Cable trays */}
+          {Array.from({ length: 6 }).map((_, i) => (
+            <mesh key={`cable-${i}`} position={[i * 20 - 50, 13.5, -15]}>
+              <boxGeometry args={[0.1, 0.1, 120]} />
+              <meshStandardMaterial color="#334155" metalness={0.5} />
             </mesh>
           ))}
 
@@ -152,7 +122,7 @@ export function MITRInfrastructureWorld() {
         <PerformanceMonitor />
       </Canvas>
       
-      {/* Controls Overlay */}
+      {/* Controls */}
       <div className="absolute bottom-4 right-4 flex gap-2 z-50">
         <button
           onClick={toggleFullscreen}
@@ -163,11 +133,11 @@ export function MITRInfrastructureWorld() {
         </button>
       </div>
 
-      {/* HUD Labels */}
+      {/* HUD */}
       <div className="absolute top-4 left-4 z-50 pointer-events-none">
         <div className="flex items-center gap-2 mb-2">
           <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Infrastructure Live</span>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Live Infrastructure</span>
         </div>
         <div className="flex gap-4">
           {[
@@ -190,8 +160,8 @@ export function MITRInfrastructureWorld() {
         </span>
       </div>
 
-      {/* Soft vignette — lighter than before */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(12,18,34,0.5)_100%)] pointer-events-none" />
+      {/* Lighter vignette */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,rgba(12,18,34,0.4)_100%)] pointer-events-none" />
     </div>
   );
 }
