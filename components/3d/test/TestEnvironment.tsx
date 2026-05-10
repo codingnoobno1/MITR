@@ -1,66 +1,84 @@
 "use client";
 
-import React from "react";
+import React, { useMemo, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 export function TestEnvironment() {
+  const pointsRef = useRef<THREE.Points>(null!);
+
+  const particles = useMemo(() => {
+    const temp = new Float32Array(1500 * 3);
+    for (let i = 0; i < 1500; i++) {
+      temp[i * 3] = (Math.random() - 0.5) * 500;
+      temp[i * 3 + 1] = Math.random() * 120;
+      temp[i * 3 + 2] = (Math.random() - 0.5) * 400;
+    }
+    return temp;
+  }, []);
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime();
+    if (pointsRef.current) {
+      pointsRef.current.position.y = Math.sin(time * 0.1) * 2;
+    }
+  });
+
   return (
     <>
       <color attach="background" args={["#020617"]} />
-      <fogExp2 attach="fog" args={["#020617", 0.002]} />
+      
+      {/* 🌬️ MASTER FOG BLUEPRINT */}
+      <fogExp2 attach="fog" args={["#0f172a", 0.0007]} />
 
-      {/* 1. GIANT BLACKOUT ENVELOPE (The 'Proper Fix' from lesson 1) */}
-      <mesh position={[0, 100, -20]}>
-        <boxGeometry args={[2500, 200, 800]} />
+      {/* 🌑 MASTER BLACKOUT ENVELOPE */}
+      <mesh position={[0, 60, -20]}>
+        <boxGeometry args={[600, 160, 500]} />
         <meshBasicMaterial color="#000000" side={THREE.BackSide} />
       </mesh>
 
-      {/* 2. CINEMATIC LIGHTING HIERARCHY */}
-      <ambientLight intensity={0.15} color="#94a3b8" />
-      
-      {/* Primary Key Light */}
+      {/* 💡 MASTER LIGHTING BLUEPRINT */}
       <directionalLight 
-        position={[100, 150, 50]} 
-        intensity={1.5} 
+        position={[0, 80, 40]} 
+        intensity={2.2} 
         color="#f8fafc" 
         castShadow 
       />
 
-      {/* Global Bounce */}
-      <hemisphereLight intensity={0.4} color="#f1f5f9" groundColor="#0f172a" />
+      <ambientLight intensity={0.1} color="#94a3b8" />
+      <hemisphereLight intensity={0.3} color="#f1f5f9" groundColor="#0f172a" />
 
-      {/* Rhythmic Corridor Lighting */}
-      {[-120, -40, 40, 120].map((x, i) => (
-        <group key={`light-${i}`} position={[x, 40, -30]}>
-          <pointLight 
-            intensity={4} 
-            distance={180} 
-            decay={2} 
-            color={i % 2 === 0 ? "#60a5fa" : "#e2e8f0"} 
-          />
-          {/* Volumetric Fake Light Beam */}
-          <mesh position={[0, -20, 0]}>
-            <cylinderGeometry args={[1, 15, 40, 32]} />
-            <meshBasicMaterial 
-              color={i % 2 === 0 ? "#60a5fa" : "#ffffff"} 
-              transparent 
-              opacity={0.02} 
-              depthWrite={false} 
-            />
-          </mesh>
-        </group>
+      {[-80, 80].map((x, i) => (
+        <rectAreaLight
+          key={`aisle-light-${i}`}
+          position={[x, 58, -30]}
+          width={10}
+          height={200}
+          intensity={3}
+          rotation={[-Math.PI / 2, 0, 0]}
+          color="#60a5fa"
+        />
       ))}
 
-      {/* Hero Focus Light (Targeting the center) */}
-      <spotLight
-        position={[0, 80, -40]}
-        angle={0.25}
-        penumbra={1}
-        intensity={12}
-        distance={250}
-        color="#ffffff"
-        castShadow
-      />
+      <points ref={pointsRef}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={particles.length / 3}
+            array={particles}
+            itemSize={3}
+            args={[particles, 3]}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.15}
+          color="#94a3b8"
+          transparent
+          opacity={0.04}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </points>
     </>
   );
 }

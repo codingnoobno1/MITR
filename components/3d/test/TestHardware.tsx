@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useTexture, Float } from "@react-three/drei";
 import * as THREE from "three";
@@ -8,140 +8,138 @@ import * as THREE from "three";
 export function TestHardware() {
   return (
     <group>
-      {/* 1. CENTRAL OPERATIONAL GRID (Floor Mounted) */}
-      <group position={[0, 0, -30]}>
-        {Array.from({ length: 6 }).map((_, row) => (
-          <group key={`row-${row}`} position={[0, 0, row * 25 - 100]}>
-            {[-35, -15, 15, 35].map((xPos, col) => (
-              <OperationalNode 
-                key={`node-${row}-${col}`} 
-                position={[xPos, 0, 0]} 
-                height={8 + (row % 2) * 4} 
-              />
-            ))}
-          </group>
-        ))}
-      </group>
-
-      {/* 2. MAIN INFRASTRUCTURE HOLO-CORE */}
-      <group position={[0, 25, -160]}>
-         <Float speed={3} rotationIntensity={0.2} floatIntensity={1}>
-            <CloudHologram />
-         </Float>
-         
-         {/* Hologram Base / Radar Platform */}
-         <mesh position={[0, -25.4, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-            <ringGeometry args={[10, 15, 64]} />
-            <meshStandardMaterial color="#3b82f6" emissive="#3b82f6" emissiveIntensity={5} transparent opacity={0.5} />
+      {/* 1. 🛡️ FOREGROUND COMMAND PLATFORM (z = 110) */}
+      <group position={[0, 0, 110]}>
+         {/* Command Bridge Base */}
+         <mesh position={[0, 0.5, 0]}>
+            <boxGeometry args={[60, 1, 40]} />
+            <meshStandardMaterial color="#1e293b" metalness={0.8} />
          </mesh>
-         <mesh position={[0, -25.4, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-            <circleGeometry args={[20, 64]} />
-            <meshStandardMaterial color="#1e293b" metalness={1} roughness={0} />
+         {/* Railing */}
+         <mesh position={[0, 3, -18]}>
+            <boxGeometry args={[60, 0.2, 0.2]} />
+            <meshStandardMaterial color="#475569" />
+         </mesh>
+         {/* Control Terminal */}
+         <mesh position={[0, 6, -10]} rotation={[-Math.PI / 6, 0, 0]}>
+            <boxGeometry args={[12, 1, 8]} />
+            <meshStandardMaterial color="#0f172a" emissive="#3b82f6" emissiveIntensity={0.2} />
          </mesh>
       </group>
 
-      {/* 3. SIDE SECTOR TOWERS (Deep Background) */}
-      <group position={[-120, 0, -100]}>
-         {Array.from({ length: 5 }).map((_, i) => (
-            <ServerTower key={`bg-l-${i}`} position={[0, 0, i * 40]} height={40} />
+      {/* 2. 🛡️ SERVER FIELD (z = 40 → -100, 5x5 Grid) */}
+      <group position={[0, 0, 0]}>
+         {Array.from({ length: 5 }).map((_, row) => (
+           Array.from({ length: 5 }).map((_, col) => {
+             const x = col * 18 - 36; // Spacing 18, Origin -36
+             const z = row * 20 - 40;  // Spacing 20, Range 40 to -100
+             return <ServerUnit key={`server-${row}-${col}`} position={[x, 0, z]} />;
+           })
          ))}
       </group>
-      <group position={[120, 0, -100]}>
-         {Array.from({ length: 5 }).map((_, i) => (
-            <ServerTower key={`bg-r-${i}`} position={[0, 0, i * 40]} height={40} />
-         ))}
+
+      {/* 3. 🛡️ MITR CORE (0, 18, -120) */}
+      <group position={[0, 18, -120]}>
+         <MITRCore />
       </group>
     </group>
   );
 }
 
-function OperationalNode({ position, height }: { position: [number, number, number], height: number }) {
+function ServerUnit({ position }: { position: [number, number, number] }) {
   return (
     <group position={position}>
-      {/* Chassis */}
-      <mesh position={[0, height / 2, 0]} castShadow>
-        <boxGeometry args={[14, height, 18]} />
-        <meshStandardMaterial color="#0f172a" metalness={0.8} roughness={0.2} />
-      </mesh>
-      
-      {/* Top Cooling Vent */}
-      <mesh position={[0, height + 0.1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[12, 16]} />
-        <meshStandardMaterial color="#1e293b" emissive="#3b82f6" emissiveIntensity={0.2} />
+      {/* LAYER 1: OUTER SHELL (10 x 14 x 8) */}
+      <mesh position={[0, 7, 0]}>
+         <boxGeometry args={[10, 14, 8]} />
+         <meshStandardMaterial color="#111827" roughness={0.8} />
       </mesh>
 
-      {/* Status Indicators (Blue LED strips) */}
-      {[-6.1, 6.1].map((xOff, i) => (
-        <mesh key={`led-${i}`} position={[xOff, height / 2, 0]}>
-          <boxGeometry args={[0.2, height - 2, 16]} />
-          <meshStandardMaterial color="#60a5fa" emissive="#60a5fa" emissiveIntensity={2} />
-        </mesh>
+      {/* LAYER 2: INNER FRAME (Inset 0.3) */}
+      <mesh position={[0, 7, 0]}>
+         <boxGeometry args={[9.4, 13.4, 8.2]} />
+         <meshStandardMaterial color="#1e293b" metalness={0.5} />
+      </mesh>
+
+      {/* LAYER 3: SERVER BAYS (8 horizontal slots) */}
+      {Array.from({ length: 8 }).map((_, i) => (
+        <group key={`bay-${i}`} position={[0, i * 1.3 + 2, 4.2]}>
+          <mesh>
+             <boxGeometry args={[8, 0.8, 0.6]} />
+             <meshStandardMaterial color="#0f172a" />
+          </mesh>
+          {/* LAYER 4: LED STRIPS (Tiny emissive nodes) */}
+          {Array.from({ length: 3 }).map((_, j) => (
+            <mesh key={`led-${j}`} position={[j * 2 - 2, 0, 0.35]}>
+               <planeGeometry args={[0.2, 0.2]} />
+               <meshBasicMaterial 
+                color="#3b82f6" 
+                transparent 
+                opacity={Math.random() > 0.2 ? 1 : 0.2} 
+              />
+            </mesh>
+          ))}
+        </group>
       ))}
     </group>
   );
 }
 
-function CloudHologram() {
-  const meshRef = useRef<THREE.Mesh>(null!);
-  const texture = useTexture("/MITR.png"); 
+function MITRCore() {
+  const ring1Ref = useRef<THREE.Mesh>(null!);
+  const ring2Ref = useRef<THREE.Mesh>(null!);
+  const ring3Ref = useRef<THREE.Mesh>(null!);
+  const logoTexture = useTexture("/MITR.png");
 
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
-    if (meshRef.current) {
-      meshRef.current.rotation.y = Math.sin(time * 0.2) * 0.2;
-    }
+    if (ring1Ref.current) ring1Ref.current.rotation.y = time * 0.4;
+    if (ring2Ref.current) ring2Ref.current.rotation.x = time * -0.3;
+    if (ring3Ref.current) ring3Ref.current.rotation.z = time * 0.2;
   });
 
   return (
     <group>
-      {/* Core Cloud Logo */}
-      <mesh ref={meshRef}>
-        <planeGeometry args={[40, 30]} />
-        <meshBasicMaterial 
-          map={texture} 
-          transparent 
-          opacity={0.6} 
-          color="#93c5fd" 
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-          side={THREE.DoubleSide}
-        />
+      {/* BASE PLATFORM */}
+      <mesh position={[0, -18, 0]}>
+         <cylinderGeometry args={[18, 18, 2, 64]} />
+         <meshStandardMaterial color="#1e293b" metalness={1} roughness={0} />
       </mesh>
 
-      {/* Volumetric Glow Rings */}
-      {Array.from({ length: 3 }).map((_, i) => (
-        <mesh key={`ring-${i}`} rotation={[Math.PI / 2, 0, 0]} position={[0, -15 + i * 5, 0]}>
-           <torusGeometry args={[10 + i * 5, 0.05, 16, 100]} />
-           <meshStandardMaterial color="#60a5fa" emissive="#60a5fa" emissiveIntensity={2} transparent opacity={0.3} />
+      {/* INNER RINGS (Sizes: 22, 28, 34) */}
+      <mesh ref={ring1Ref}>
+         <torusGeometry args={[11, 0.2, 16, 100]} />
+         <meshStandardMaterial color="#60a5fa" emissive="#60a5fa" emissiveIntensity={2} />
+      </mesh>
+      <mesh ref={ring2Ref} rotation={[Math.PI / 2, 0, 0]}>
+         <torusGeometry args={[14, 0.15, 16, 100]} />
+         <meshStandardMaterial color="#3b82f6" emissive="#3b82f6" emissiveIntensity={1.5} />
+      </mesh>
+      <mesh ref={ring3Ref} rotation={[0, Math.PI / 2, 0]}>
+         <torusGeometry args={[17, 0.1, 16, 100]} />
+         <meshStandardMaterial color="#22d3ee" emissive="#22d3ee" emissiveIntensity={1} />
+      </mesh>
+
+      {/* 🛡️ MITR LOGO HOLOGRAM (Using additive blending and alpha) */}
+      <Float speed={4} rotationIntensity={0.1} floatIntensity={0.5}>
+        <mesh position={[0, 0, 0]}>
+          <planeGeometry args={[20, 20]} />
+          <meshBasicMaterial 
+            map={logoTexture} 
+            transparent 
+            opacity={0.18} 
+            color="#3b82f6" 
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+            side={THREE.DoubleSide}
+          />
         </mesh>
-      ))}
+      </Float>
 
-      {/* Vertical Data Streams */}
-      {Array.from({ length: 8 }).map((_, i) => {
-        const x = ((i * 13) % 40) - 20;
-        const z = ((i * 7) % 20) - 10;
-        return (
-          <mesh key={`stream-${i}`} position={[x, -10, z]}>
-             <cylinderGeometry args={[0.1, 0.1, 40, 8]} />
-             <meshBasicMaterial color="#60a5fa" transparent opacity={0.2} />
-          </mesh>
-        );
-      })}
-    </group>
-  );
-}
-
-function ServerTower({ position, height }: { position: [number, number, number], height: number }) {
-  return (
-    <group position={position}>
-      <mesh position={[0, height / 2, 0]} castShadow>
-        <boxGeometry args={[18, height, 18]} />
-        <meshStandardMaterial color="#0f172a" metalness={0.9} roughness={0.1} />
-      </mesh>
-      {/* Recessed Lighting */}
-      <mesh position={[0, height / 2, 9.1]}>
-         <boxGeometry args={[14, height - 4, 0.2]} />
-         <meshStandardMaterial color="#020617" />
+      {/* Holographic Projection Base */}
+      <mesh position={[0, -10, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+         <circleGeometry args={[12, 32]} />
+         <meshBasicMaterial color="#3b82f6" transparent opacity={0.05} />
       </mesh>
     </group>
   );

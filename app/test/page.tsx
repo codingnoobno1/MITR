@@ -14,45 +14,47 @@ export default function TestPage() {
       {/* HUD OVERLAY */}
       <div className="absolute top-10 left-10 z-50 pointer-events-none">
         <div className="space-y-1">
-          <h1 className="text-white text-2xl font-bold tracking-tighter font-mono">MITR_INFRA_V2</h1>
+          <h1 className="text-white text-2xl font-bold tracking-tighter font-mono">MITR_CENTRAL_ORCHESTRATION</h1>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-            <span className="text-blue-400 text-[10px] font-bold uppercase tracking-widest">Experimental Build: 0.9.2</span>
+            <span className="text-blue-400 text-[10px] font-bold uppercase tracking-widest">MASTER BLUEPRINT ACTIVE</span>
           </div>
         </div>
       </div>
 
       <Canvas
-        dpr={[1, 1.5]}
+        dpr={[1, 2]}
         gl={{
           antialias: true,
           alpha: false,
           powerPreference: "high-performance",
           toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.2
+          toneMappingExposure: 1.1
         }}
         shadows
       >
-        <PerspectiveCamera makeDefault position={[15, 25, 70]} fov={40} />
+        {/* 🎥 MASTER CAMERA BLUEPRINT */}
+        <PerspectiveCamera 
+          makeDefault 
+          position={[0, 38, 130]} 
+          fov={42} 
+        />
         
         <OrbitControls 
           enablePan={false}
-          maxDistance={140}
-          minDistance={20}
-          target={[0, 20, -40]}
+          maxDistance={250}
+          minDistance={40}
+          target={[0, 24, -80]}
           enableDamping
           dampingFactor={0.08}
+          maxPolarAngle={Math.PI / 2.1}
+          minPolarAngle={0.1}
         />
 
         <Suspense fallback={null}>
           <group>
-            {/* 1. Global Scene Calibration */}
             <TestEnvironment />
-            
-            {/* 2. Structural Envelope */}
             <TestArchitecture />
-            
-            {/* 3. Operational Density */}
             <TestHardware />
           </group>
         </Suspense>
@@ -61,7 +63,7 @@ export default function TestPage() {
       </Canvas>
 
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-[9px] text-white/20 uppercase tracking-[0.4em] pointer-events-none">
-        Interactive Infrastructure Protocol Active
+        Orchestration Chamber Protocol Verified
       </div>
     </main>
   );
