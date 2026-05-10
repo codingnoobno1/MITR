@@ -101,6 +101,12 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
           <HeroLogo />
 
           {/* 🛠️ AIRTIGHT FACILITY ENCLOSURE */}
+          {/* 1. GIANT BLACKOUT CAP (Seals upper world volume / blocks environment bleed) */}
+          <mesh position={[0, 90, -20]}>
+            <boxGeometry args={[2200, 120, 600]} />
+            <meshBasicMaterial color="#000000" side={THREE.BackSide} />
+          </mesh>
+
           <mesh position={[0, 25, -155]}>
              <boxGeometry args={[1600, 110, 10]} />
              <meshStandardMaterial color="#0f172a" roughness={1} />
