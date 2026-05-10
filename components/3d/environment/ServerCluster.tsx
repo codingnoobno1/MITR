@@ -31,22 +31,22 @@ export function ServerCluster({
   useFrame((state) => {
     if (active && lightRef.current) {
       const mat = lightRef.current.material as THREE.MeshStandardMaterial;
-      if (mat) mat.emissiveIntensity = 2 + Math.sin(state.clock.getElapsedTime() * 6) * 1.5;
+      if (mat) mat.emissiveIntensity = 4 + Math.sin(state.clock.getElapsedTime() * 8) * 2;
     }
   });
 
   return (
     <group position={position}>
-      {/* Heavy Industrial Rack Frame */}
+      {/* Heavy Industrial Rack Frame - Value separation */}
       <mesh castShadow>
         <boxGeometry args={[6, HEIGHT, 4]} />
-        <meshStandardMaterial color="#0f172a" roughness={0.1} metalness={0.9} />
+        <meshStandardMaterial color="#182131" roughness={0.2} metalness={0.8} />
       </mesh>
       
-      {/* Recessed Hardware Bay */}
+      {/* Recessed Hardware Bay - shadow pocket */}
       <mesh position={[0, 0, 1.8]}>
         <boxGeometry args={[5.2, HEIGHT - 1, 0.5]} />
-        <meshStandardMaterial color="#020617" />
+        <meshStandardMaterial color="#0f1724" />
       </mesh>
 
       {/* Individual Blade Units */}
@@ -59,7 +59,7 @@ export function ServerCluster({
           {/* Status HUD / Telemetry */}
           <mesh position={[2, 0.2, 0.11]}>
              <planeGeometry args={[0.4, 0.2]} />
-             <meshStandardMaterial color={palette.success} emissive={palette.success} emissiveIntensity={2} />
+             <meshStandardMaterial color={palette.success} emissive={palette.success} emissiveIntensity={3} />
           </mesh>
         </group>
       ))}
@@ -67,16 +67,16 @@ export function ServerCluster({
       {/* Top Mounting / Cloud Logo */}
       <mesh position={[0, HEIGHT / 2 + 0.1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[4, 4]} />
-        <meshStandardMaterial map={logoTex} transparent opacity={0.8} />
+        <meshStandardMaterial map={logoTex} transparent opacity={0.9} />
       </mesh>
 
-      {/* Dynamic Status Bar */}
+      {/* Dynamic Status Bar - light guided navigation */}
       <mesh position={[0, -HEIGHT / 2 + 0.5, 2.01]} ref={lightRef}>
-        <planeGeometry args={[5, 0.1]} />
-        <meshStandardMaterial color={info.color} emissive={info.color} emissiveIntensity={3} />
+        <planeGeometry args={[5, 0.15]} />
+        <meshStandardMaterial color={info.color} emissive={info.color} emissiveIntensity={4} />
       </mesh>
 
-      <Text position={[0, HEIGHT / 2 + 2, 0]} fontSize={0.5} color={palette.silver}>{label}</Text>
+      <Text position={[0, HEIGHT / 2 + 2.5, 0]} fontSize={0.6} color={palette.silver}>{label}</Text>
     </group>
   );
 }
