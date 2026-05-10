@@ -4,13 +4,13 @@ import React, { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Line, Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
-import { hardwareColors } from "../materials/palette";
+import { palette } from "../materials/palette";
 
 export function CopperTrace({ path, active = false }: { path: THREE.Vector3[], active?: boolean }) {
   return (
     <Line
       points={path}
-      color={active ? hardwareColors.traceActive : hardwareColors.tracePassive}
+      color={active ? palette.cobalt : palette.slate}
       lineWidth={active ? 1.2 : 0.8}
       transparent
       opacity={active ? 0.22 : 0.07}
@@ -31,8 +31,8 @@ export function ElectronPulse({ path, delay = 0 }: { path: THREE.Vector3[], dela
   return (
     <mesh ref={pulseRef}>
       <sphereGeometry args={[0.04, 12, 12]} />
-      <meshBasicMaterial color={hardwareColors.traceActive} />
-      <pointLight color={hardwareColors.traceActive} intensity={1.5} distance={3} />
+      <meshBasicMaterial color={palette.cobalt} />
+      <pointLight color={palette.cobalt} intensity={1.5} distance={3} />
     </mesh>
   );
 }
@@ -52,7 +52,7 @@ export function AmbientDust() {
     <Points positions={points}>
       <PointMaterial
         transparent
-        color={hardwareColors.tracePassive}
+        color={palette.slate}
         size={0.03}
         sizeAttenuation={true}
         depthWrite={false}

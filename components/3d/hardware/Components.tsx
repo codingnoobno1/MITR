@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Box, Text } from "@react-three/drei";
-import { hardwareColors } from "../materials/palette";
+import { palette } from "../materials/palette";
 
 export function CPUChip({ position, size = [3, 0.6, 3], label = "MITR-ORCHESTRATOR" }: { position: [number, number, number], size?: [number, number, number], label?: string }) {
   return (
@@ -11,7 +11,7 @@ export function CPUChip({ position, size = [3, 0.6, 3], label = "MITR-ORCHESTRAT
       <mesh castShadow receiveShadow>
         <boxGeometry args={size} />
         <meshStandardMaterial 
-          color={hardwareColors.chip} 
+          color={palette.graphite} 
           roughness={0.55} 
           metalness={0.35} 
         />
@@ -21,8 +21,8 @@ export function CPUChip({ position, size = [3, 0.6, 3], label = "MITR-ORCHESTRAT
       <mesh position={[0, size[1] / 2 + 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[size[0] - 0.1, size[2] - 0.1]} />
         <meshStandardMaterial 
-          color={hardwareColors.traceActive} 
-          emissive={hardwareColors.traceActive} 
+          color={palette.cobalt} 
+          emissive={palette.cobalt} 
           emissiveIntensity={1.5} 
           transparent 
           opacity={0.1}
@@ -34,7 +34,7 @@ export function CPUChip({ position, size = [3, 0.6, 3], label = "MITR-ORCHESTRAT
         position={[0, size[1] / 2 + 0.05, 0]}
         rotation={[-Math.PI / 2, 0, 0]}
         fontSize={0.15}
-        color={hardwareColors.tracePassive}
+        color={palette.slate}
       >
         {label}
       </Text>
@@ -61,7 +61,7 @@ export function Capacitor({ position }: { position: [number, number, number] }) 
     <group position={position}>
       <mesh castShadow>
         <cylinderGeometry args={[0.25, 0.25, 0.8, 16]} />
-        <meshStandardMaterial color={hardwareColors.capacitorBody} roughness={0.4} />
+        <meshStandardMaterial color={palette.slate} roughness={0.4} />
       </mesh>
       <mesh position={[0, 0.41, 0]}>
         <cylinderGeometry args={[0.25, 0.25, 0.05, 16]} />

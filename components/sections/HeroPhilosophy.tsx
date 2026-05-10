@@ -2,25 +2,25 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { MITRHeroScene } from "@/components/3d";
+import { MITRInfrastructureWorld } from "@/components/3d/MasterScene";
 import { FloatingFiles } from "@/components/animations/FloatingFiles";
 import { ArrowRight, Zap, Globe, Cpu, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const floatingKeywords = [
-  "Construction Tech", "Workflow Automation", "Project Management",
-  "Open Source", "Infrastructure SaaS", "Digital Logistics",
-  "Asset Coordination", "Facility Systems", "Enterprise Software"
+  "Industrial Intelligence", "DevSecOps Pipeline", "Cloud Orchestration",
+  "Automated Workforce", "Infrastructure SaaS", "Digital Coordination",
+  "Asset Monitoring", "Security Grid", "Enterprise Scaling"
 ];
 
 export function HeroPhilosophy() {
   return (
     <section className="relative min-h-screen bg-[#eef2f7] overflow-hidden flex flex-col items-center justify-center pt-24 pb-16 font-sans">
       {/* Background Layers */}
-      <div className="absolute inset-0 mesh-gradient opacity-20 z-0" />
+      <div className="absolute inset-0 mesh-gradient opacity-10 z-0" />
       <div className="absolute inset-0 noise z-10" />
       
-      <MITRHeroScene />
+      <MITRInfrastructureWorld />
       <div className="absolute inset-0 z-20 pointer-events-none opacity-20">
         <FloatingFiles />
       </div>

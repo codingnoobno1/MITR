@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Grid } from "@react-three/drei";
-import { boardColors } from "../materials/palette";
+import { materials, palette } from "../materials/palette";
 
 export function PCBBoard() {
   return (
@@ -10,18 +10,14 @@ export function PCBBoard() {
       {/* Substrate Base */}
       <mesh receiveShadow>
         <boxGeometry args={[100, 100, 0.4]} />
-        <meshStandardMaterial 
-          color={boardColors.base} 
-          roughness={0.92} 
-          metalness={0.12} 
-        />
+        <meshStandardMaterial {...materials.board} />
       </mesh>
       
       {/* Beveled Edge Illusion */}
       <mesh position={[0, 0, 0.21]}>
         <planeGeometry args={[100, 100]} />
         <meshStandardMaterial 
-          color={boardColors.base} 
+          color={palette.substrate} 
           roughness={0.8} 
           transparent 
           opacity={0.5} 
@@ -41,8 +37,8 @@ export function PCBGrid() {
         cellSize={0.5} 
         sectionSize={2.5} 
         sectionThickness={1.2} 
-        sectionColor={boardColors.gridSection}
-        cellColor={boardColors.gridCell}
+        sectionColor={palette.slate}
+        cellColor={palette.silver}
         cellThickness={0.6}
       />
     </group>
