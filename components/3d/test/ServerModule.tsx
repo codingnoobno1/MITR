@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useMemo } from "react";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 export function ServerModule({ position }: { position: [number, number, number] }) {
@@ -62,7 +63,8 @@ export function ServerModule({ position }: { position: [number, number, number] 
                 <planeGeometry args={[0.8, 0.2]} />
                 <meshBasicMaterial color={i % 3 === 0 ? "#22c55e" : "#60a5fa"} />
              </mesh>
-             <StatusLED />
+             {/* 💡 ANIMATED STATUS LEDS */}
+             <StatusLED index={i} />
           </group>
         </group>
       ))}
@@ -84,15 +86,39 @@ export function ServerModule({ position }: { position: [number, number, number] 
   );
 }
 
-function StatusLED() {
-  const [active] = React.useState(() => Math.random() > 0.3);
+function StatusLED({ index }: { index: number }) {
+  const meshRef = useRef<THREE.Mesh>(null!);
+  
+  // Deterministic but non-uniform blink patterns
+  const config = useMemo(() => ({
+    rate: 2 + (index % 3) * 1.5,
+    phase: (index * 0.7) % (Math.PI * 2),
+    threshold: 0.7 + (index % 5) * 0.05,
+    color: index % 4 === 0 ? "#ef4444" : index % 3 === 0 ? "#22c55e" : "#60a5fa"
+  }), [index]);
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime();
+    if (meshRef.current) {
+      const val = Math.sin(time * config.rate + config.phase);
+      const mat = meshRef.current.material as THREE.MeshBasicMaterial;
+      
+      // Binary blink or smooth pulse depending on index
+      if (index % 2 === 0) {
+        mat.opacity = val > config.threshold ? 1 : 0.1;
+      } else {
+        mat.opacity = 0.2 + (val * 0.5 + 0.5) * 0.8;
+      }
+    }
+  });
+
   return (
-    <mesh position={[0.6, 0, 0]}>
+    <mesh ref={meshRef} position={[0.6, 0, 0]}>
       <planeGeometry args={[0.15, 0.15]} />
       <meshBasicMaterial 
-        color="#60a5fa" 
+        color={config.color} 
         transparent 
-        opacity={active ? 1 : 0.2} 
+        opacity={0.1} 
       />
     </mesh>
   );
