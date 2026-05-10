@@ -2,17 +2,23 @@
 
 import React from "react";
 import * as THREE from "three";
+import { WallMechanicalLayers } from "./WallMechanicalLayers";
+import { CeilingCassettes } from "./CeilingCassettes";
 
 export function TestArchitecture() {
   const WORLD_WIDTH = 420;
-  const WORLD_HEIGHT = 120;
   const WORLD_DEPTH = 340;
 
   return (
     <group>
-      {/* 1. 🛡️ MASTER FLOOR SYSTEM */}
+      {/* 🛡️ MODULAR CEILING SUPERSTRUCTURE */}
+      <CeilingCassettes />
+
+      {/* 🛡️ MECHANICAL WALL INFRASTRUCTURE */}
+      <WallMechanicalLayers />
+
+      {/* 🛡️ ENGINEERED FLOOR SYSTEM */}
       <group position={[0, -0.5, 0]}>
-        {/* Base Floor Plane */}
         <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
           <planeGeometry args={[WORLD_WIDTH, WORLD_DEPTH]} />
           <meshStandardMaterial 
@@ -22,156 +28,72 @@ export function TestArchitecture() {
           />
         </mesh>
 
-        {/* 🧱 FLOOR TILE SYSTEM (35 x 28 grid of 12x12 tiles) */}
-        {Array.from({ length: 35 }).map((_, i) => (
-          Array.from({ length: 28 }).map((_, j) => {
-            const x = i * 12.4 - (35 * 12.4) / 2;
-            const z = j * 12.4 - (28 * 12.4) / 2;
+        {Array.from({ length: 30 }).map((_, i) => (
+          Array.from({ length: 24 }).map((_, j) => {
+            const x = i * 14.4 - (30 * 14.4) / 2;
+            const z = j * 14.4 - (24 * 14.4) / 2;
             return (
-              <group key={`tile-${i}-${j}`} position={[x, 0.05, z]}>
+              <group key={`floor-tile-${i}-${j}`} position={[x, 0.05, z]}>
                 <mesh rotation={[-Math.PI / 2, 0, 0]}>
-                   <planeGeometry args={[12, 12]} />
+                   <planeGeometry args={[14, 14]} />
                    <meshStandardMaterial color="#1e293b" roughness={0.7} />
                 </mesh>
-                {/* 💡 FLOOR LIGHT STRIPS (Blue seams) */}
-                <mesh position={[6.2, 0.01, 0]}>
-                   <boxGeometry args={[0.08, 0.05, 12.4]} />
-                   <meshBasicMaterial color="#60a5fa" transparent opacity={0.25} />
+                
+                <mesh position={[7.2, 0, 0]}>
+                   <boxGeometry args={[0.2, 0.1, 14.4]} />
+                   <meshStandardMaterial color="#020617" />
                 </mesh>
-                <mesh position={[0, 0.01, 6.2]}>
-                   <boxGeometry args={[12.4, 0.05, 0.08]} />
-                   <meshBasicMaterial color="#60a5fa" transparent opacity={0.25} />
+                <mesh position={[0, 0, 7.2]}>
+                   <boxGeometry args={[14.4, 0.1, 0.2]} />
+                   <meshStandardMaterial color="#020617" />
                 </mesh>
+
+                {i % 6 === 0 && (
+                  <mesh position={[0, -0.1, 0]}>
+                     <boxGeometry args={[2, 0.2, 14.4]} />
+                     <meshStandardMaterial color="#0f172a" />
+                  </mesh>
+                )}
+
+                {i % 4 === 0 && j % 4 === 0 && (
+                  <mesh position={[0, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+                     <planeGeometry args={[1, 1]} />
+                     <meshBasicMaterial color="#3b82f6" transparent opacity={0.3} />
+                  </mesh>
+                )}
               </group>
             );
           })
         ))}
       </group>
 
-      {/* 2. 🛡️ MASTER SIDE WALL SYSTEM (z = ±160) */}
-      {[-160, 160].map((zPos, i) => (
-        <group key={`wall-group-${i}`} position={[0, WORLD_HEIGHT / 2, zPos]}>
-          {/* Main Wall Hull (layered) */}
-          <mesh>
-            <boxGeometry args={[WORLD_WIDTH, WORLD_HEIGHT, 8]} />
-            <meshStandardMaterial color="#111827" roughness={0.9} />
-          </mesh>
-
-          {/* WALL SEGMENTS (Every 24 units) */}
-          {Array.from({ length: Math.floor(WORLD_WIDTH / 24) }).map((_, j) => (
-            <group key={`segment-${j}`} position={[j * 24 - WORLD_WIDTH / 2, 0, i === 0 ? 4.1 : -4.1]}>
-               {/* Recessed Panel Layer 1 */}
-               <mesh>
-                  <boxGeometry args={[22, WORLD_HEIGHT - 10, 1]} />
-                  <meshStandardMaterial color="#0f172a" />
-               </mesh>
-               {/* Detail Layer 2 (Maintenance Hatch) */}
-               <mesh position={[0, -30, 0.5]}>
-                  <boxGeometry args={[18, 20, 0.5]} />
-                  <meshStandardMaterial color="#1e293b" />
-               </mesh>
-               {/* Telemetry Screens */}
-               <mesh position={[0, 20, 0.6]}>
-                  <planeGeometry args={[16, 12]} />
-                  <meshStandardMaterial color="#0f172a" emissive="#3b82f6" emissiveIntensity={0.2} />
-               </mesh>
-            </group>
-          ))}
-
-          {/* LOWER SERVER WALLS (Embedded towers 8x24x8) */}
-          {Array.from({ length: 15 }).map((_, j) => (
-            <mesh key={`lower-server-${j}`} position={[j * 28 - WORLD_WIDTH / 2, -40, i === 0 ? 6 : -6]}>
-               <boxGeometry args={[8, 24, 8]} />
-               <meshStandardMaterial color="#0b1120" metalness={0.5} />
-            </mesh>
-          ))}
-        </group>
-      ))}
-
-      {/* 3. 🛡️ UPPER CATWALKS (y = 48) */}
-      {[-140, 90].map((zPos, i) => (
-        <group key={`catwalk-${i}`} position={[0, 48, zPos]}>
-           {/* Walkway Base */}
+      {[-140, 140].map((zPos, i) => (
+        <group key={`maint-deck-${i}`} position={[0, 48, zPos]}>
            <mesh>
-              <boxGeometry args={[WORLD_WIDTH, 2, 14]} />
-              <meshStandardMaterial color="#0f172a" />
+              <boxGeometry args={[WORLD_WIDTH, 1.5, 20]} />
+              <meshStandardMaterial color="#111827" />
            </mesh>
-           {/* Railings (Height 4) */}
-           {[-6.8, 6.8].map((xOff, j) => (
-             <mesh key={`rail-${j}`} position={[0, 3, xOff]}>
-                <boxGeometry args={[WORLD_WIDTH, 0.2, 0.2]} />
-                <meshStandardMaterial color="#475569" />
-             </mesh>
-           ))}
-           {/* Support Braces (Every 40 units) */}
-           {Array.from({ length: 10 }).map((_, j) => (
-             <mesh key={`brace-${j}`} position={[j * 40 - 200, -5, 0]}>
-                <boxGeometry args={[2, 10, 12]} />
+           {[-9.5, 9.5].map((xOff, j) => (
+             <mesh key={`rail-${j}`} position={[0, 3.5, xOff]}>
+                <boxGeometry args={[WORLD_WIDTH, 0.3, 0.3]} />
                 <meshStandardMaterial color="#334155" />
              </mesh>
            ))}
+           {Array.from({ length: 8 }).map((_, j) => (
+             <mesh key={`mount-${j}`} position={[j * 50 - 175, -5, 0]}>
+                <cylinderGeometry args={[1, 1.5, 10, 8]} />
+                <meshStandardMaterial color="#1e293b" metalness={0.7} />
+             </mesh>
+           ))}
         </group>
       ))}
 
-      {/* 4. 🛡️ CEILING SYSTEM (y = 90) */}
-      <group position={[0, 90, 0]}>
-        {/* Layer 1: Main Industrial Plates */}
-        <mesh rotation={[Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[WORLD_WIDTH, WORLD_DEPTH]} />
-          <meshStandardMaterial color="#111827" roughness={0.9} />
+      {[-210, 210].map((xPos, i) => (
+        <mesh key={`closure-${i}`} position={[xPos, 60, 0]}>
+          <boxGeometry args={[8, 120, 340]} />
+          <meshStandardMaterial color="#020617" />
         </mesh>
-
-        {/* Layer 2: Support Beams (Every 20 units) */}
-        {Array.from({ length: Math.floor(WORLD_WIDTH / 20) }).map((_, i) => (
-           <mesh key={`beam-${i}`} position={[i * 20 - WORLD_WIDTH / 2, -2, 0]}>
-              <boxGeometry args={[4, 2, WORLD_DEPTH]} />
-              <meshStandardMaterial color="#1e293b" />
-           </mesh>
-        ))}
-
-        {/* Layer 3: Lighting Troughs (5 parallel rows) */}
-        {[-80, -40, 0, 40, 80].map((z, i) => (
-          <group key={`light-row-${i}`} position={[0, -2.5, z]}>
-             {Array.from({ length: 15 }).map((_, j) => (
-               <mesh key={`light-${j}`} position={[j * 26 - 180, 0, 0]}>
-                  <boxGeometry args={[16, 0.4, 1]} />
-                  <meshStandardMaterial 
-                    color={j % 5 === 0 ? "#60a5fa" : "#f8fafc"} 
-                    emissive={j % 5 === 0 ? "#60a5fa" : "#f8fafc"} 
-                    emissiveIntensity={1.5} 
-                  />
-               </mesh>
-             ))}
-          </group>
-        ))}
-      </group>
-
-      {/* 5. 🏢 BRANDING PANELS (KARYA / SANKALAP) */}
-      {/* Left: KARYA */}
-      <group position={[-150, 52, -100]}>
-         <mesh>
-            <planeGeometry args={[40, 24]} />
-            <meshStandardMaterial color="#0b1120" emissive="#22d3ee" emissiveIntensity={0.2} transparent opacity={0.9} />
-         </mesh>
-         {/* Holographic Frame */}
-         <mesh position={[0, 0, 0.1]}>
-            <boxGeometry args={[42, 26, 0.1]} />
-            <meshBasicMaterial color="#22d3ee" wireframe />
-         </mesh>
-      </group>
-
-      {/* Right: SANKALAP */}
-      <group position={[150, 52, -100]}>
-         <mesh>
-            <planeGeometry args={[40, 24]} />
-            <meshStandardMaterial color="#0b1120" emissive="#60a5fa" emissiveIntensity={0.2} transparent opacity={0.9} />
-         </mesh>
-         {/* Holographic Frame */}
-         <mesh position={[0, 0, 0.1]}>
-            <boxGeometry args={[42, 26, 0.1]} />
-            <meshBasicMaterial color="#60a5fa" wireframe />
-         </mesh>
-      </group>
+      ))}
     </group>
   );
 }
