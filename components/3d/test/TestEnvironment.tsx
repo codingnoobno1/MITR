@@ -26,40 +26,46 @@ export function TestEnvironment() {
 
   return (
     <>
-      <color attach="background" args={["#020617"]} />
+      {/* 🌤️ HIGH-KEY CLINICAL ENVIRONMENT */}
+      <color attach="background" args={["#f8fafc"]} />
       
-      {/* 🌬️ MASTER FOG BLUEPRINT */}
-      <fogExp2 attach="fog" args={["#0f172a", 0.0007]} />
+      {/* Clearer White Fog */}
+      <fogExp2 attach="fog" args={["#f1f5f9", 0.0004]} />
 
-      {/* 🌑 MASTER BLACKOUT ENVELOPE */}
-      <mesh position={[0, 60, -20]}>
-        <boxGeometry args={[600, 160, 500]} />
-        <meshBasicMaterial color="#000000" side={THREE.BackSide} />
-      </mesh>
-
-      {/* 💡 MASTER LIGHTING BLUEPRINT */}
+      {/* 💡 GLOBAL ILLUMINATION BLUEPRINT */}
+      {/* 1. PRIMARY LIGHT (Strong Sunlight Feel) */}
       <directionalLight 
-        position={[0, 80, 40]} 
-        intensity={2.2} 
-        color="#f8fafc" 
+        position={[20, 100, 40]} 
+        intensity={3.5} 
+        color="#ffffff" 
         castShadow 
+        shadow-mapSize={[2048, 2048]}
       />
 
-      <ambientLight intensity={0.1} color="#94a3b8" />
-      <hemisphereLight intensity={0.3} color="#f1f5f9" groundColor="#0f172a" />
+      {/* 2. HIGH AMBIENT FILL */}
+      <ambientLight intensity={0.8} color="#f8fafc" />
+      
+      {/* 3. SKY/GROUND BOUNCE */}
+      <hemisphereLight 
+        intensity={0.6} 
+        color="#e0f2fe" 
+        groundColor="#f1f5f9" 
+      />
 
-      {[-80, 80].map((x, i) => (
+      {/* 4. FLUORESCENT TROUGH LIGHTS */}
+      {[-80, -40, 0, 40, 80].map((z, i) => (
         <rectAreaLight
-          key={`aisle-light-${i}`}
-          position={[x, 58, -30]}
-          width={10}
-          height={200}
-          intensity={3}
+          key={`ceiling-light-${i}`}
+          position={[0, 88, z]}
+          width={400}
+          height={2}
+          intensity={2.5}
           rotation={[-Math.PI / 2, 0, 0]}
-          color="#60a5fa"
+          color="#ffffff"
         />
       ))}
 
+      {/* 🌬️ ATMOSPHERIC PARTICLES (Subtle white dust) */}
       <points ref={pointsRef}>
         <bufferGeometry>
           <bufferAttribute
@@ -71,10 +77,10 @@ export function TestEnvironment() {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.15}
-          color="#94a3b8"
+          size={0.12}
+          color="#ffffff"
           transparent
-          opacity={0.04}
+          opacity={0.03}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
         />

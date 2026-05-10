@@ -11,23 +11,25 @@ export function TestArchitecture() {
 
   return (
     <group>
-      {/* 🛡️ MODULAR CEILING SUPERSTRUCTURE */}
-      <CeilingCassettes />
+      {/* 🛡️ MODULAR CEILING SUPERSTRUCTURE (Light Pass) */}
+      <CeilingCassettes lightTheme />
 
-      {/* 🛡️ MECHANICAL WALL INFRASTRUCTURE */}
-      <WallMechanicalLayers />
+      {/* 🛡️ MECHANICAL WALL INFRASTRUCTURE (Light Pass) */}
+      <WallMechanicalLayers lightTheme />
 
-      {/* 🛡️ ENGINEERED FLOOR SYSTEM */}
+      {/* 🛡️ HIGH-REFLECTIVITY ENGINEERED FLOOR */}
       <group position={[0, -0.5, 0]}>
+        {/* Mirror-like Substrate */}
         <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
           <planeGeometry args={[WORLD_WIDTH, WORLD_DEPTH]} />
           <meshStandardMaterial 
-            color="#1e293b" 
-            roughness={0.82} 
-            metalness={0.22} 
+            color="#f1f5f9" 
+            roughness={0.05} 
+            metalness={0.9} 
           />
         </mesh>
 
+        {/* 🧱 FLOOR DETAILS */}
         {Array.from({ length: 30 }).map((_, i) => (
           Array.from({ length: 24 }).map((_, j) => {
             const x = i * 14.4 - (30 * 14.4) / 2;
@@ -36,63 +38,55 @@ export function TestArchitecture() {
               <group key={`floor-tile-${i}-${j}`} position={[x, 0.05, z]}>
                 <mesh rotation={[-Math.PI / 2, 0, 0]}>
                    <planeGeometry args={[14, 14]} />
-                   <meshStandardMaterial color="#1e293b" roughness={0.7} />
+                   <meshStandardMaterial color="#f8fafc" roughness={0.1} metalness={0.2} />
                 </mesh>
                 
+                {/* Metallic Strips */}
                 <mesh position={[7.2, 0, 0]}>
                    <boxGeometry args={[0.2, 0.1, 14.4]} />
-                   <meshStandardMaterial color="#020617" />
+                   <meshStandardMaterial color="#cbd5e1" metalness={1} />
                 </mesh>
                 <mesh position={[0, 0, 7.2]}>
                    <boxGeometry args={[14.4, 0.1, 0.2]} />
-                   <meshStandardMaterial color="#020617" />
+                   <meshStandardMaterial color="#cbd5e1" metalness={1} />
                 </mesh>
-
-                {i % 6 === 0 && (
-                  <mesh position={[0, -0.1, 0]}>
-                     <boxGeometry args={[2, 0.2, 14.4]} />
-                     <meshStandardMaterial color="#0f172a" />
-                  </mesh>
-                )}
-
-                {i % 4 === 0 && j % 4 === 0 && (
-                  <mesh position={[0, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-                     <planeGeometry args={[1, 1]} />
-                     <meshBasicMaterial color="#3b82f6" transparent opacity={0.3} />
-                  </mesh>
-                )}
               </group>
             );
           })
         ))}
       </group>
 
+      {/* 🛡️ MAINTENANCE DECKS & GREENERY */}
       {[-140, 140].map((zPos, i) => (
         <group key={`maint-deck-${i}`} position={[0, 48, zPos]}>
            <mesh>
               <boxGeometry args={[WORLD_WIDTH, 1.5, 20]} />
-              <meshStandardMaterial color="#111827" />
+              <meshStandardMaterial color="#f1f5f9" metalness={0.5} />
            </mesh>
+           {/* Railings (White Metal) */}
            {[-9.5, 9.5].map((xOff, j) => (
              <mesh key={`rail-${j}`} position={[0, 3.5, xOff]}>
                 <boxGeometry args={[WORLD_WIDTH, 0.3, 0.3]} />
-                <meshStandardMaterial color="#334155" />
+                <meshStandardMaterial color="#ffffff" metalness={1} />
              </mesh>
            ))}
-           {Array.from({ length: 8 }).map((_, j) => (
-             <mesh key={`mount-${j}`} position={[j * 50 - 175, -5, 0]}>
-                <cylinderGeometry args={[1, 1.5, 10, 8]} />
-                <meshStandardMaterial color="#1e293b" metalness={0.7} />
-             </mesh>
+           
+           {/* 🌿 GREENERY PASS (Potted Plants) */}
+           {Array.from({ length: 12 }).map((_, j) => (
+             <group key={`plant-${j}`} position={[j * 40 - 200, 0.8, i === 0 ? 6 : -6]}>
+                {/* Pot */}
+                <mesh position={[0, 0.5, 0]}>
+                   <cylinderGeometry args={[1.5, 1, 2, 16]} />
+                   <meshStandardMaterial color="#ffffff" />
+                </mesh>
+                {/* Low-poly Foliage */}
+                <mesh position={[0, 3, 0]}>
+                   <sphereGeometry args={[2, 8, 8]} />
+                   <meshStandardMaterial color="#16a34a" roughness={1} />
+                </mesh>
+             </group>
            ))}
         </group>
-      ))}
-
-      {[-210, 210].map((xPos, i) => (
-        <mesh key={`closure-${i}`} position={[xPos, 60, 0]}>
-          <boxGeometry args={[8, 120, 340]} />
-          <meshStandardMaterial color="#020617" />
-        </mesh>
       ))}
     </group>
   );
