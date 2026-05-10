@@ -2,7 +2,7 @@
 
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { lightingPalette } from "../materials/palette";
+import { palette } from "../materials/palette";
 
 export function CameraRig() {
   useFrame((state) => {
@@ -27,12 +27,12 @@ export function CameraRig() {
 export function LightingRig() {
   return (
     <>
-      <ambientLight intensity={0.4} color={lightingPalette.ambient} />
+      <ambientLight intensity={0.4} color={palette.substrate} />
       {/* Main Industrial Daylight */}
       <directionalLight 
         position={[10, 20, 10]} 
         intensity={1.2} 
-        color={lightingPalette.main}
+        color={palette.background}
         castShadow
         shadow-mapSize={[2048, 2048]}
       />
@@ -40,7 +40,7 @@ export function LightingRig() {
       <spotLight 
         position={[-15, 10, -10]} 
         intensity={0.8} 
-        color={lightingPalette.rim} 
+        color={palette.cobalt} 
         angle={0.5} 
         penumbra={1} 
       />
@@ -49,5 +49,5 @@ export function LightingRig() {
 }
 
 export function EnvironmentFog() {
-  return <fog attach="fog" args={[lightingPalette.fog, 18, 45]} />;
+  return <fog attach="fog" args={[palette.fog, 18, 45]} />;
 }
