@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { CircuitBackground } from "@/components/animations/CircuitBackground";
+import { MITRHeroScene } from "@/components/3d";
 import { FloatingFiles } from "@/components/animations/FloatingFiles";
 import { ArrowRight, Zap, Globe, Cpu, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,12 +15,12 @@ const floatingKeywords = [
 
 export function HeroPhilosophy() {
   return (
-    <section className="relative min-h-screen bg-white overflow-hidden flex flex-col items-center justify-center pt-24 pb-16 font-sans">
+    <section className="relative min-h-screen bg-[#eef2f7] overflow-hidden flex flex-col items-center justify-center pt-24 pb-16 font-sans">
       {/* Background Layers */}
-      <div className="absolute inset-0 mesh-gradient opacity-30 z-0" />
+      <div className="absolute inset-0 mesh-gradient opacity-20 z-0" />
       <div className="absolute inset-0 noise z-10" />
       
-      <CircuitBackground />
+      <MITRHeroScene />
       <div className="absolute inset-0 z-20 pointer-events-none opacity-20">
         <FloatingFiles />
       </div>
