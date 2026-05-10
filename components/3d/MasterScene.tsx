@@ -56,25 +56,25 @@ export function MITRInfrastructureWorld({ interactive = true }: { interactive?: 
           alpha: false, 
           powerPreference: "high-performance",
           toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.3 // Increased for 'less darker' feel
+          toneMappingExposure: 1.3
         }}
         shadows={{ type: THREE.PCFShadowMap }}
       >
-        <PerspectiveCamera makeDefault position={[0, 15, 120]} fov={45} />
+        <PerspectiveCamera makeDefault position={[0, 25, 150]} fov={45} />
         {!isFullscreen && !interactive ? <CinematicCameraRail /> : null}
         
-        {/* User can still override for manual exploration */}
+        {/* 🎬 STABLE CAMERA CONTROLS - Professional 3D Look */}
         <OrbitControls 
           enablePan={interactive || isFullscreen}
           enableZoom={interactive || isFullscreen}
           enableRotate={interactive || isFullscreen}
-          minDistance={10}
-          maxDistance={500}
-          minPolarAngle={0}
-          maxPolarAngle={Math.PI}
-          target={[0, 5, -20]}
+          minDistance={20}
+          maxDistance={450}
+          minPolarAngle={0.1} // Prevent looking directly up
+          maxPolarAngle={Math.PI / 2.1} // Strictly prevent looking through the floor
+          target={[0, 15, -20]}
           enableDamping
-          dampingFactor={0.03}
+          dampingFactor={0.04}
         />
         
         <Atmosphere />

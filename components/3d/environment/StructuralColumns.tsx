@@ -10,18 +10,18 @@ export function StructuralColumns() {
       {Array.from({ length: 14 }).map((_, i) => {
         const x = i * 90 - 600;
         const isMegaSupport = i % 3 === 0;
-        const isGateway = x > -100 && x < 100; // Near AI Core
+        const isGateway = x > -100 && x < 100;
 
         return (
           <group key={`col-rhythm-${i}`} position={[x, 0, 0]}>
             {/* Primary Pillar Structures */}
             {[-95, 95].map((zPos, j) => {
-              const height = isMegaSupport ? 28 : 22;
-              const width = isMegaSupport ? 6 : 3;
+              const height = isMegaSupport ? 48 : 40; // Increased from 28/22
+              const width = isMegaSupport ? 6 : 4;
 
               return (
                 <group key={`pillar-${j}`} position={[0, height / 2, zPos]}>
-                  {/* MAIN ARCHITECTURAL FRAME with Inset Panels */}
+                  {/* MAIN ARCHITECTURAL FRAME */}
                   <mesh castShadow receiveShadow>
                     <boxGeometry args={[width, height, width]} />
                     <meshStandardMaterial 
@@ -32,31 +32,21 @@ export function StructuralColumns() {
                   </mesh>
 
                   {/* 4. GEOMETRY SILHOUETTE ENHANCEMENT */}
-                  {/* Beveled Inset Cutouts */}
                   <mesh position={[0, 0, width / 2 + 0.1]}>
                     <boxGeometry args={[width - 1, height - 4, 0.2]} />
                     <meshStandardMaterial color="#111827" />
                   </mesh>
 
-                  {/* Reinforced Outer Bracing (only for mega columns) */}
-                  {isMegaSupport && (
-                    <mesh position={[0, 0, 0]}>
-                      <boxGeometry args={[width + 1, height + 2, width + 1]} />
-                      <meshStandardMaterial color="#1e293b" transparent opacity={0.3} metalness={1} />
-                    </mesh>
-                  )}
-
                   {/* 5. SCALE INDICATORS */}
-                  {/* Tiny Access Ladders */}
                   <group position={[width / 2 + 0.2, -height / 2 + 3, 0]}>
-                    {Array.from({ length: 10 }).map((_, k) => (
-                      <mesh key={`rung-${k}`} position={[0, k * 1.5, 0]}>
+                    {Array.from({ length: 16 }).map((_, k) => (
+                      <mesh key={`rung-${k}`} position={[0, k * 2, 0]}>
                         <boxGeometry args={[0.05, 0.05, 1.2]} />
                         <meshStandardMaterial color="#475569" />
                       </mesh>
                     ))}
-                    <mesh position={[0, 7.5, 0]}>
-                       <boxGeometry args={[0.05, 15, 0.05]} />
+                    <mesh position={[0, 15, 0]}>
+                       <boxGeometry args={[0.05, 30, 0.05]} />
                        <meshStandardMaterial color="#475569" />
                     </mesh>
                   </group>
